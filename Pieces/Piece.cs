@@ -16,7 +16,6 @@ abstract class Piece
 {
   protected int posX = 0;
   protected int posY = 0;
-  protected List<Target> validMoves = new List<Target>();
 
   public Tuple<int, int> getPos()
   {
@@ -29,11 +28,6 @@ abstract class Piece
     posY = newY;
   }
 
-  public List<Target> getValidMoves()
-  {
-    return validMoves;
-  }
-
   // True for enemies, false for allies, null for nothing
-  public abstract void recalculateValidMoves(bool?[,] obstacles);
+  public abstract List<Target> getValidMoves(bool?[,] obstacles);
 }
