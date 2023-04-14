@@ -1,4 +1,5 @@
-﻿using System;
+﻿using diamond_chess_server.Models;
+using System;
 namespace DiamondChess
 {
   class Test
