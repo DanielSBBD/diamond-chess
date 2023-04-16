@@ -1,6 +1,19 @@
-﻿namespace diamond_chess_server.Services
+﻿using diamond_chess_server.Models;
+using diamond_chess_server.DataLayer.DataAccess;
+
+namespace diamond_chess_server.Services
 {
-  public class RegistrationService
+  public static class RegistrationService
   {
+
+    public static Boolean RegisterUser(Player newUser) {
+
+      DataAccess dbConnection = new DataAccess();
+      string rowsAffected = dbConnection.RegisterPlayer(newUser);//leave as int?
+
+      return Int16.Parse(rowsAffected) == 1;//handle cases when >1 or <1 rows affected here?
+
+    }
+
   }
 }
