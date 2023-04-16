@@ -25,7 +25,6 @@ public class ChessAPI : ControllerBase
       Id = 0,
       Name = string.Empty,
       Surname = string.Empty,
-      LoginId = 0
     })
     .ToArray();
   }

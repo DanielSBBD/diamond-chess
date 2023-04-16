@@ -17,7 +17,7 @@ CREATE TABLE [Players] (
 GO
 
 CREATE TABLE [Login_Details] (
-  [login_id] int PRIMARY KEY IDENTITY(1, 1),
+  [login_id] int PRIMARY KEY IDENTITY(50001, 1),
   [login_username] varchar(30) UNIQUE NOT NULL,
   [login_password_hash] binary(64) NOT NULL
 )
@@ -98,26 +98,26 @@ INSERT INTO Login_Details (login_username, login_password_hash) VALUES ('cbarrac
 																	   ('dsolwayi', HASHBYTES('SHA2_512', 'ypi4L3R2OX0')),
 																	   ('tbyartj', HASHBYTES('SHA2_512', 'd7sYbE4'))
 GO
-INSERT INTO Players (player_name, player_surname, login_id) VALUES ('Damiano', 'Dutson', 1),
-																   ('Reider', 'Sobey', 2),
-																   ('Pavia', 'Girod', 3),
-																   ('Vanya', 'Maudson', 4),
-																   ('Kerrin', 'Sheddan', 5),
-																   ('Jonis', 'Bartalin', 6),
-																   ('Consuelo', 'Treverton', 7),
-																   ('Ralina', 'Verlinde', 8),
-																   ('Janelle', 'Paler', 9),
-																   ('Codi', 'Loudian', 10),
-																   ('Marguerite', 'Pryor', 11),
-																   ('Zebulon', 'Welton', 12),
-																   ('Suzette', 'Pellitt', 13),
-																   ('Sterling', 'Norrington', 14),
-																   ('Aretha', 'Porkiss', 15),
-																   ('Huey', 'Barendtsen', 16),
-																   ('Kale', 'Nano', 17),
-																   ('Drona', 'Izod', 18),
-																   ('Cathlene', 'Vida', 19),
-																   ('Geralda', 'Manhood', 20)
+INSERT INTO Players (player_name, player_surname, login_id) VALUES ('Damiano', 'Dutson', 50001),
+																   ('Reider', 'Sobey', 50002),
+																   ('Pavia', 'Girod', 50003),
+																   ('Vanya', 'Maudson', 50004),
+																   ('Kerrin', 'Sheddan', 50005),
+																   ('Jonis', 'Bartalin', 50006),
+																   ('Consuelo', 'Treverton', 50007),
+																   ('Ralina', 'Verlinde', 50008),
+																   ('Janelle', 'Paler', 50009),
+																   ('Codi', 'Loudian', 50010),
+																   ('Marguerite', 'Pryor', 50011),
+																   ('Zebulon', 'Welton', 50012),
+																   ('Suzette', 'Pellitt', 50013),
+																   ('Sterling', 'Norrington', 50014),
+																   ('Aretha', 'Porkiss', 50015),
+																   ('Huey', 'Barendtsen', 50016),
+																   ('Kale', 'Nano', 50017),
+																   ('Drona', 'Izod', 50018),
+																   ('Cathlene', 'Vida', 50019),
+																   ('Geralda', 'Manhood', 50020)
 GO
 INSERT INTO Match_Histories (white, black, match_outcome, match_duration) VALUES (20, 19, 1, '22:41:26'),
 																				 (18, 20, 1, '02:12:23'),
@@ -193,25 +193,48 @@ AS
 BEGIN
     SET NOCOUNT ON
 
-    DECLARE @checkValidity BIT
+    DECLARE @playerInfo TABLE(pid int, pName VARCHAR(50), pSurname VARCHAR(50))
     DECLARE @loginID INT
 
     IF EXISTS (SELECT TOP 1 login_id FROM [dbo].[Login_Details] WHERE login_username=@pUsername)
     BEGIN
         SET @loginID=(SELECT login_id FROM [dbo].[Login_Details] WHERE login_username=@pUsername AND login_password_hash=HASHBYTES('SHA2_512', @pPassword))
-
-        SET @checkValidity =
-		CASE 
-			WHEN @loginID IS NOT NULL THEN 
-				1
-			ELSE 
-				0
-			END;
+		
+		IF (@loginID IS NOT NULL )
+			SELECT player_id, player_name, player_surname FROM Players
+		ELSE
+			RETURN NULL
     END
     ELSE
-       SET @checkValidity=NULL
+       RETURN NULL
+END
+GO
 
-    RETURN @checkValidity
+CREATE PROCEDURE dbo.uspInsertMatch
+    @pWhite int,
+    @pBlack int,
+	@mOutcome int,
+	@mDuration TIME
+AS
+BEGIN
+    SET NOCOUNT ON
+
+	DECLARE @responseMessage NVARCHAR(250)
+
+	   BEGIN TRY
+        INSERT INTO [dbo].[Match_Histories] (white, black, match_outcome, match_duration) 
+		VALUES ( @pWhite, @pBlack, @mOutcome, @mDuration)
+
+
+        SET @responseMessage='Successfully inserted match.'
+
+    END TRY
+    BEGIN CATCH
+        SET @responseMessage=ERROR_MESSAGE() 
+    END CATCH
+
+    RETURN @responseMessage
+    
 END
 GO
 
