@@ -17,6 +17,12 @@ abstract class Piece
   protected int posX = 0;
   protected int posY = 0;
 
+  public Piece(int startX, int startY)
+  {
+    posX = startX;
+    posY = startY;
+  }
+
   public Tuple<int, int> getPos()
   {
     return Tuple.Create(posX, posY);
