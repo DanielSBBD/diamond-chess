@@ -8,7 +8,7 @@ namespace DiamondChess
       // Define the board
       bool?[,] board = new bool?[8, 8];
       // Add the piece to be tested
-      Queen r = new Queen(3, 3);
+      Knight r = new Knight(3, 3);
       // Add an enemy
       board[2, 2] = true;
       // Add an ally

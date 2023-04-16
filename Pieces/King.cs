@@ -1,23 +1,23 @@
-class Knight : Piece
+class King : Piece
 {
-  public Knight(int startX, int startY) : base(startX, startY) { }
+  public King(int startX, int startY) : base(startX, startY) { }
 
   private static bool boundaryCheck(int pos, int offset)
   {
     switch (offset)
     {
       case -1:
-      case -3:
-        return pos >= 0;
+        return pos > 0;
+      case 0:
+        return true;
       case 1:
-      case 3:
-        return pos <= 7;
+        return pos < 7;
       default:
         return false;
     }
   }
 
-  private static Target? checkValidMove(int x, int y, int xOff, int yOff, bool?[,] obstacles)
+  private Target? getValidMove(int x, int y, int xOff, int yOff, bool?[,] obstacles)
   {
     if (boundaryCheck(x, xOff) && boundaryCheck(y, yOff))
     {
@@ -30,6 +30,7 @@ class Knight : Piece
         return new Target(x + xOff, y + yOff, true);
       }
     }
+
     return null;
   }
 
@@ -38,39 +39,36 @@ class Knight : Piece
     List<Target> validMoves = new List<Target>();
     Target? move;
 
-    // All these moves are considered with moving two diagonals in the
-    // first direction then one diagonal in the second direction
-
-    // Can move up and left
-    move = checkValidMove(posX, posY, 3, 1, obstacles);
+    // Can move one space up
+    move = getValidMove(posX, posY, 1, 1, obstacles);
     if (move is not null) { validMoves.Add(move.Value); }
 
-    // Can move up and right
-    move = checkValidMove(posX, posY, 1, 3, obstacles);
+    // Can move one space diagonally up-right
+    move = getValidMove(posX, posY, 0, 1, obstacles);
     if (move is not null) { validMoves.Add(move.Value); }
 
-    // Can move right and up
-    move = checkValidMove(posX, posY, -1, 3, obstacles);
+    // Can move one space to the right
+    move = getValidMove(posX, posY, -1, 1, obstacles);
     if (move is not null) { validMoves.Add(move.Value); }
 
-    // Can move right and down
-    move = checkValidMove(posX, posY, -3, 1, obstacles);
+    // Can move one space diagonally down-right
+    move = getValidMove(posX, posY, -1, 0, obstacles);
     if (move is not null) { validMoves.Add(move.Value); }
 
-    // Can move down and right
-    move = checkValidMove(posX, posY, -3, -1, obstacles);
+    // Can move one space down
+    move = getValidMove(posX, posY, -1, -1, obstacles);
     if (move is not null) { validMoves.Add(move.Value); }
 
-    // Can move down and left
-    move = checkValidMove(posX, posY, -1, -3, obstacles);
+    // Can move one space diagonally down-left
+    move = getValidMove(posX, posY, 0, -1, obstacles);
     if (move is not null) { validMoves.Add(move.Value); }
 
-    // Can move left and down
-    move = checkValidMove(posX, posY, 1, -3, obstacles);
+    // Can move one space to the left
+    move = getValidMove(posX, posY, 1, -1, obstacles);
     if (move is not null) { validMoves.Add(move.Value); }
 
-    // Can move left and up
-    move = checkValidMove(posX, posY, 3, -1, obstacles);
+    // Can move one space diagonally up-left
+    move = getValidMove(posX, posY, 1, 0, obstacles);
     if (move is not null) { validMoves.Add(move.Value); }
 
     return validMoves;
