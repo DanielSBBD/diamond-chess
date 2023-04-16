@@ -54,7 +54,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
                     using (SqlCommand cmd = new SqlCommand("uspRegisterPlayer", con))
                     {
                         cmd.Parameters.AddWithValue("pUsername", playerInfo.playerLogin.Username);
-                        cmd.Parameters.AddWithValue("pPassword", playerInfo.playerLogin.Password);
+                        cmd.Parameters.AddWithValue("pPassword", playerInfo.playerLogin.PasswordHash);
                         cmd.Parameters.AddWithValue("pName", playerInfo.Name);
                         cmd.Parameters.AddWithValue("pSurname", playerInfo.Surname );
 
@@ -82,7 +82,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
                     using (SqlCommand cmd = new SqlCommand("uspLogin", con))
                     {
                         cmd.Parameters.AddWithValue("pUsername", playerLogin.Username);
-                        cmd.Parameters.AddWithValue("pPassword", playerLogin.Password);
+                        cmd.Parameters.AddWithValue("pPassword", playerLogin.PasswordHash);
 
                         using (var reader = cmd.ExecuteReader())
                         {
