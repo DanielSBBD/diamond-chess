@@ -1,6 +1,6 @@
 ﻿namespace diamond_chess_server.Models
 {
-  struct Target
+  public struct Target
   {
     public int posX;
     public int posY;
@@ -14,7 +14,7 @@
     }
   }
 
-  abstract class Piece
+  public abstract partial class Piece
   {
     protected int posX = 0;
     protected int posY = 0;

@@ -1,4 +1,5 @@
 using diamond_chess_server.Models;
+using diamond_chess_server.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace diamond_chess_server.Controllers;
@@ -7,10 +8,7 @@ namespace diamond_chess_server.Controllers;
 [Route("[controller]")]
 public class ChessAPI : ControllerBase
 {
-  private static readonly string[] Summaries = new[]
-  {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-  };
+  RegistrationService Registration = new RegistrationService();
 
   private readonly ILogger<ChessAPI> _logger;
 
@@ -32,6 +30,9 @@ public class ChessAPI : ControllerBase
     .ToArray();
   }
 
-
-  //public IEnumerable<string> GetNames() { }
+  //[HttpPost]
+  //public IActionResult Register()
+  //{
+  //  Registration.CreatePlayer();
+  //}
 }
