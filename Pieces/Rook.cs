@@ -2,93 +2,68 @@ class Rook : Piece
 {
   public Rook(int startX, int startY) : base(startX, startY) { }
 
+  private static bool topCheck(int val)
+  {
+    return val > 7;
+  }
+
+  private static bool bottomCheck(int val)
+  {
+    return val < 0;
+  }
+
+  public static List<Target> getValidMovesDirectional(int posX, int posY, int xDirection, int yDirection, bool?[,] obstacles)
+  {
+    List<Target> validMoves = new List<Target>();
+
+    for (int i = 1; i <= 7; i++)
+    {
+      int xOff = i * xDirection;
+      int yOff = i * yDirection;
+      bool xCheck;
+      if (xDirection == 1) { xCheck = topCheck(posX + xOff); }
+      else { xCheck = bottomCheck(posX + xOff); }
+      bool yCheck;
+      if (yDirection == 1) { yCheck = topCheck(posY + yOff); }
+      else { yCheck = bottomCheck(posY + yOff); }
+
+
+      if (xCheck || yCheck)
+      {
+        break;
+      }
+      if (obstacles[posX + xOff, posY + yOff] is null)
+      {
+        validMoves.Add(new Target(posX + xOff, posY + yOff, false));
+      }
+      else
+      {
+        if (obstacles[posX + xOff, posY + yOff]!.Value)
+        {
+          validMoves.Add(new Target(posX + xOff, posY + yOff, true));
+        }
+        break;
+      }
+    }
+
+    return validMoves;
+  }
+
   public override List<Target> getValidMoves(bool?[,] obstacles)
   {
     List<Target> validMoves = new List<Target>();
 
     // Can move up
-    for (int i = 1; i <= 7; i++)
-    {
-      if (posX + i > 7 || posY + i > 7)
-      {
-        break;
-      }
-      if (obstacles[posX + i, posY + i] is null)
-      {
-        validMoves.Add(new Target(posX + i, posY + i, false));
-      }
-      else
-      {
-        if (obstacles[posX + i, posY + i]!.Value)
-        {
-          validMoves.Add(new Target(posX + i, posY + i, true));
-        }
-        break;
-      }
-    }
+    validMoves.AddRange(getValidMovesDirectional(posX, posY, 1, 1, obstacles));
 
     // Can move left
-    for (int i = 1; i <= 7; i++)
-    {
-      if (posX + i > 7 || posY - i < 0)
-      {
-        break;
-      }
-      if (obstacles[posX + i, posY - i] is null)
-      {
-        validMoves.Add(new Target(posX + i, posY - i, false));
-      }
-      else
-      {
-        if (obstacles[posX + i, posY - i]!.Value)
-        {
-          validMoves.Add(new Target(posX + i, posY - i, true));
-        }
-        break;
-      }
-    }
+    validMoves.AddRange(getValidMovesDirectional(posX, posY, 1, -1, obstacles));
 
     // Can move right
-    for (int i = 1; i <= 7; i++)
-    {
-      if (posX - i < 0 || posY + i > 7)
-      {
-        break;
-      }
-      if (obstacles[posX - i, posY + i] is null)
-      {
-        validMoves.Add(new Target(posX - i, posY + i, false));
-      }
-      else
-      {
-        if (obstacles[posX - i, posY + i]!.Value)
-        {
-          validMoves.Add(new Target(posX - i, posY + i, true));
-        }
-        break;
-      }
-    }
+    validMoves.AddRange(getValidMovesDirectional(posX, posY, -1, 1, obstacles));
 
     // Can move down
-    for (int i = 1; i <= 7; i++)
-    {
-      if (posX - i < 0 || posY - i < 0)
-      {
-        break;
-      }
-      if (obstacles[posX - i, posY - i] is null)
-      {
-        validMoves.Add(new Target(posX - i, posY - i, false));
-      }
-      else
-      {
-        if (obstacles[posX - i, posY - i]!.Value)
-        {
-          validMoves.Add(new Target(posX - i, posY - i, true));
-        }
-        break;
-      }
-    }
+    validMoves.AddRange(getValidMovesDirectional(posX, posY, -1, -1, obstacles));
 
     return validMoves;
   }

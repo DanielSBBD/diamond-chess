@@ -2,77 +2,46 @@ class Bishop : Piece
 {
   public Bishop(int startX, int startY) : base(startX, startY) { }
 
+  private static List<Target> getValidMovesDirectional(int posX, int posY, int xDirection, int yDirection, int boundary, bool?[,] obstacles)
+  {
+    List<Target> validMoves = new List<Target>();
+
+    for (int i = 1; i <= boundary; i++)
+    {
+      int xOff = i * xDirection;
+      int yOff = i * yDirection;
+      if (obstacles[posX + xOff, posY + yOff] is null)
+      {
+        validMoves.Add(new Target(posX + xOff, posY + yOff, false));
+      }
+      else
+      {
+        if (obstacles[posX + xOff, posY + yOff]!.Value)
+        {
+          validMoves.Add(new Target(posX + xOff, posY + yOff, true));
+        }
+        break;
+      }
+    }
+
+    return validMoves;
+  }
+
   public override List<Target> getValidMoves(bool?[,] obstacles)
   {
     List<Target> validMoves = new List<Target>();
 
     // Can move diagonally up-left
-    for (int i = 1; i <= 7 - posX; i++)
-    {
-      if (obstacles[posX + i, posY] is null)
-      {
-        validMoves.Add(new Target(posX + i, posY, false));
-      }
-      else
-      {
-        if (obstacles[posX + i, posY]!.Value)
-        {
-          validMoves.Add(new Target(posX + i, posY, true));
-        }
-        break;
-      }
-    }
+    validMoves.AddRange(getValidMovesDirectional(posX, posY, 1, 0, 7 - posX, obstacles));
 
     // Can move diagonally up-right
-    for (int i = 1; i <= 7 - posY; i++)
-    {
-      if (obstacles[posX, posY + i] is null)
-      {
-        validMoves.Add(new Target(posX, posY + i, false));
-      }
-      else
-      {
-        if (obstacles[posX, posY + i]!.Value)
-        {
-          validMoves.Add(new Target(posX, posY + i, true));
-        }
-        break;
-      }
-    }
+    validMoves.AddRange(getValidMovesDirectional(posX, posY, 0, 1, 7 - posY, obstacles));
 
     // Can move diagonally down-right
-    for (int i = 1; i <= posX; i++)
-    {
-      if (obstacles[posX - i, posY] is null)
-      {
-        validMoves.Add(new Target(posX - i, posY, false));
-      }
-      else
-      {
-        if (obstacles[posX - i, posY]!.Value)
-        {
-          validMoves.Add(new Target(posX - i, posY, true));
-        }
-        break;
-      }
-    }
+    validMoves.AddRange(getValidMovesDirectional(posX, posY, -1, 0, posX, obstacles));
 
     // Can move diagonally down-left
-    for (int i = 1; i <= posY; i++)
-    {
-      if (obstacles[posX, posY - i] is null)
-      {
-        validMoves.Add(new Target(posX, posY - i, false));
-      }
-      else
-      {
-        if (obstacles[posX, posY - i]!.Value)
-        {
-          validMoves.Add(new Target(posX, posY - i, true));
-        }
-        break;
-      }
-    }
+    validMoves.AddRange(getValidMovesDirectional(posX, posY, 0, -1, posY, obstacles));
 
     return validMoves;
   }
