@@ -19,7 +19,7 @@ GO
 CREATE TABLE [Login_Details] (
   [login_id] int PRIMARY KEY IDENTITY(50001, 1),
   [login_username] varchar(30) UNIQUE NOT NULL,
-  [login_password_hash] binary(64) NOT NULL
+  [login_password_hash] varchar(max) NOT NULL
 )
 GO
 
@@ -77,26 +77,26 @@ INSERT INTO Match_Outcomes (outcome_name) VALUES ('White Victory'),
 												 ('Black Victory'),
 												 ('Draw')
 GO
-INSERT INTO Login_Details (login_username, login_password_hash) VALUES ('cbarrack0', HASHBYTES('SHA2_512', 'YGL752ouM5WL')),
-																	   ('btrevillion1', HASHBYTES('SHA2_512', 'hzdzzgn')),
-																	   ('etofanelli2', HASHBYTES('SHA2_512', '7AsY1kgH')),
-																	   ('dmackintosh3', HASHBYTES('SHA2_512', 'Y2XytpE6nc')),
-																	   ('ndounbare4', HASHBYTES('SHA2_512', 'onhQPW')),
-																	   ('hcaulcutt5', HASHBYTES('SHA2_512', '7oZbYG')),
-																	   ('cpalser6', HASHBYTES('SHA2_512', '7BBgGko9r')),
-																	   ('ajanzen7', HASHBYTES('SHA2_512', 'aOkSHn')),
-																	   ('cstileman8', HASHBYTES('SHA2_512', 'CmwDyKiQMv')),
-																	   ('iswidenbank9', HASHBYTES('SHA2_512', '8o0FhTyN')),
-																	   ('prumkea', HASHBYTES('SHA2_512', 'iilNsdo')),
-																	   ('bocorriganeb', HASHBYTES('SHA2_512', 'fkoVTgVSQX')),
-																	   ('ibierc', HASHBYTES('SHA2_512', 'oVofpVDb7Ao2')),
-																	   ('ehamiltond', HASHBYTES('SHA2_512', 'XMUw4jiZ6')),
-																	   ('uveschie', HASHBYTES('SHA2_512', 'swO1N15')),
-																	   ('acockingf', HASHBYTES('SHA2_512', 'VVwnTW')),
-																	   ('kcalderong', HASHBYTES('SHA2_512', 'OyKXIlmBnN')),
-																	   ('jheatlieh', HASHBYTES('SHA2_512', 'vasWmN')),
-																	   ('dsolwayi', HASHBYTES('SHA2_512', 'ypi4L3R2OX0')),
-																	   ('tbyartj', HASHBYTES('SHA2_512', 'd7sYbE4'))
+INSERT INTO Login_Details (login_username, login_password_hash) VALUES ('cbarrack0', '59-00-47-00-4C-00-37-00-35-00-32-00-6F-00-75-00-4D-00-35-00-57-00-4C-00'),
+																	   ('btrevillion1', HASHBYTES('MD5','hzdzzgn')),
+																	   ('etofanelli2', HASHBYTES('MD5','7AsY1kgH')),
+																	   ('dmackintosh3', HASHBYTES('MD5','Y2XytpE6nc')),
+																	   ('ndounbare4', HASHBYTES('MD5','onhQPW')),
+																	   ('hcaulcutt5', HASHBYTES('MD5','7oZbYG')),
+																	   ('cpalser6', HASHBYTES('MD5','7BBgGko9r')),
+																	   ('ajanzen7', HASHBYTES('MD5','aOkSHn')),
+																	   ('cstileman8', HASHBYTES('MD5','CmwDyKiQMv')),
+																	   ('iswidenbank9', HASHBYTES('MD5','8o0FhTyN')),
+																	   ('prumkea', HASHBYTES('MD5','iilNsdo')),
+																	   ('bocorriganeb', HASHBYTES('MD5','fkoVTgVSQX')),
+																	   ('ibierc', HASHBYTES('MD5','oVofpVDb7Ao2')),
+																	   ('ehamiltond', HASHBYTES('MD5','XMUw4jiZ6')),
+																	   ('uveschie', HASHBYTES('MD5','swO1N15')),
+																	   ('acockingf', HASHBYTES('MD5','VVwnTW')),
+																	   ('kcalderong', HASHBYTES('MD5','OyKXIlmBnN')),
+																	   ('jheatlieh', HASHBYTES('MD5','vasWmN')),
+																	   ('dsolwayi', HASHBYTES('MD5','ypi4L3R2OX0')),
+																	   ('tbyartj', HASHBYTES('MD5','d7sYbE4'))
 GO
 INSERT INTO Players (player_name, player_surname, login_id) VALUES ('Damiano', 'Dutson', 50001),
 																   ('Reider', 'Sobey', 50002),
@@ -152,20 +152,20 @@ INSERT INTO Match_Histories (white, black, match_outcome, match_duration) VALUES
 GO
 
 CREATE PROCEDURE dbo.uspRegisterPlayer
-    @pUsername NVARCHAR(30), 
-    @pPassword NVARCHAR(50), 
+    @pUsername VARCHAR(30), 
+    @pPassword VARCHAR(MAX), 
     @pName VARCHAR(50), 
-    @pSurname VARCHAR(50)
+    @pSurname VARCHAR(50),
+	@responseMessage VARCHAR(250) OUTPUT
     
 AS
-BEGIN
-    SET NOCOUNT ON
 
-    DECLARE @responseMessage NVARCHAR(250)
+BEGIN
+    SET NOCOUNT ON;
 
     BEGIN TRY
         INSERT INTO dbo.[Login_Details] (login_username, login_password_hash)
-        VALUES(@pUsername, HASHBYTES('SHA2_512', @pPassword))
+        VALUES(@pUsername, @pPassword)
 
         DECLARE @pLogin int 
 		
@@ -182,13 +182,12 @@ BEGIN
         SET @responseMessage=ERROR_MESSAGE() 
     END CATCH
 
-    RETURN @responseMessage
 END
 GO
 
 CREATE PROCEDURE dbo.uspLogin
-    @pUsername NVARCHAR(30),
-    @pPassword NVARCHAR(50)
+    @pUsername VARCHAR(30),
+    @pPassword VARCHAR(MAX)
 AS
 BEGIN
     SET NOCOUNT ON
@@ -198,10 +197,10 @@ BEGIN
 
     IF EXISTS (SELECT TOP 1 login_id FROM [dbo].[Login_Details] WHERE login_username=@pUsername)
     BEGIN
-        SET @loginID=(SELECT login_id FROM [dbo].[Login_Details] WHERE login_username=@pUsername AND login_password_hash=HASHBYTES('SHA2_512', @pPassword))
+        SET @loginID=(SELECT login_id FROM [dbo].[Login_Details] WHERE login_username=@pUsername AND login_password_hash=@pPassword)
 		
 		IF (@loginID IS NOT NULL )
-			SELECT player_id, player_name, player_surname FROM Players
+			SELECT player_id, player_name, player_surname FROM Players WHERE login_id = @loginID
 		ELSE
 			RETURN NULL
     END
@@ -214,12 +213,11 @@ CREATE PROCEDURE dbo.uspInsertMatch
     @pWhite int,
     @pBlack int,
 	@mOutcome int,
-	@mDuration TIME
+	@mDuration TIME,
+	@responseMessage VARCHAR(250) OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON
-
-	DECLARE @responseMessage NVARCHAR(250)
 
 	   BEGIN TRY
         INSERT INTO [dbo].[Match_Histories] (white, black, match_outcome, match_duration) 
@@ -233,8 +231,6 @@ BEGIN
         SET @responseMessage=ERROR_MESSAGE() 
     END CATCH
 
-    RETURN @responseMessage
-    
 END
 GO
 
