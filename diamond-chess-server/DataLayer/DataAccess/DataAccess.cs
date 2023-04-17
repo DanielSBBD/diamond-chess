@@ -61,7 +61,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
                         con.Open();
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@pUsername", playerInfo.playerLogin.Username);
-                        cmd.Parameters.AddWithValue("@pPassword", playerInfo.playerLogin.PasswordHash);
+                        cmd.Parameters.AddWithValue("@pPassword", BitConverter.ToString(playerInfo.playerLogin.PasswordHash));
                         cmd.Parameters.AddWithValue("@pName", playerInfo.Name);
                         cmd.Parameters.AddWithValue("@pSurname", playerInfo.Surname );
 
