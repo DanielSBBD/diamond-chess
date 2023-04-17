@@ -8,8 +8,6 @@ namespace diamond_chess_server.Controllers;
 [Route("[controller]")]
 public class ChessAPI : ControllerBase
 {
-  RegistrationService Registration = new RegistrationService();
-
   private readonly ILogger<ChessAPI> _logger;
 
   public ChessAPI(ILogger<ChessAPI> logger)

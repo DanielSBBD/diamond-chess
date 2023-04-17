@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "diamond-chess-client", "diamond-chess-client\diamond-chess-client.csproj", "{2B5DEC0E-5374-4F4E-8F96-34260690B6DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diamond-chess-client", "diamond-chess-client\diamond-chess-client.csproj", "{2B5DEC0E-5374-4F4E-8F96-34260690B6DB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "diamond-chess-server", "diamond-chess-server\diamond-chess-server.csproj", "{2EF57E77-649F-43EE-9CE2-E4F7521B4390}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2B5DEC0E-5374-4F4E-8F96-34260690B6DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B5DEC0E-5374-4F4E-8F96-34260690B6DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B5DEC0E-5374-4F4E-8F96-34260690B6DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF57E77-649F-43EE-9CE2-E4F7521B4390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF57E77-649F-43EE-9CE2-E4F7521B4390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF57E77-649F-43EE-9CE2-E4F7521B4390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF57E77-649F-43EE-9CE2-E4F7521B4390}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
