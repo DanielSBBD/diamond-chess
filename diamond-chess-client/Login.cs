@@ -46,6 +46,8 @@
 			if (user1LoggedIn && user2LoggedIn)
 			{
 				startGameButton.Enabled = true;
+				startGameButton.BackColor = Constants.DarkColour;
+				startGameButton.ForeColor = Constants.LightColour;
 			}
 		}
 

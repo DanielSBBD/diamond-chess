@@ -35,6 +35,9 @@
 			playerTurnText = new Label();
 			playerTurnPictureBox = new PictureBox();
 			playerTurnLabel = new Label();
+			button1 = new Button();
+			button2 = new Button();
+			button3 = new Button();
 			((System.ComponentModel.ISupportInitialize)logoImage).BeginInit();
 			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
 			((System.ComponentModel.ISupportInitialize)playerTurnPictureBox).BeginInit();
@@ -53,7 +56,6 @@
 			headingLabel.TabIndex = 2;
 			headingLabel.Text = "Diamond Chess";
 			headingLabel.TextAlign = ContentAlignment.MiddleLeft;
-			headingLabel.Click += headingLabel_Click;
 			// 
 			// logoImage
 			// 
@@ -61,7 +63,7 @@
 			logoImage.AccessibleName = "Diamond Chess Logo";
 			logoImage.AccessibleRole = AccessibleRole.Graphic;
 			logoImage.BackColor = Color.Transparent;
-			logoImage.Image = DiamondChess.Properties.Resources.Logo;
+			logoImage.Image = Properties.Resources.Logo;
 			logoImage.Location = new Point(12, 14);
 			logoImage.Margin = new Padding(0);
 			logoImage.Name = "logoImage";
@@ -77,7 +79,7 @@
 			pictureBox1.AccessibleRole = AccessibleRole.Graphic;
 			pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			pictureBox1.BackColor = Color.Transparent;
-			pictureBox1.Image = DiamondChess.Properties.Resources.Logo;
+			pictureBox1.Image = Properties.Resources.Logo;
 			pictureBox1.Location = new Point(1743, 14);
 			pictureBox1.Margin = new Padding(0);
 			pictureBox1.Name = "pictureBox1";
@@ -103,13 +105,12 @@
 			playerTurnText.TabIndex = 5;
 			playerTurnText.Text = "UserName";
 			playerTurnText.TextAlign = ContentAlignment.MiddleRight;
-			playerTurnText.Click += playerTurnText_Click;
 			// 
 			// playerTurnPictureBox
 			// 
 			playerTurnPictureBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 			playerTurnPictureBox.BackColor = Color.Transparent;
-			playerTurnPictureBox.BackgroundImage = DiamondChess.Properties.Resources.W_WideLabelBackground;
+			playerTurnPictureBox.BackgroundImage = Properties.Resources.W_WideLabelBackground;
 			playerTurnPictureBox.BackgroundImageLayout = ImageLayout.Stretch;
 			playerTurnPictureBox.Location = new Point(1187, 14);
 			playerTurnPictureBox.Margin = new Padding(0);
@@ -136,12 +137,45 @@
 			playerTurnLabel.Text = "TO PLAY:";
 			playerTurnLabel.TextAlign = ContentAlignment.MiddleRight;
 			// 
+			// button1
+			// 
+			button1.Location = new Point(65, 215);
+			button1.Name = "button1";
+			button1.Size = new Size(94, 29);
+			button1.TabIndex = 8;
+			button1.Text = "HIGHLIGHT";
+			button1.UseVisualStyleBackColor = true;
+			button1.Click += button1_Click;
+			// 
+			// button2
+			// 
+			button2.Location = new Point(65, 263);
+			button2.Name = "button2";
+			button2.Size = new Size(94, 29);
+			button2.TabIndex = 9;
+			button2.Text = "ADD ALL";
+			button2.UseVisualStyleBackColor = true;
+			button2.Click += button2_Click;
+			// 
+			// button3
+			// 
+			button3.Location = new Point(65, 314);
+			button3.Name = "button3";
+			button3.Size = new Size(94, 29);
+			button3.TabIndex = 10;
+			button3.Text = "REMOVE";
+			button3.UseVisualStyleBackColor = true;
+			button3.Click += button3_Click;
+			// 
 			// Game
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.White;
 			ClientSize = new Size(1901, 1291);
+			Controls.Add(button3);
+			Controls.Add(button2);
+			Controls.Add(button1);
 			Controls.Add(playerTurnText);
 			Controls.Add(playerTurnLabel);
 			Controls.Add(playerTurnPictureBox);
@@ -170,5 +204,8 @@
 		private System.Windows.Forms.Label playerTurnText;
 		private System.Windows.Forms.PictureBox playerTurnPictureBox;
 		private System.Windows.Forms.Label playerTurnLabel;
+		private Button button1;
+		private Button button2;
+		private Button button3;
 	}
 }

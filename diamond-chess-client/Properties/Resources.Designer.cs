@@ -243,9 +243,9 @@ namespace DiamondChess.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap W_PAWN {
+        internal static System.Drawing.Bitmap W_Pawn {
             get {
-                object obj = ResourceManager.GetObject("W_PAWN", resourceCulture);
+                object obj = ResourceManager.GetObject("W_Pawn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
