@@ -26,7 +26,7 @@ namespace DiamondChess
 		}
 
 		private byte[] hashPassword(string password) {//TODO: has function should live elsewhere?
-			return SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
+			return SHA512.Create().ComputeHash(Encoding.Unicode.GetBytes(password));
 		}
 
 		private async void user1LoginButton_Click(object sender, EventArgs e)
@@ -37,11 +37,7 @@ namespace DiamondChess
 			userDetails.Username = username1Textbox.Text;
 			userDetails.PasswordHash = hashPassword(password1Textbox.Text);
 
-			// user1IncorrectLabel.Text = LoginService.isValidLogin(userDetails) ? "YES" : "NO";
-
-			// @ GABRIEL THIS IS WHERE YOU WOULD REQUEST A LOGIN OR SOMETHING IDK ???
 			if (await LoginService.isValidLogin(userDetails))
-			// if (username1Textbox.Text == "admin1" && password1Textbox.Text == "1234")
 			{
 				username1 = username1Textbox.Text;
 				user1LoggedIn = true;
@@ -72,12 +68,10 @@ namespace DiamondChess
 			user2IncorrectLabel.Text = "";
 
 			LoginDetails userDetails = new LoginDetails();
-			userDetails.Username = username1Textbox.Text;
-			userDetails.PasswordHash = hashPassword(password1Textbox.Text);
+			userDetails.Username = username2Textbox.Text;
+			userDetails.PasswordHash = hashPassword(password2Textbox.Text);
 
-			// @ GABRIEL THIS IS WHERE YOU WOULD REQUEST A LOGIN OR SOMETHING IDK ??? part 2
 			if (await LoginService.isValidLogin(userDetails))
-			// if (username2Textbox.Text == "admin2" && password2Textbox.Text == "1234")
 			{
 				username2 = username2Textbox.Text;
 				user2LoggedIn = true;

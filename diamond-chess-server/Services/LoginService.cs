@@ -9,9 +9,8 @@ namespace diamond_chess_server.Services
     public static async Task<Boolean> isValidLogin(LoginDetails userLogin) {
 
       DataAccess dbConnection = new DataAccess();
-      Player potentialUser = await dbConnection.ValidateLogin(userLogin);
 
-      return potentialUser != null;//return Player instead? handle error here?
+      return await dbConnection.ValidateLogin(userLogin);
 
     }
 

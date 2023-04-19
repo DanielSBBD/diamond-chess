@@ -80,9 +80,10 @@ namespace diamond_chess_server.DataLayer.DataAccess
             }
         }
 
-        public async Task<Player> ValidateLogin(LoginDetails playerLogin)
+        public async Task<Boolean> ValidateLogin(LoginDetails playerLogin)
         {
-            Player player = new Player();
+            // Player player = new Player();
+            Boolean validLoginDetails = false;
 
             try
             {
@@ -101,10 +102,11 @@ namespace diamond_chess_server.DataLayer.DataAccess
                             {
                                 if (reader["player_id"] is not null)
                                 {
-                                    player.Id = Convert.ToInt32(reader["player_id"]);
-                                    player.Name = reader["player_name"] as string;
-                                    player.Surname = reader["player_surname"] as string;
-                                    
+                                    // player.Id = Convert.ToInt32(reader["player_id"]);
+                                    // player.Name = reader["player_name"] as string;
+                                    // player.Surname = reader["player_surname"] as string;
+                                    validLoginDetails = true;
+
                                 }
                             }
                         }
@@ -116,8 +118,8 @@ namespace diamond_chess_server.DataLayer.DataAccess
                 //TODO: Handle expected exceptions.
                 throw;
             }
-            return player;
-            
+            return validLoginDetails;
+
         }
     }
 }
