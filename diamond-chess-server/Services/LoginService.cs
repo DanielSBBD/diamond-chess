@@ -6,10 +6,10 @@ namespace diamond_chess_server.Services
   public static class LoginService
   {
 
-    public static Boolean isValidLogin(LoginDetails userLogin) {
+    public static async Task<Boolean> isValidLogin(LoginDetails userLogin) {
 
       DataAccess dbConnection = new DataAccess();
-      Player potentialUser = dbConnection.ValidateLogin(userLogin);
+      Player potentialUser = await dbConnection.ValidateLogin(userLogin);
 
       return potentialUser != null;//return Player instead? handle error here?
 

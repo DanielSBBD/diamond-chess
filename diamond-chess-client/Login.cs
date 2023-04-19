@@ -29,7 +29,7 @@ namespace DiamondChess
 			return SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
 		}
 
-		private void user1LoginButton_Click(object sender, EventArgs e)
+		private async void user1LoginButton_Click(object sender, EventArgs e)
 		{
 			user1IncorrectLabel.Text = "";
 
@@ -40,7 +40,7 @@ namespace DiamondChess
 			// user1IncorrectLabel.Text = LoginService.isValidLogin(userDetails) ? "YES" : "NO";
 
 			// @ GABRIEL THIS IS WHERE YOU WOULD REQUEST A LOGIN OR SOMETHING IDK ???
-			if (LoginService.isValidLogin(userDetails))
+			if (await LoginService.isValidLogin(userDetails))
 			// if (username1Textbox.Text == "admin1" && password1Textbox.Text == "1234")
 			{
 				username1 = username1Textbox.Text;
@@ -67,7 +67,7 @@ namespace DiamondChess
 			}
 		}
 
-		private void user2LoginButton_Click(object sender, EventArgs e)
+		private async void user2LoginButton_Click(object sender, EventArgs e)
 		{
 			user2IncorrectLabel.Text = "";
 
@@ -76,7 +76,7 @@ namespace DiamondChess
 			userDetails.PasswordHash = hashPassword(password1Textbox.Text);
 
 			// @ GABRIEL THIS IS WHERE YOU WOULD REQUEST A LOGIN OR SOMETHING IDK ??? part 2
-			if (LoginService.isValidLogin(userDetails))
+			if (await LoginService.isValidLogin(userDetails))
 			// if (username2Textbox.Text == "admin2" && password2Textbox.Text == "1234")
 			{
 				username2 = username2Textbox.Text;
