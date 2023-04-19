@@ -20,7 +20,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
             connection = builder.GetConnectionString("DefaultConnection");
         }
 
-        public string InsertMatchHistory(MatchHistory match)
+        public async Task<string> InsertMatchHistory(MatchHistory match)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
                         var responseMessage = cmd.Parameters.Add("@responseMessage", SqlDbType.VarChar, 250);
                         responseMessage.Direction = ParameterDirection.Output;
 
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                         return responseMessage.Value.ToString();
                     }
                 }
@@ -50,7 +50,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
             }
         }
 
-        public string RegisterPlayer(Player playerInfo)
+        public async Task<string> RegisterPlayer(Player playerInfo)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
                         var responseMessage = cmd.Parameters.Add("@responseMessage", SqlDbType.VarChar, 250);
                         responseMessage.Direction = ParameterDirection.Output;
 
-                        cmd.ExecuteNonQuery();
+                        await cmd.ExecuteNonQueryAsync();
                         return responseMessage.Value.ToString();
                     }
                 }
@@ -80,7 +80,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
             }
         }
 
-        public Player? ValidateLogin(LoginDetails playerLogin)
+        public async Task<Player> ValidateLogin(LoginDetails playerLogin)
         {
             Player player = new Player();
 
@@ -97,7 +97,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
 
                         using (var reader = cmd.ExecuteReader())
                         {
-                            while (reader.Read())
+                            while (await reader.ReadAsync())
                             {
                                 if (reader["player_id"] is not null)
                                 {
