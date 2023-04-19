@@ -1,4 +1,9 @@
-﻿namespace DiamondChess
+﻿using diamond_chess_server.Models;
+using diamond_chess_server.Services;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace DiamondChess
 {
 	public partial class Login : Form
 	{
@@ -20,12 +25,23 @@
 			startGameButton.Enabled = false;
 		}
 
+		private byte[] hashPassword(string password) {//TODO: has function should live elsewhere?
+			return SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
+		}
+
 		private void user1LoginButton_Click(object sender, EventArgs e)
 		{
 			user1IncorrectLabel.Text = "";
 
+			LoginDetails userDetails = new LoginDetails();
+			userDetails.Username = username1Textbox.Text;
+			userDetails.PasswordHash = hashPassword(password1Textbox.Text);
+
+			// user1IncorrectLabel.Text = LoginService.isValidLogin(userDetails) ? "YES" : "NO";
+
 			// @ GABRIEL THIS IS WHERE YOU WOULD REQUEST A LOGIN OR SOMETHING IDK ???
-			if (username1Textbox.Text == "admin1" && password1Textbox.Text == "1234")
+			if (LoginService.isValidLogin(userDetails))
+			// if (username1Textbox.Text == "admin1" && password1Textbox.Text == "1234")
 			{
 				username1 = username1Textbox.Text;
 				user1LoggedIn = true;
@@ -53,8 +69,13 @@
 		{
 			user2IncorrectLabel.Text = "";
 
+			LoginDetails userDetails = new LoginDetails();
+			userDetails.Username = username1Textbox.Text;
+			userDetails.PasswordHash = hashPassword(password1Textbox.Text);
+
 			// @ GABRIEL THIS IS WHERE YOU WOULD REQUEST A LOGIN OR SOMETHING IDK ??? part 2
-			if (username2Textbox.Text == "admin2" && password2Textbox.Text == "1234")
+			if (LoginService.isValidLogin(userDetails))
+			// if (username2Textbox.Text == "admin2" && password2Textbox.Text == "1234")
 			{
 				username2 = username2Textbox.Text;
 				user2LoggedIn = true;
