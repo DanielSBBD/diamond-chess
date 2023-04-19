@@ -84,8 +84,6 @@ namespace DiamondChess
 		{
 			Tile tempPicBox = new Tile(graphics, x, y, color, radius);
 			piecesArray[Constants.CoordinateDictionary[drawTileCounter].x, Constants.CoordinateDictionary[drawTileCounter].y] = tempPicBox;
-			piecesArray[Constants.CoordinateDictionary[drawTileCounter].x, Constants.CoordinateDictionary[drawTileCounter].y].BringToFront();
-
 			IncrementCounters();
 		}
 
@@ -104,34 +102,24 @@ namespace DiamondChess
 		{
 			piecesArray[x, y].SetPiece(img);
 			Controls.Add(piecesArray[x, y]);
-
-			Graphics graphics = this.CreateGraphics();
-
-
-			if (x == 7)
-			{
-				piecesArray[x, y].SetOutline(Color.Yellow, graphics);
-				Controls.Add(piecesArray[x, y]);
-			}
 		}
 
-		public void RemovePiece(int x, int y)
+		public void TakePiece(Image img, int x, int y, bool isBlack)
 		{
 			if (piecesArray[x, y].BackgroundImage != null) // JESSE - NOT WORKING
 			{
-				if (piecesArray[x, y].BackgroundImage.ToString().Substring(0, 1) == "B")
-				{
-					AddToWhiteInventory(piecesArray[x, y].BackgroundImage);
-				}
-				else
-				{
-					AddToBlackInventory(piecesArray[x, y].BackgroundImage);
-				}
+				//if (isBlack)
+				//{
+				//	AddToWhiteInventory(piecesArray[x, y].BackgroundImage);
+				//}
+				//else
+				//{
+				//	AddToBlackInventory(piecesArray[x, y].BackgroundImage);
+				//}
 			}			
 
-			piecesArray[x, y].BackgroundImage = null;
-			piecesArray[x, y].BringToFront();
-			piecesArray[x, y].Refresh();
+			piecesArray[x, y].RemovePiece();
+			piecesArray[x, y].SetPiece(img);
 		}
 
 		public void AddToWhiteInventory(Image img) // JESSE - NOT WORKING
@@ -164,47 +152,54 @@ namespace DiamondChess
 			blackInventoryY += 100;
 		}
 
+
+
+
+		public void OutlinePieces(List<int> xList, List<int> yList, List<Color> colorList)
+		{
+			Graphics graphics = this.CreateGraphics();
+			for (int i = 0; i < xList.Count; i++)
+			{
+				piecesArray[xList[i], yList[i]].SetOutline(colorList[i], graphics);
+				Controls.Add(piecesArray[xList[i], yList[i]]);
+			}
+			graphics.Dispose();
+		}
+
+
+
 		List<int> lastHighlightedX = new List<int>();
 		List<int> lastHighlightedY = new List<int>();
-		public void HighlightPieces(List<int> xPos, List<int> yPos)
+		public void HighlightPieces(List<int> xList, List<int> yList, List<Color> colorList)
 		{
+			Graphics graphics = this.CreateGraphics();
 			ResetHighlightedPieces();
-			lastHighlightedX = xPos;
-			lastHighlightedY = yPos;
+			lastHighlightedX = xList;
+			lastHighlightedY = yList;
 
-			for(int i = 0; i < xPos.Count; i++)
+			for(int i = 0; i < xList.Count; i++)
 			{
-				if(i == 0)
-				{
-					HighlightPiece(xPos[i], yPos[i], Color.Red);
-				}
-				else
-				{
-					HighlightPiece(xPos[i], yPos[i], Color.Pink);
-				}
+				piecesArray[xList[i], yList[i]].FillTile(colorList[i], graphics);
 			}
+			graphics.Dispose();
 		}
 
 		public void ResetHighlightedPieces()
 		{
-			for(int i = 0; i < lastHighlightedX.Count; i++)
+			RemoveHighlights(lastHighlightedX, lastHighlightedY);
+		}
+
+		public void RemoveHighlights(List<int> xList, List<int> yList)
+		{
+			Graphics graphics = this.CreateGraphics();
+			lastHighlightedX = new List<int>();
+			lastHighlightedY = new List<int>();
+
+			for (int i = 0; i < xList.Count; i++)
 			{
-				RemoveHighlight(lastHighlightedX[i], lastHighlightedY[i]);
+				piecesArray[xList[i], yList[i]].ResetTile(graphics);
 			}
-		}
-
-		public void HighlightPiece(int x, int y, Color color)
-		{
-			piecesArray[x, y].BackColor = color;
-			piecesArray[x, y].BringToFront();
-			piecesArray[x, y].Refresh();
-		}
-
-		public void RemoveHighlight(int x, int y)
-		{
-			piecesArray[x, y].BackColor = Color.Transparent;
-			piecesArray[x, y].BringToFront();
-			piecesArray[x, y].Refresh();
+			graphics.Dispose();
 		}
 
 		public void RedrawStartPositions()

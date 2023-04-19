@@ -20,7 +20,7 @@ namespace DiamondChess
 			this.BackColor = Color.Transparent;
 			this.Location = new Point(x - radius / 2, y - radius / 2);
 			SetDiamondPoints();
-			FillDiamond(color, graphics);
+			FillTile(color, graphics);
 		}
 
 		void SetDiamondPoints()
@@ -29,12 +29,6 @@ namespace DiamondChess
 			this.diamondPoints[1] = new Point(xPos, yPos - tileRadius);
 			this.diamondPoints[2] = new Point(xPos + tileRadius, yPos);
 			this.diamondPoints[3] = new Point(xPos, yPos + tileRadius);
-		}
-
-		void FillDiamond(Color c, Graphics g)
-		{
-			SolidBrush brush = new SolidBrush(c);
-			g.FillPolygon(brush, diamondPoints);
 		}
 
 		public void SetOutline(Color c, Graphics g)
@@ -51,10 +45,27 @@ namespace DiamondChess
 			this.Invalidate();
 		}
 
-		public void HighlightPiece(Color color)
+		public void RemovePiece()
 		{
+			this.BackgroundImage = null;
+			this.Invalidate();
+		}
+
+		public void FillTile(Color color, Graphics g)
+		{
+			SolidBrush brush = new SolidBrush(color);
+			g.FillPolygon(brush, diamondPoints);
 			this.BackColor = color;
 			this.Invalidate();
+		}
+
+		public void ResetTile(Graphics g)
+		{
+			SolidBrush brush = new SolidBrush(originalTileColor);
+			g.FillPolygon(brush, diamondPoints);
+			this.BackColor = originalTileColor;
+			this.Invalidate();
+
 		}
 	}
 }

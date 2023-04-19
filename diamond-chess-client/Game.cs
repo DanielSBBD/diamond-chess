@@ -36,25 +36,13 @@ namespace DiamondChess
 			Hide();
 		}
 
-		public void RedrawBoard()
-		{
-			//for (int i = 0; i < xPositions.GetLength(0); i++)
-			//{
-			//	for (int j = 0; j < yPositions.GetLength(0); j++)
-			//	{
-
-			//	}
-			//}
-
-		}
-
-		Random random = new Random();
 		private void button1_Click(object sender, EventArgs e)
 		{
 			List<int> xList = new List<int> { 1, 2, 3 };
-			List<int> yList = new List<int> { 1, 2, 3 };
+			List<int> yList = new List<int> { 1, 2, 4 };
+			List<Color> colorList = new List<Color> { Color.Red,  Color.Green, Color.Blue };
 
-			grid.HighlightPieces(xList, yList);
+			grid.TakePiece(Properties.Resources.W_Queen, 1, 2, true);
 		}
 
 		private void button2_Click(object sender, EventArgs e)
@@ -64,7 +52,11 @@ namespace DiamondChess
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			grid.RemovePiece(0, 0);
+
+			List<int> xList = new List<int> { 1, 2, 3 };
+			List<int> yList = new List<int> { 1, 2, 4 };
+			List<Color> colorList = new List<Color> { Color.Red, Color.Green, Color.Blue };
+			grid.HighlightPieces(xList, yList, colorList);
 		}
 	}
 }
