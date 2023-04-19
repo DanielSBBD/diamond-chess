@@ -4,11 +4,11 @@
 
     public interface IDataAccess
     {
-        string RegisterPlayer(Player playerInfo);
+        Task<string> RegisterPlayer(Player playerInfo);
 
-        Player? ValidateLogin(LoginDetails playerLogin);
+        Task<Player> ValidateLogin(LoginDetails playerLogin);
 
-        string InsertMatchHistory(MatchHistory match);
+        Task<string> InsertMatchHistory(MatchHistory match);
 
     }
 }
