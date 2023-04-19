@@ -37,7 +37,13 @@ namespace DiamondChess
 			userDetails.Username = username1Textbox.Text;
 			userDetails.PasswordHash = hashPassword(password1Textbox.Text);
 
-			if (await LoginService.isValidLogin(userDetails))
+			if (user2LoggedIn && (userDetails.Username == username2Textbox.Text))
+			{
+				user1IncorrectLabel.Text = "Cannot login as the same users.";
+				username1Textbox.Focus();
+				user1LoggedIn = false;
+			}
+			else if (await LoginService.isValidLogin(userDetails))
 			{
 				username1 = username1Textbox.Text;
 				user1LoggedIn = true;
@@ -50,8 +56,6 @@ namespace DiamondChess
 			else
 			{
 				user1IncorrectLabel.Text = "Incorrect username or password, please try again.";
-				username1Textbox.Clear();
-				password1Textbox.Clear();
 				username1Textbox.Focus();
 				user1LoggedIn = false;
 			}
@@ -71,7 +75,15 @@ namespace DiamondChess
 			userDetails.Username = username2Textbox.Text;
 			userDetails.PasswordHash = hashPassword(password2Textbox.Text);
 
-			if (await LoginService.isValidLogin(userDetails))
+			if (user1LoggedIn && (userDetails.Username == username1Textbox.Text))
+			{
+				user2IncorrectLabel.Text = "Cannot login as the same users.";
+				username2Textbox.Clear();
+				password2Textbox.Clear();
+				username2Textbox.Focus();
+				user2LoggedIn = false;
+			}
+			else if (await LoginService.isValidLogin(userDetails))
 			{
 				username2 = username2Textbox.Text;
 				user2LoggedIn = true;
@@ -84,8 +96,6 @@ namespace DiamondChess
 			else
 			{
 				user2IncorrectLabel.Text = "Incorrect username or password, please try again.";
-				username2Textbox.Clear();
-				password2Textbox.Clear();
 				username2Textbox.Focus();
 				user2LoggedIn = false;
 			}
