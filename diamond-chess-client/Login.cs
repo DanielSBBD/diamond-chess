@@ -37,9 +37,11 @@ namespace DiamondChess
 			userDetails.Username = username1Textbox.Text;
 			userDetails.PasswordHash = hashPassword(password1Textbox.Text);
 
-			if (user2LoggedIn && (userDetails.Username == username2Textbox.Text))
+			if (user2LoggedIn && (userDetails.Username == username2))
 			{
 				user1IncorrectLabel.Text = "Cannot login as the same users.";
+				username1Textbox.Clear();
+				password1Textbox.Clear();
 				username1Textbox.Focus();
 				user1LoggedIn = false;
 			}
@@ -75,7 +77,7 @@ namespace DiamondChess
 			userDetails.Username = username2Textbox.Text;
 			userDetails.PasswordHash = hashPassword(password2Textbox.Text);
 
-			if (user1LoggedIn && (userDetails.Username == username1Textbox.Text))
+			if (user1LoggedIn && (userDetails.Username == username1))
 			{
 				user2IncorrectLabel.Text = "Cannot login as the same users.";
 				username2Textbox.Clear();
@@ -148,6 +150,7 @@ namespace DiamondChess
 
 		private void user1LogoutLabel_Click(object sender, EventArgs e)
 		{
+			user1LoggedIn = false;
 			user1LoginButton.Enabled = true;
 			user1LogoutLabel.Visible = false;
 			username1Textbox.Clear();
@@ -162,6 +165,7 @@ namespace DiamondChess
 
 		private void user2LogoutLabel_Click(object sender, EventArgs e)
 		{
+			user2LoggedIn = false;
 			user2LoginButton.Enabled = true;
 			user2LogoutLabel.Visible = false;
 			username2Textbox.Clear();

@@ -9,7 +9,7 @@ namespace diamond_chess_server.Services
     public static async Task<Boolean> RegisterUser(Player newUser) {
 
       DataAccess dbConnection = new DataAccess();
-      string rowsAffected = await dbConnection.RegisterPlayer(newUser);//leave as int?
+      string rowsAffected = await dbConnection.RegisterPlayer(newUser);
 
       return Int16.Parse(rowsAffected) == 1;//handle cases when >1 or <1 rows affected here?
 
