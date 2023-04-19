@@ -162,7 +162,7 @@
 			logoImage.AccessibleRole = AccessibleRole.Graphic;
 			logoImage.BackColor = Color.Transparent;
 			logoImage.Image = Properties.Resources.Logo;
-			logoImage.Location = new Point(545, 100);
+			logoImage.Location = new Point(545, 108);
 			logoImage.Margin = new Padding(0);
 			logoImage.Name = "logoImage";
 			logoImage.Size = new Size(250, 241);
@@ -327,7 +327,7 @@
 			// 
 			password2Image.BackColor = Color.Transparent;
 			password2Image.Image = Properties.Resources.Password;
-			password2Image.Location = new Point(770, 559);
+			password2Image.Location = new Point(775, 559);
 			password2Image.Margin = new Padding(3, 4, 3, 4);
 			password2Image.Name = "password2Image";
 			password2Image.Size = new Size(70, 88);
@@ -339,7 +339,7 @@
 			// 
 			user2Image.BackColor = Color.Transparent;
 			user2Image.Image = Properties.Resources.Login;
-			user2Image.Location = new Point(770, 444);
+			user2Image.Location = new Point(775, 444);
 			user2Image.Margin = new Padding(3, 4, 3, 4);
 			user2Image.Name = "user2Image";
 			user2Image.Size = new Size(70, 88);
