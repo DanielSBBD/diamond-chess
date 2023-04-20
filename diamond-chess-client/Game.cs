@@ -6,7 +6,7 @@ namespace DiamondChess
   {
     Player player1, player2;
     Grid grid = new Grid();
-    bool whiteToPlay = true;
+    bool whiteToPlay = false;
 
     public Game(Player player1, Player player2)
     {
