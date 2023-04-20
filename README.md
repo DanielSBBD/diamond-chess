@@ -14,7 +14,7 @@ Press connect and then drag the `Diamond_Chess.sql` into `SSMS` and run the scri
 
 ### Running solution on Visual Studio
 
-1. Open the diamond_chess_server solution.
+1. Open the diamond_chess_server project.
 2. Select Program.cs on the Solution Explorer.
 3. Press *ctrl + F5*.
 
@@ -23,7 +23,7 @@ Press connect and then drag the `Diamond_Chess.sql` into `SSMS` and run the scri
 
 ### Running solution on Visual Studio Code
 
-1. Open the diamond_chess_client solution.
+1. Open the diamond_chess_client project.
 2. Select Program.cs on the Solution Explorer.
 3. Press *ctrl + `*.
 4. Enter `dotnet run`.
