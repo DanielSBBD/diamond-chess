@@ -164,7 +164,7 @@
 			// winLossRecordLabel
 			// 
 			winLossRecordLabel.AutoSize = true;
-			winLossRecordLabel.Location = new Point(65, 404);
+			winLossRecordLabel.Location = new Point(65, 250);
 			winLossRecordLabel.Name = "winLossRecordLabel";
 			winLossRecordLabel.Size = new Size(0, 20);
 			winLossRecordLabel.TabIndex = 12;
