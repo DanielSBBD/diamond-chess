@@ -348,10 +348,10 @@
       // BLACK PIECES
       DrawPiece("B_King", 7, 7);
       DrawPiece("B_Queen", 6, 6);
-      DrawPiece("B_Rook", 7, 6);
-      DrawPiece("B_Rook", 6, 7);
-      DrawPiece("B_Bishop", 5, 7);
-      DrawPiece("B_Bishop", 6, 5);
+      DrawPiece("B_Bishop", 7, 6);
+      DrawPiece("B_Bishop", 6, 7);
+      DrawPiece("B_Rook", 5, 7);
+      DrawPiece("B_Rook", 6, 5);
       DrawPiece("B_Knight", 7, 5);
       DrawPiece("B_Knight", 5, 6);
 
@@ -368,10 +368,10 @@
       // WHITE PIECES
       DrawPiece("W_King", 0, 0);
       DrawPiece("W_Queen", 1, 1);
-      DrawPiece("W_Rook", 1, 0);
-      DrawPiece("W_Rook", 0, 1);
-      DrawPiece("W_Bishop", 2, 0);
-      DrawPiece("W_Bishop", 1, 2);
+      DrawPiece("W_Bishop", 1, 0);
+      DrawPiece("W_Bishop", 0, 1);
+      DrawPiece("W_Rook", 2, 0);
+      DrawPiece("W_Rook", 1, 2);
       DrawPiece("W_Knight", 2, 1);
       DrawPiece("W_Knight", 0, 2);
 
