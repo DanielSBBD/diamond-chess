@@ -25,7 +25,8 @@ namespace DiamondChess
 			startGameButton.Enabled = false;
 		}
 
-		private byte[] hashPassword(string password) {//TODO: has function should live elsewhere?
+		private byte[] hashPassword(string password)
+		{//TODO: has function should live elsewhere?
 			return SHA512.Create().ComputeHash(Encoding.Unicode.GetBytes(password));
 		}
 
@@ -176,6 +177,26 @@ namespace DiamondChess
 			startGameButton.ForeColor = Color.DimGray;
 			user2LoginButton.BackColor = Constants.DarkColour;
 			user2LoginButton.ForeColor = Constants.LightColour;
+		}
+
+		private void user1RegisterButton_Click(object sender, EventArgs e)
+		{
+			// Register user 1
+		}
+
+		private void user2RegisterButton_Click(object sender, EventArgs e)
+		{
+			// Register user 2
+		}
+
+		private void user1PlayAsGuestLabel_Click(object sender, EventArgs e)
+		{
+			// Play as guest user 1
+		}
+
+		private void user2PlayAsGuestLabel_Click(object sender, EventArgs e)
+		{
+			// PLay as guest user 2
 		}
 	}
 }

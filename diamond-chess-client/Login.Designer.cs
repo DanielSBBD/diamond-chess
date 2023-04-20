@@ -53,11 +53,17 @@
 			startGameButton = new Button();
 			user1LogoutLabel = new Label();
 			user2LogoutLabel = new Label();
+			pictureBox1 = new PictureBox();
+			user1RegisterButton = new Button();
+			user2RegisterButton = new Button();
+			user1PlayAsGuestLabel = new Label();
+			user2PlayAsGuestLabel = new Label();
 			((System.ComponentModel.ISupportInitialize)password1Image).BeginInit();
 			((System.ComponentModel.ISupportInitialize)user1Image).BeginInit();
 			((System.ComponentModel.ISupportInitialize)logoImage).BeginInit();
 			((System.ComponentModel.ISupportInitialize)password2Image).BeginInit();
 			((System.ComponentModel.ISupportInitialize)user2Image).BeginInit();
+			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
 			SuspendLayout();
 			// 
 			// headingLabel
@@ -66,7 +72,7 @@
 			headingLabel.AutoSize = true;
 			headingLabel.BackColor = Color.Transparent;
 			headingLabel.Font = new Font("Javanese Text", 42F, FontStyle.Bold, GraphicsUnit.Point);
-			headingLabel.Location = new Point(410, 9);
+			headingLabel.Location = new Point(680, 20);
 			headingLabel.Margin = new Padding(0);
 			headingLabel.Name = "headingLabel";
 			headingLabel.Size = new Size(544, 159);
@@ -77,7 +83,7 @@
 			// username1UnderlinePanel
 			// 
 			username1UnderlinePanel.BackColor = Color.FromArgb(41, 76, 96);
-			username1UnderlinePanel.Location = new Point(189, 519);
+			username1UnderlinePanel.Location = new Point(454, 358);
 			username1UnderlinePanel.Margin = new Padding(0);
 			username1UnderlinePanel.Name = "username1UnderlinePanel";
 			username1UnderlinePanel.Size = new Size(380, 2);
@@ -86,7 +92,7 @@
 			// password1UnderlinePanel
 			// 
 			password1UnderlinePanel.BackColor = Color.FromArgb(41, 76, 96);
-			password1UnderlinePanel.Location = new Point(189, 634);
+			password1UnderlinePanel.Location = new Point(454, 473);
 			password1UnderlinePanel.Margin = new Padding(3, 4, 3, 4);
 			password1UnderlinePanel.Name = "password1UnderlinePanel";
 			password1UnderlinePanel.Size = new Size(380, 2);
@@ -98,7 +104,7 @@
 			user1LoginButton.Cursor = Cursors.Hand;
 			user1LoginButton.Font = new Font("Arial", 19.8F, FontStyle.Bold, GraphicsUnit.Point);
 			user1LoginButton.ForeColor = Color.FromArgb(173, 182, 196);
-			user1LoginButton.Location = new Point(153, 750);
+			user1LoginButton.Location = new Point(418, 558);
 			user1LoginButton.Margin = new Padding(0);
 			user1LoginButton.Name = "user1LoginButton";
 			user1LoginButton.Size = new Size(418, 90);
@@ -112,7 +118,7 @@
 			username1Textbox.BorderStyle = BorderStyle.None;
 			username1Textbox.Cursor = Cursors.IBeam;
 			username1Textbox.Font = new Font("Arial", 20F, FontStyle.Regular, GraphicsUnit.Point);
-			username1Textbox.Location = new Point(223, 454);
+			username1Textbox.Location = new Point(488, 293);
 			username1Textbox.Margin = new Padding(0);
 			username1Textbox.Multiline = true;
 			username1Textbox.Name = "username1Textbox";
@@ -123,7 +129,7 @@
 			// 
 			password1Textbox.BorderStyle = BorderStyle.None;
 			password1Textbox.Font = new Font("Arial", 20F, FontStyle.Regular, GraphicsUnit.Point);
-			password1Textbox.Location = new Point(223, 568);
+			password1Textbox.Location = new Point(488, 407);
 			password1Textbox.Margin = new Padding(0);
 			password1Textbox.Multiline = true;
 			password1Textbox.Name = "password1Textbox";
@@ -135,7 +141,7 @@
 			// 
 			password1Image.BackColor = Color.Transparent;
 			password1Image.Image = Properties.Resources.Password;
-			password1Image.Location = new Point(154, 559);
+			password1Image.Location = new Point(419, 398);
 			password1Image.Margin = new Padding(3, 4, 3, 4);
 			password1Image.Name = "password1Image";
 			password1Image.Size = new Size(70, 88);
@@ -147,7 +153,7 @@
 			// 
 			user1Image.BackColor = Color.Transparent;
 			user1Image.Image = Properties.Resources.Login;
-			user1Image.Location = new Point(154, 444);
+			user1Image.Location = new Point(419, 283);
 			user1Image.Margin = new Padding(3, 4, 3, 4);
 			user1Image.Name = "user1Image";
 			user1Image.Size = new Size(70, 88);
@@ -162,10 +168,10 @@
 			logoImage.AccessibleRole = AccessibleRole.Graphic;
 			logoImage.BackColor = Color.Transparent;
 			logoImage.Image = Properties.Resources.Logo;
-			logoImage.Location = new Point(545, 108);
+			logoImage.Location = new Point(527, 6);
 			logoImage.Margin = new Padding(0);
 			logoImage.Name = "logoImage";
-			logoImage.Size = new Size(250, 241);
+			logoImage.Size = new Size(153, 165);
 			logoImage.SizeMode = PictureBoxSizeMode.Zoom;
 			logoImage.TabIndex = 0;
 			logoImage.TabStop = false;
@@ -182,7 +188,7 @@
 			password1EyeButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
 			password1EyeButton.FlatStyle = FlatStyle.Flat;
 			password1EyeButton.ForeColor = Color.Transparent;
-			password1EyeButton.Location = new Point(526, 576);
+			password1EyeButton.Location = new Point(791, 415);
 			password1EyeButton.Margin = new Padding(0);
 			password1EyeButton.Name = "password1EyeButton";
 			password1EyeButton.Size = new Size(45, 56);
@@ -197,7 +203,7 @@
 			user1IncorrectLabel.BackColor = Color.Transparent;
 			user1IncorrectLabel.Font = new Font("Arial", 12F, FontStyle.Italic, GraphicsUnit.Point);
 			user1IncorrectLabel.ForeColor = Color.FromArgb(41, 76, 96);
-			user1IncorrectLabel.Location = new Point(159, 701);
+			user1IncorrectLabel.Location = new Point(424, 509);
 			user1IncorrectLabel.Margin = new Padding(0);
 			user1IncorrectLabel.Name = "user1IncorrectLabel";
 			user1IncorrectLabel.Size = new Size(0, 24);
@@ -210,7 +216,7 @@
 			user1Label.AutoSize = true;
 			user1Label.BackColor = Color.Transparent;
 			user1Label.Font = new Font("Javanese Text", 30F, FontStyle.Bold, GraphicsUnit.Point);
-			user1Label.Location = new Point(254, 340);
+			user1Label.Location = new Point(519, 179);
 			user1Label.Margin = new Padding(0);
 			user1Label.Name = "user1Label";
 			user1Label.Size = new Size(225, 114);
@@ -224,7 +230,7 @@
 			user2Label.AutoSize = true;
 			user2Label.BackColor = Color.Transparent;
 			user2Label.Font = new Font("Javanese Text", 30F, FontStyle.Bold, GraphicsUnit.Point);
-			user2Label.Location = new Point(881, 340);
+			user2Label.Location = new Point(1146, 179);
 			user2Label.Margin = new Padding(0);
 			user2Label.Name = "user2Label";
 			user2Label.Size = new Size(234, 114);
@@ -238,7 +244,7 @@
 			user2IncorrectLabel.BackColor = Color.Transparent;
 			user2IncorrectLabel.Font = new Font("Arial", 12F, FontStyle.Italic, GraphicsUnit.Point);
 			user2IncorrectLabel.ForeColor = Color.FromArgb(41, 76, 96);
-			user2IncorrectLabel.Location = new Point(782, 701);
+			user2IncorrectLabel.Location = new Point(1047, 509);
 			user2IncorrectLabel.Margin = new Padding(0);
 			user2IncorrectLabel.Name = "user2IncorrectLabel";
 			user2IncorrectLabel.Size = new Size(0, 24);
@@ -257,7 +263,7 @@
 			password2EyeButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
 			password2EyeButton.FlatStyle = FlatStyle.Flat;
 			password2EyeButton.ForeColor = Color.Transparent;
-			password2EyeButton.Location = new Point(1149, 576);
+			password2EyeButton.Location = new Point(1414, 415);
 			password2EyeButton.Margin = new Padding(0);
 			password2EyeButton.Name = "password2EyeButton";
 			password2EyeButton.Size = new Size(45, 56);
@@ -270,7 +276,7 @@
 			// 
 			password2Textbox.BorderStyle = BorderStyle.None;
 			password2Textbox.Font = new Font("Arial", 20F, FontStyle.Regular, GraphicsUnit.Point);
-			password2Textbox.Location = new Point(846, 568);
+			password2Textbox.Location = new Point(1111, 407);
 			password2Textbox.Margin = new Padding(0);
 			password2Textbox.Multiline = true;
 			password2Textbox.Name = "password2Textbox";
@@ -283,7 +289,7 @@
 			username2Textbox.BorderStyle = BorderStyle.None;
 			username2Textbox.Cursor = Cursors.IBeam;
 			username2Textbox.Font = new Font("Arial", 20F, FontStyle.Regular, GraphicsUnit.Point);
-			username2Textbox.Location = new Point(846, 454);
+			username2Textbox.Location = new Point(1111, 293);
 			username2Textbox.Margin = new Padding(0);
 			username2Textbox.Multiline = true;
 			username2Textbox.Name = "username2Textbox";
@@ -296,7 +302,7 @@
 			user2LoginButton.Cursor = Cursors.Hand;
 			user2LoginButton.Font = new Font("Arial", 19.8F, FontStyle.Bold, GraphicsUnit.Point);
 			user2LoginButton.ForeColor = Color.FromArgb(173, 182, 196);
-			user2LoginButton.Location = new Point(777, 750);
+			user2LoginButton.Location = new Point(1042, 558);
 			user2LoginButton.Margin = new Padding(0);
 			user2LoginButton.Name = "user2LoginButton";
 			user2LoginButton.Size = new Size(418, 90);
@@ -308,7 +314,7 @@
 			// password2UnderlinePanel
 			// 
 			password2UnderlinePanel.BackColor = Color.FromArgb(41, 76, 96);
-			password2UnderlinePanel.Location = new Point(812, 634);
+			password2UnderlinePanel.Location = new Point(1077, 473);
 			password2UnderlinePanel.Margin = new Padding(3, 4, 3, 4);
 			password2UnderlinePanel.Name = "password2UnderlinePanel";
 			password2UnderlinePanel.Size = new Size(380, 2);
@@ -317,7 +323,7 @@
 			// username2UnderlinePanel
 			// 
 			username2UnderlinePanel.BackColor = Color.FromArgb(41, 76, 96);
-			username2UnderlinePanel.Location = new Point(812, 519);
+			username2UnderlinePanel.Location = new Point(1077, 358);
 			username2UnderlinePanel.Margin = new Padding(0);
 			username2UnderlinePanel.Name = "username2UnderlinePanel";
 			username2UnderlinePanel.Size = new Size(380, 2);
@@ -327,7 +333,7 @@
 			// 
 			password2Image.BackColor = Color.Transparent;
 			password2Image.Image = Properties.Resources.Password;
-			password2Image.Location = new Point(775, 559);
+			password2Image.Location = new Point(1040, 398);
 			password2Image.Margin = new Padding(3, 4, 3, 4);
 			password2Image.Name = "password2Image";
 			password2Image.Size = new Size(70, 88);
@@ -339,7 +345,7 @@
 			// 
 			user2Image.BackColor = Color.Transparent;
 			user2Image.Image = Properties.Resources.Login;
-			user2Image.Location = new Point(775, 444);
+			user2Image.Location = new Point(1040, 283);
 			user2Image.Margin = new Padding(3, 4, 3, 4);
 			user2Image.Name = "user2Image";
 			user2Image.Size = new Size(70, 88);
@@ -353,7 +359,7 @@
 			startGameButton.Cursor = Cursors.Hand;
 			startGameButton.Font = new Font("Arial", 19.8F, FontStyle.Bold, GraphicsUnit.Point);
 			startGameButton.ForeColor = Color.DimGray;
-			startGameButton.Location = new Point(430, 907);
+			startGameButton.Location = new Point(695, 825);
 			startGameButton.Margin = new Padding(0);
 			startGameButton.Name = "startGameButton";
 			startGameButton.Size = new Size(480, 90);
@@ -368,7 +374,7 @@
 			user1LogoutLabel.Cursor = Cursors.Hand;
 			user1LogoutLabel.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
 			user1LogoutLabel.ForeColor = Color.FromArgb(41, 76, 96);
-			user1LogoutLabel.Location = new Point(303, 849);
+			user1LogoutLabel.Location = new Point(562, 648);
 			user1LogoutLabel.Name = "user1LogoutLabel";
 			user1LogoutLabel.Size = new Size(118, 27);
 			user1LogoutLabel.TabIndex = 26;
@@ -381,19 +387,95 @@
 			user2LogoutLabel.Cursor = Cursors.Hand;
 			user2LogoutLabel.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
 			user2LogoutLabel.ForeColor = Color.FromArgb(41, 76, 96);
-			user2LogoutLabel.Location = new Point(927, 849);
+			user2LogoutLabel.Location = new Point(1192, 648);
 			user2LogoutLabel.Name = "user2LogoutLabel";
 			user2LogoutLabel.Size = new Size(118, 27);
 			user2LogoutLabel.TabIndex = 27;
 			user2LogoutLabel.Text = "LOG OUT";
 			user2LogoutLabel.Click += user2LogoutLabel_Click;
 			// 
+			// pictureBox1
+			// 
+			pictureBox1.AccessibleDescription = "The logo of Diamond Chess which inludes the silhouette of a black king chess piece surrounded by the outline of a dark blue and light blue diamond.";
+			pictureBox1.AccessibleName = "Diamond Chess Logo";
+			pictureBox1.AccessibleRole = AccessibleRole.Graphic;
+			pictureBox1.BackColor = Color.Transparent;
+			pictureBox1.Image = Properties.Resources.Logo;
+			pictureBox1.Location = new Point(1206, 6);
+			pictureBox1.Margin = new Padding(0);
+			pictureBox1.Name = "pictureBox1";
+			pictureBox1.Size = new Size(153, 165);
+			pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+			pictureBox1.TabIndex = 28;
+			pictureBox1.TabStop = false;
+			// 
+			// user1RegisterButton
+			// 
+			user1RegisterButton.BackColor = Color.FromArgb(41, 76, 96);
+			user1RegisterButton.Cursor = Cursors.Hand;
+			user1RegisterButton.Font = new Font("Arial", 19.8F, FontStyle.Bold, GraphicsUnit.Point);
+			user1RegisterButton.ForeColor = Color.FromArgb(173, 182, 196);
+			user1RegisterButton.Location = new Point(419, 696);
+			user1RegisterButton.Margin = new Padding(0);
+			user1RegisterButton.Name = "user1RegisterButton";
+			user1RegisterButton.Size = new Size(418, 90);
+			user1RegisterButton.TabIndex = 29;
+			user1RegisterButton.Text = "REGISTER";
+			user1RegisterButton.UseVisualStyleBackColor = false;
+			user1RegisterButton.Click += user1RegisterButton_Click;
+			// 
+			// user2RegisterButton
+			// 
+			user2RegisterButton.BackColor = Color.FromArgb(41, 76, 96);
+			user2RegisterButton.Cursor = Cursors.Hand;
+			user2RegisterButton.Font = new Font("Arial", 19.8F, FontStyle.Bold, GraphicsUnit.Point);
+			user2RegisterButton.ForeColor = Color.FromArgb(173, 182, 196);
+			user2RegisterButton.Location = new Point(1047, 696);
+			user2RegisterButton.Margin = new Padding(0);
+			user2RegisterButton.Name = "user2RegisterButton";
+			user2RegisterButton.Size = new Size(418, 90);
+			user2RegisterButton.TabIndex = 30;
+			user2RegisterButton.Text = "REGISTER";
+			user2RegisterButton.UseVisualStyleBackColor = false;
+			user2RegisterButton.Click += user2RegisterButton_Click;
+			// 
+			// user1PlayAsGuestLabel
+			// 
+			user1PlayAsGuestLabel.AutoSize = true;
+			user1PlayAsGuestLabel.Cursor = Cursors.Hand;
+			user1PlayAsGuestLabel.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+			user1PlayAsGuestLabel.ForeColor = Color.FromArgb(41, 76, 96);
+			user1PlayAsGuestLabel.Location = new Point(527, 786);
+			user1PlayAsGuestLabel.Name = "user1PlayAsGuestLabel";
+			user1PlayAsGuestLabel.Size = new Size(194, 27);
+			user1PlayAsGuestLabel.TabIndex = 31;
+			user1PlayAsGuestLabel.Text = "PLAY AS GUEST";
+			user1PlayAsGuestLabel.Click += user1PlayAsGuestLabel_Click;
+			// 
+			// user2PlayAsGuestLabel
+			// 
+			user2PlayAsGuestLabel.AutoSize = true;
+			user2PlayAsGuestLabel.Cursor = Cursors.Hand;
+			user2PlayAsGuestLabel.Font = new Font("Arial", 13.8F, FontStyle.Bold, GraphicsUnit.Point);
+			user2PlayAsGuestLabel.ForeColor = Color.FromArgb(41, 76, 96);
+			user2PlayAsGuestLabel.Location = new Point(1165, 786);
+			user2PlayAsGuestLabel.Name = "user2PlayAsGuestLabel";
+			user2PlayAsGuestLabel.Size = new Size(194, 27);
+			user2PlayAsGuestLabel.TabIndex = 32;
+			user2PlayAsGuestLabel.Text = "PLAY AS GUEST";
+			user2PlayAsGuestLabel.Click += user2PlayAsGuestLabel_Click;
+			// 
 			// Login
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.White;
-			ClientSize = new Size(1342, 1039);
+			ClientSize = new Size(1901, 1055);
+			Controls.Add(user2PlayAsGuestLabel);
+			Controls.Add(user1PlayAsGuestLabel);
+			Controls.Add(user2RegisterButton);
+			Controls.Add(user1RegisterButton);
+			Controls.Add(pictureBox1);
 			Controls.Add(user2LogoutLabel);
 			Controls.Add(user1LogoutLabel);
 			Controls.Add(startGameButton);
@@ -424,12 +506,14 @@
 			Name = "Login";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "Login";
+			WindowState = FormWindowState.Maximized;
 			Load += Login_Load;
 			((System.ComponentModel.ISupportInitialize)password1Image).EndInit();
 			((System.ComponentModel.ISupportInitialize)user1Image).EndInit();
 			((System.ComponentModel.ISupportInitialize)logoImage).EndInit();
 			((System.ComponentModel.ISupportInitialize)password2Image).EndInit();
 			((System.ComponentModel.ISupportInitialize)user2Image).EndInit();
+			((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -472,6 +556,11 @@
 
 		private Label user1LogoutLabel;
 		private Label user2LogoutLabel;
+		private PictureBox pictureBox1;
+		private Button user1RegisterButton;
+		private Button user2RegisterButton;
+		private Label user1PlayAsGuestLabel;
+		private Label user2PlayAsGuestLabel;
 	}
 }
 
