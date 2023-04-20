@@ -33,39 +33,74 @@ namespace DiamondChess
 		int whiteInventoryCounter = 0;
 		int blackInventoryCounter = 0;
 
+    bool isWhitesTurn = true;
     (int, int) selectedPiece = (8, 8);
 
     public void HandleClick(int x, int y)
     {
+      // If you're clicking a piece
       if (piecesArray[x, y] is not null)
       {
-        selectedPiece = (x, y);
-        bool?[,] b = new bool?[8, 8];
-        Piece thisPiece = piecesArray[x, y].Value.piece;
-        bool isThisPieceWhite = piecesArray[x, y].Value.isWhite;
-
-        for (int i = 0; i < 8; i++)
+        // If you're clicking a highlighted piece
+        if (tileArray[x, y].isHighlighted)
         {
-          for (int j = 0; j < 8; j++)
+          // Remember me
+          Image tileImage = tileArray[selectedPiece.Item1, selectedPiece.Item2].BackgroundImage;
+          ColouredPiece colouredPiece = piecesArray[selectedPiece.Item1, selectedPiece.Item2].Value;
+          // Kill old
+          tileArray[selectedPiece.Item1, selectedPiece.Item2].RemovePiece();
+          piecesArray[selectedPiece.Item1, selectedPiece.Item2] = null;
+          // Kill target
+          tileArray[x, y].RemovePiece();
+          piecesArray[x, y] = null;
+          // Add new
+          tileArray[x, y].SetPiece(tileImage);
+          colouredPiece.piece.Move(x, y);
+          piecesArray[x, y] = colouredPiece;
+          selectedPiece = (8, 8);
+          // Reset highlights
+          ResetHighlightedPieces();
+        }
+        else
+        {
+          // If you're selecting a piece
+          if (x != selectedPiece.Item1 || y != selectedPiece.Item2)
           {
-            if (piecesArray[i, j] is not null)
+            selectedPiece = (x, y);
+            bool?[,] b = new bool?[8, 8];
+            Piece thisPiece = piecesArray[x, y].Value.piece;
+            bool isThisPieceWhite = piecesArray[x, y].Value.isWhite;
+
+            for (int i = 0; i < 8; i++)
             {
-              if (isThisPieceWhite)
+              for (int j = 0; j < 8; j++)
               {
-                b[i, j] = !piecesArray[i, j].Value.isWhite;
-              }
-              else
-              {
-                b[i, j] = piecesArray[i, j].Value.isWhite;
+                if (piecesArray[i, j] is not null)
+                {
+                  if (isThisPieceWhite)
+                  {
+                    b[i, j] = !piecesArray[i, j].Value.isWhite;
+                  }
+                  else
+                  {
+                    b[i, j] = piecesArray[i, j].Value.isWhite;
+                  }
+                }
               }
             }
+
+            HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
+              target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
+            )).ToList());
+          }
+          else // If you are clicking an already selected piece
+          {
+            selectedPiece = (8, 8);
+            ResetHighlightedPieces();
           }
         }
-
-        HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
-          target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
-        )).ToList());
       }
+      // If you're moving a piece
       if (tileArray[x, y].isHighlighted)
       {
         // Remember me
