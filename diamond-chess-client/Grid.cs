@@ -19,7 +19,7 @@ namespace DiamondChess
     int radius = 0;
 
     Tile[,] whiteInventoryTiles = new Tile[Constants.InventoryWidth, Constants.InventoryHeight];
- 	Tile[,] blackInventoryTiles = new Tile[Constants.InventoryWidth, Constants.InventoryHeight];
+    Tile[,] blackInventoryTiles = new Tile[Constants.InventoryWidth, Constants.InventoryHeight];
 
     int numBlackPiecesTaken = 0;
     int numWhitePiecesTaken = 0;
@@ -33,10 +33,10 @@ namespace DiamondChess
     int xCounter = 0;
     int yCounter = 0;
     int drawTileCounter = 0;
-	int whiteInventoryCounter = 0;
-	int blackInventoryCounter = 0;
+    int whiteInventoryCounter = 0;
+    int blackInventoryCounter = 0;
 
-	bool isWhitesTurn = true;
+    bool isWhitesTurn = true;
     (int, int) selectedPiece = (8, 8);
 
     public void HandleClick(int x, int y)
@@ -53,9 +53,9 @@ namespace DiamondChess
           // Kill old
           tileArray[selectedPiece.Item1, selectedPiece.Item2].RemovePiece();
           piecesArray[selectedPiece.Item1, selectedPiece.Item2] = null;
-	  	  // Kill target
-		  AddToInventory(tileArray[x, y].BackgroundImage, isWhitesTurn);
-		  tileArray[x, y].RemovePiece();
+          // Kill target
+          AddToInventory(tileArray[x, y].BackgroundImage, isWhitesTurn);
+          tileArray[x, y].RemovePiece();
           piecesArray[x, y] = null;
           // Add new
           tileArray[x, y].SetPiece(tileImage);
@@ -84,7 +84,8 @@ namespace DiamondChess
             {
               RaiseTurnChangeEvent(this, -1);
             }
-            else {
+            else
+            {
               RaiseTurnChangeEvent(this, 0);
             }
           }
@@ -155,7 +156,7 @@ namespace DiamondChess
         isWhitesTurn = !isWhitesTurn;
         if (RaiseTurnChangeEvent != null)
         {
-            RaiseTurnChangeEvent(this, 0);
+          RaiseTurnChangeEvent(this, 0);
         }
       }
     }
@@ -163,112 +164,112 @@ namespace DiamondChess
 
 
 
-		public Grid()
+    public Grid()
+    {
+      this.Size = new Size(1552, 840);
+      int radius = Width / 32;
+
+      Graphics graphics = this.CreateGraphics();
+      int widthOffset = 0;
+      int heightOffset = 0;
+      xCounter = 0;
+      yCounter = 0;
+      drawTileCounter = 0;
+      whiteInventoryCounter = 0;
+      blackInventoryCounter = 0;
+      PositionDictionary = new Dictionary<int, (int, int)>();
+
+      for (int i = 1; i <= Constants.GridSize; i++)
+      {
+        widthOffset = Width / 2 - radius * (i - 1);
+        heightOffset = radius * i;
+
+        for (int j = 1; j <= i; j++)
         {
-            this.Size = new Size(1552, 840);
-			int radius = Width / 32;
+          Color tempColour = new Color();
+          if (i % 2 == 0)
+          {
+            tempColour = Constants.DarkColour;
+          }
+          else
+          {
+            tempColour = Constants.LightColour;
+          }
 
-			Graphics graphics = this.CreateGraphics();
-			int widthOffset = 0;
-			int heightOffset = 0;
-			xCounter = 0;
-			yCounter = 0;
-			drawTileCounter = 0;
-			whiteInventoryCounter = 0;
-			blackInventoryCounter = 0;
-			PositionDictionary = new Dictionary<int, (int, int)>();
+          DrawTile(graphics, widthOffset, heightOffset, tempColour, radius);
+          widthOffset += radius * 2;
+        }
+      }
 
-			for (int i = 1; i <= Constants.GridSize; i++)
-			{
-				widthOffset = Width / 2 - radius * (i - 1);
-				heightOffset = radius * i;
+      for (int i = 7; i >= 1; i--)
+      {
+        widthOffset = Width / 2 - radius * (i - 1);
+        heightOffset += radius;
 
-				for (int j = 1; j <= i; j++)
-				{
-					Color tempColour = new Color();
-					if (i % 2 == 0)
-					{
-						tempColour = Constants.DarkColour;
-					}
-					else
-					{
-						tempColour = Constants.LightColour;
-					}
+        for (int j = 1; j <= i; j++)
+        {
+          Color tempColour = new Color();
+          if (i % 2 == 0)
+          {
+            tempColour = Constants.DarkColour;
+          }
+          else
+          {
+            tempColour = Constants.LightColour;
+          }
 
-					DrawTile(graphics, widthOffset, heightOffset, tempColour, radius);
-					widthOffset += radius * 2;
-				}
-			}
+          DrawTile(graphics, widthOffset, heightOffset, tempColour, radius);
+          PositionDictionary.Add(drawTileCounter, (widthOffset, heightOffset));
+          widthOffset += radius * 2;
+        }
+      }
 
-			for (int i = 7; i >= 1; i--)
-			{
-				widthOffset = Width / 2 - radius * (i - 1);
-				heightOffset += radius;
-
-				for (int j = 1; j <= i; j++)
-				{
-					Color tempColour = new Color();
-					if (i % 2 == 0)
-					{
-						tempColour = Constants.DarkColour;
-					}
-					else
-					{
-						tempColour = Constants.LightColour;
-					}
-
-					DrawTile(graphics, widthOffset, heightOffset, tempColour, radius);
-					PositionDictionary.Add(drawTileCounter, (widthOffset, heightOffset));
-					widthOffset += radius * 2;
-				}
-			}
-
-			for (int i = 0; i < Constants.InventoryWidth; i++)
-			{
-				for (int j = 0; j < Constants.InventoryHeight; j++)
-				{
-					DrawWhiteInventoryTile(graphics, i, j, radius);
-					DrawBlackInventoryTile(graphics, i, j, radius);
-				}
-			}
-			graphics.Dispose();
+      for (int i = 0; i < Constants.InventoryWidth; i++)
+      {
+        for (int j = 0; j < Constants.InventoryHeight; j++)
+        {
+          DrawWhiteInventoryTile(graphics, i, j, radius);
+          DrawBlackInventoryTile(graphics, i, j, radius);
+        }
+      }
+      graphics.Dispose();
 
 
-		}
+    }
 
 
 
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
+    protected override void OnPaint(PaintEventArgs e)
+    {
+      base.OnPaint(e);
 
 
-			for (int i = 0; i < Constants.GridSize; i++)
-			{
-				for (int j = 0; j < Constants.GridSize; j++)
-				{
-					Color tempColour = new Color();
-					if ((i + j) % 2 == 0)
-					{
-						tempColour = Constants.DarkColour;
-					}
-					else
-					{
-						tempColour = Constants.LightColour;
-					}
-					tileArray[i, j].FillTile(tempColour, e.Graphics);
-				}
+      for (int i = 0; i < Constants.GridSize; i++)
+      {
+        for (int j = 0; j < Constants.GridSize; j++)
+        {
+          Color tempColour = new Color();
+          if ((i + j) % 2 == 0)
+          {
+            tempColour = Constants.DarkColour;
+          }
+          else
+          {
+            tempColour = Constants.LightColour;
+          }
+          tileArray[i, j].FillTile(tempColour, e.Graphics);
+        }
 
-			}
-             
-             e.Graphics.Dispose();
+      }
 
-		}
+      e.Graphics.Dispose();
 
-		private void DrawTile(Graphics graphics, int xPos, int yPos, Color color, int radius)
+    }
+
+    private void DrawTile(Graphics graphics, int xPos, int yPos, Color color, int radius)
     {
 
-	  int xCoord = Constants.CoordinateDictionary[drawTileCounter].x;
+      int xCoord = Constants.CoordinateDictionary[drawTileCounter].x;
       int yCoord = Constants.CoordinateDictionary[drawTileCounter].y;
       Tile tempPicBox = new Tile(xPos, yPos, xCoord, yCoord, color, radius);
       tileArray[xCoord, yCoord] = tempPicBox;
@@ -278,27 +279,27 @@ namespace DiamondChess
       IncrementCounters();
     }
 
-	private void DrawWhiteInventoryTile(Graphics graphics, int xCoord, int yCoord, int radius)
-	{
+    private void DrawWhiteInventoryTile(Graphics graphics, int xCoord, int yCoord, int radius)
+    {
 
-			int xPos = 0;
-	  int yPos = 0;
-	  (xPos, yPos) = Constants.InventoryDictionary[(xCoord, yCoord)];
-	  Tile tempPicBox = new Tile(xPos, yPos, xCoord, yCoord, Color.Transparent, radius);
-	  whiteInventoryTiles[xCoord, yCoord] = tempPicBox;
- 	  Controls.Add(whiteInventoryTiles[xCoord, yCoord]);
+      int xPos = 0;
+      int yPos = 0;
+      (xPos, yPos) = Constants.InventoryDictionary[(xCoord, yCoord)];
+      Tile tempPicBox = new Tile(xPos, yPos, xCoord, yCoord, Color.Transparent, radius);
+      whiteInventoryTiles[xCoord, yCoord] = tempPicBox;
+      Controls.Add(whiteInventoryTiles[xCoord, yCoord]);
     }
     private void DrawBlackInventoryTile(Graphics graphics, int xCoord, int yCoord, int radius)
     {
-	  int xPos = 0;
-	  int yPos = 0;
-	  (xPos, yPos) = Constants.InventoryDictionary[(xCoord + 3, yCoord)];
-	  Tile tempPicBox = new Tile(xPos, yPos, xCoord, yCoord, Color.Transparent, radius);
-	  blackInventoryTiles[xCoord, yCoord] = tempPicBox;
-	  Controls.Add(blackInventoryTiles[xCoord, yCoord]);
+      int xPos = 0;
+      int yPos = 0;
+      (xPos, yPos) = Constants.InventoryDictionary[(xCoord + 3, yCoord)];
+      Tile tempPicBox = new Tile(xPos, yPos, xCoord, yCoord, Color.Transparent, radius);
+      blackInventoryTiles[xCoord, yCoord] = tempPicBox;
+      Controls.Add(blackInventoryTiles[xCoord, yCoord]);
     }
 
-	void IncrementCounters()
+    void IncrementCounters()
     {
       xCounter++;
       if (xCounter > 7)
@@ -331,29 +332,29 @@ namespace DiamondChess
 
 
 
-	public void AddToInventory(Image img, bool isWhite) 
-	{
-		if (isWhite)
-		{
-			whiteInventoryTiles[(int)whiteInventoryCounter / Constants.InventoryHeight, whiteInventoryCounter % Constants.InventoryHeight].SetPiece(img);
-			whiteInventoryCounter++;
-			if (whiteInventoryCounter >= 15)
-			{
-				whiteInventoryCounter = 0;
-			}
-		}
-		else
-		{
-			blackInventoryTiles[(int)blackInventoryCounter / Constants.InventoryHeight, blackInventoryCounter % Constants.InventoryHeight].SetPiece(img);
-			blackInventoryCounter++;
-			if (blackInventoryCounter >= 15)
-			{
-				blackInventoryCounter = 0;
-			}
-		}
-	}
+    public void AddToInventory(Image img, bool isWhite)
+    {
+      if (isWhite)
+      {
+        whiteInventoryTiles[(int)whiteInventoryCounter / Constants.InventoryHeight, whiteInventoryCounter % Constants.InventoryHeight].SetPiece(img);
+        whiteInventoryCounter++;
+        if (whiteInventoryCounter >= 15)
+        {
+          whiteInventoryCounter = 0;
+        }
+      }
+      else
+      {
+        blackInventoryTiles[(int)blackInventoryCounter / Constants.InventoryHeight, blackInventoryCounter % Constants.InventoryHeight].SetPiece(img);
+        blackInventoryCounter++;
+        if (blackInventoryCounter >= 15)
+        {
+          blackInventoryCounter = 0;
+        }
+      }
+    }
 
-	List<(int, int, Color)> lastHighlighted = new List<(int, int, Color)>();
+    List<(int, int, Color)> lastHighlighted = new List<(int, int, Color)>();
     public void HighlightPieces(List<(int, int, Color)> highlightList)
     {
       Graphics graphics = this.CreateGraphics();

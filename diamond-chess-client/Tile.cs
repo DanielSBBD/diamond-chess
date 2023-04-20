@@ -75,15 +75,15 @@ namespace DiamondChess
 
     public void ResetTile(Graphics g)
     {
-            Color temp = Color.Transparent;
-            if(originalTileColor == Constants.DarkColour)
-            {
-                temp = Constants.LightColour;
-            }
-            else
-            {
-                temp = Constants.DarkColour;
-            }
+      Color temp = Color.Transparent;
+      if (originalTileColor == Constants.DarkColour)
+      {
+        temp = Constants.LightColour;
+      }
+      else
+      {
+        temp = Constants.DarkColour;
+      }
       SolidBrush brush = new SolidBrush(temp);
       g.FillPolygon(brush, diamondPoints);
       this.BackColor = temp;

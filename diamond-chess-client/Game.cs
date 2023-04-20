@@ -6,7 +6,7 @@ namespace DiamondChess
   {
     Player player1, player2;
     Grid grid;
-        
+
     bool whiteToPlay = false;
 
     public Game(Player player1, Player player2)
@@ -27,7 +27,7 @@ namespace DiamondChess
       int gridOffset = Height * 10 / 100;
       int gridSize = Height - gridOffset;
 
-            grid = new Grid();
+      grid = new Grid();
       grid.RaiseTurnChangeEvent += HandleTurnChangeEvent;
 
       grid.Size = new Size(Width, Height);
