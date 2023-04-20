@@ -5,5 +5,4 @@
 /diamond-chess-client/obj
 /diamond-chess-server/bin
 /diamond-chess-client/bin
-*.json
 *.user
