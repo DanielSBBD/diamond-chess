@@ -16,10 +16,6 @@ namespace diamond_chess_server.DataLayer.DataAccess
                 .AddJsonFile("appsettings.json")
                 .Build();
             connection = builder.GetConnectionString("DefaultConnection");
-            if (!TestConnection.IsValidConnection(new SqlConnection(connection)).Result)
-            {
-                connection = builder.GetConnectionString("AlternativeConnection");
-            }
         }
 
         public async Task<Player> GetPlayerHistory(Player playerInfo)
