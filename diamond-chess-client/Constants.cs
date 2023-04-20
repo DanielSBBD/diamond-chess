@@ -6,8 +6,10 @@
     public static Color LightColour { get; } = Color.FromArgb(173, 182, 196);
 
     public static int GridSize { get; } = 8;
+	public static int InventoryWidth { get; } = 3;
+	public static int InventoryHeight { get; } = 5;
 
-    public static Dictionary<int, (int x, int y)> CoordinateDictionary = new Dictionary<int, (int x, int y)>()
+	public static Dictionary<int, (int x, int y)> CoordinateDictionary = new Dictionary<int, (int x, int y)>()
     {
       {63, (0, 0)},
       {62 , (0, 1)},
@@ -117,5 +119,47 @@
       {"B_Queen", (Properties.Resources.B_Queen, QueenMaker) },
       {"B_Rook", (Properties.Resources.B_Rook, RookMaker) },
     };
+
+
+
+	public static Dictionary<(int, int), (int, int)> InventoryDictionary = new Dictionary<(int, int), (int, int)>()
+	{
+		{(0, 0) , (50, 300)},
+		{(0, 1) , (50, 400)},
+		{(0, 2) , (50, 500)},
+		{(0, 3) , (50, 600)},
+		{(0, 4) , (50, 700)},
+
+		{(1, 0) , (150, 300)},
+		{(1, 1) , (150, 400)},
+		{(1, 2) , (150, 500)},
+		{(1, 3) , (150, 600)},
+		{(1, 4) , (150, 700)},
+
+		{(2, 0) , (250, 300)},
+		{(2, 1) , (250, 400)},
+		{(2, 2) , (250, 500)},
+		{(2, 3) , (250, 600)},
+		{(2, 4) , (250, 700)},
+
+		{(3, 0) , (1485, 300)},
+		{(3, 1) , (1485, 400)},
+		{(3, 2) , (1485, 500)},
+		{(3, 3) , (1485, 600)},
+		{(3, 4) , (1485, 700)},
+
+		{(4, 0) , (1385, 300)},
+		{(4, 1) , (1385, 400)},
+		{(4, 2) , (1385, 500)},
+		{(4, 3) , (1385, 600)},
+		{(4, 4) , (1385, 700)},
+
+		{(5, 0) , (1285, 300)},
+		{(5, 1) , (1285, 400)},
+		{(5, 2) , (1285, 500)},
+		{(5, 3) , (1285, 600)},
+		{(5, 4) , (1285, 700)},
+	};
+
   }
 }

@@ -14,7 +14,7 @@ namespace DiamondChess
     public delegate void CallbackDelegate(int x, int y);
     public event CallbackDelegate? Callback;
 
-    public Tile(Graphics graphics, int x, int y, int xCoord, int yCoord, Color color, int radius)
+    public Tile(int x, int y, int xCoord, int yCoord, Color color, int radius)
     {
       this.xPos = x;
       this.yPos = y;
@@ -29,7 +29,6 @@ namespace DiamondChess
       this.Click += piece_Click;
       this.isHighlighted = false;
       SetDiamondPoints();
-      FillTile(color, graphics);
     }
 
     void piece_Click(object sender, EventArgs e)
@@ -70,14 +69,24 @@ namespace DiamondChess
       SolidBrush brush = new SolidBrush(color);
       g.FillPolygon(brush, diamondPoints);
       this.BackColor = color;
+      this.BringToFront();
       this.Invalidate();
     }
 
     public void ResetTile(Graphics g)
     {
-      SolidBrush brush = new SolidBrush(originalTileColor);
+            Color temp = Color.Transparent;
+            if(originalTileColor == Constants.DarkColour)
+            {
+                temp = Constants.LightColour;
+            }
+            else
+            {
+                temp = Constants.DarkColour;
+            }
+      SolidBrush brush = new SolidBrush(temp);
       g.FillPolygon(brush, diamondPoints);
-      this.BackColor = originalTileColor;
+      this.BackColor = temp;
       this.Invalidate();
 
     }
