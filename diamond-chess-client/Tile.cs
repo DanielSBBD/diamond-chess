@@ -7,6 +7,7 @@ namespace DiamondChess
   internal class Tile : PictureBox
   {
     int xPos, yPos, tileRadius, xCoord, yCoord;
+    public bool isHighlighted;
     Color originalTileColor;
     Point[] diamondPoints = new Point[4];
 
@@ -26,6 +27,7 @@ namespace DiamondChess
       this.BackColor = Color.Transparent;
       this.Location = new Point(x - radius / 2, y - radius / 2);
       this.Click += piece_Click;
+      this.isHighlighted = false;
       SetDiamondPoints();
       FillTile(color, graphics);
     }
@@ -59,7 +61,7 @@ namespace DiamondChess
 
     public void RemovePiece()
     {
-      this.BackgroundImage = null;
+      this.BackgroundImage = Properties.Resources.Blank;
       this.Invalidate();
     }
 

@@ -35,34 +35,55 @@ namespace DiamondChess
     int yCounter = 0;
     int drawTileCounter = 0;
 
-    public void DoSomething(int x, int y)
-    {
-      Console.WriteLine("Does something");
-      bool?[,] b = new bool?[8, 8];
-      Piece thisPiece = piecesArray[x, y].Value.piece;
-      bool isThisPieceWhite = piecesArray[x, y].Value.isWhite;
+    (int, int) selectedPiece = (8, 8);
 
-      for (int i = 0; i < 8; i++)
+    public void HandleClick(int x, int y)
+    {
+      if (piecesArray[x, y] is not null)
       {
-        for (int j = 0; j < 8; j++)
+        selectedPiece = (x, y);
+        bool?[,] b = new bool?[8, 8];
+        Piece thisPiece = piecesArray[x, y].Value.piece;
+        bool isThisPieceWhite = piecesArray[x, y].Value.isWhite;
+
+        for (int i = 0; i < 8; i++)
         {
-          if (piecesArray[i, j] is not null)
+          for (int j = 0; j < 8; j++)
           {
-            if (isThisPieceWhite)
+            if (piecesArray[i, j] is not null)
             {
-              b[i, j] = !piecesArray[i, j].Value.isWhite;
-            }
-            else
-            {
-              b[i, j] = piecesArray[i, j].Value.isWhite;
+              if (isThisPieceWhite)
+              {
+                b[i, j] = !piecesArray[i, j].Value.isWhite;
+              }
+              else
+              {
+                b[i, j] = piecesArray[i, j].Value.isWhite;
+              }
             }
           }
         }
-      }
 
-      HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
-        target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
-      )).ToList());
+        HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
+          target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
+        )).ToList());
+      }
+      if (tileArray[x, y].isHighlighted)
+      {
+        // Remember me
+        Image tileImage = tileArray[selectedPiece.Item1, selectedPiece.Item2].BackgroundImage;
+        ColouredPiece colouredPiece = piecesArray[selectedPiece.Item1, selectedPiece.Item2].Value;
+        // Kill old
+        tileArray[selectedPiece.Item1, selectedPiece.Item2].RemovePiece();
+        piecesArray[selectedPiece.Item1, selectedPiece.Item2] = null;
+        // Add new
+        tileArray[x, y].SetPiece(tileImage);
+        colouredPiece.piece.Move(x, y);
+        piecesArray[x, y] = colouredPiece;
+        selectedPiece = (8, 8);
+        // Reset highlights
+        ResetHighlightedPieces();
+      }
     }
 
     protected override void OnPaint(PaintEventArgs e)
@@ -139,7 +160,9 @@ namespace DiamondChess
       int yCoord = Constants.CoordinateDictionary[drawTileCounter].y;
       Tile tempPicBox = new Tile(graphics, xPos, yPos, xCoord, yCoord, color, radius);
       tileArray[xCoord, yCoord] = tempPicBox;
-      tileArray[xCoord, yCoord].Callback += DoSomething;
+      tileArray[xCoord, yCoord].Callback += HandleClick;
+      tileArray[xCoord, yCoord].SetPiece(Properties.Resources.Blank);
+      Controls.Add(tileArray[xCoord, yCoord]);
       IncrementCounters();
     }
 
@@ -245,6 +268,7 @@ namespace DiamondChess
       for (int i = 0; i < highlightList.Count; i++)
       {
         tileArray[highlightList[i].Item1, highlightList[i].Item2].FillTile(highlightList[i].Item3, graphics);
+        tileArray[highlightList[i].Item1, highlightList[i].Item2].isHighlighted = true;
       }
       graphics.Dispose();
     }
@@ -262,6 +286,7 @@ namespace DiamondChess
       for (int i = 0; i < lastList.Count; i++)
       {
         tileArray[lastList[i].Item1, lastList[i].Item2].ResetTile(graphics);
+        tileArray[lastList[i].Item1, lastList[i].Item2].isHighlighted = false;
       }
       graphics.Dispose();
     }
