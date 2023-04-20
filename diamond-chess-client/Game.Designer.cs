@@ -35,7 +35,7 @@
       playerTurnText = new Label();
       playerTurnPictureBox = new PictureBox();
       playerTurnLabel = new Label();
-      button2 = new Button();
+      newGame = new Button();
       label1 = new Label();
       winLossRecordLabel = new Label();
       ((System.ComponentModel.ISupportInitialize)logoImage).BeginInit();
@@ -137,16 +137,21 @@
       playerTurnLabel.Text = "TO PLAY:";
       playerTurnLabel.TextAlign = ContentAlignment.MiddleRight;
       //
-      // button2
+      // newGameButton
       //
-      button2.Location = new Point(57, 197);
-      button2.Margin = new Padding(3, 2, 3, 2);
-      button2.Name = "button2";
-      button2.Size = new Size(82, 22);
-      button2.TabIndex = 9;
-      button2.Text = "New Game";
-      button2.UseVisualStyleBackColor = true;
-      button2.Click += button2_Click;
+      newGame.Location = new Point(57, 197);
+      newGame.Cursor = Cursors.Hand;
+      newGame.BackColor = Color.FromArgb(41, 76, 96);
+      newGame.Font = new Font("Arial", 19.8F, FontStyle.Bold, GraphicsUnit.Point);
+      newGame.ForeColor = Color.FromArgb(173, 182, 196);
+			newGame.Margin = new Padding(0);
+			newGame.Size = new Size(200, 90);
+			newGame.TabIndex = 9;
+			newGame.UseVisualStyleBackColor = false;
+      newGame.Name = "newGame";
+      newGame.Text = "New Game";
+      newGame.Click += newGame_Click;
+      
       //
       // label1
       //
@@ -173,7 +178,7 @@
       ClientSize = new Size(1663, 796);
       Controls.Add(winLossRecordLabel);
       Controls.Add(label1);
-      Controls.Add(button2);
+      Controls.Add(newGame);
       Controls.Add(playerTurnText);
       Controls.Add(playerTurnLabel);
       Controls.Add(playerTurnPictureBox);
@@ -203,7 +208,7 @@
     private System.Windows.Forms.Label playerTurnText;
     private System.Windows.Forms.PictureBox playerTurnPictureBox;
     private System.Windows.Forms.Label playerTurnLabel;
-    private Button button2;
+    private Button newGame;
     private Label label1;
     private Label winLossRecordLabel;
   }
