@@ -17,8 +17,11 @@ namespace diamond_chess_server.DataLayer.DataAccess
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
-
             connection = builder.GetConnectionString("DefaultConnection");
+            if (!TestConnection.IsValidConnection(new SqlConnection(connection)).Result)
+            {
+                connection = builder.GetConnectionString("AlternativeConnection");
+            }
         }
 
         public async Task<Player> GetPlayerHistory(Player playerInfo)
@@ -123,10 +126,10 @@ namespace diamond_chess_server.DataLayer.DataAccess
             }
         }
 
-        public async Task<Boolean> ValidateLogin(LoginDetails playerLogin)
+        public async Task<bool> ValidateLogin(LoginDetails playerLogin)
         {
             // Player player = new Player();
-            Boolean validLoginDetails = false;
+            bool validLoginDetails = false;
 
             try
             {
