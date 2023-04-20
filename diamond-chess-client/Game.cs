@@ -33,9 +33,17 @@ namespace DiamondChess
       Controls.Add(grid);
     }
 
-    void HandleTurnChangeEvent(object sender, EventArgs e)
+    void HandleTurnChangeEvent(object sender, int score)
     {
-      if (whiteToPlay)
+      if (score == -1)
+      {
+        playerTurnText.Text = player2.playerLogin.Username + " wins!";
+      }
+      else if (score == 1)
+      {
+        playerTurnText.Text = player1.playerLogin.Username + " wins!";
+      }
+      else if (whiteToPlay)
       {
         playerTurnText.Text = player1.playerLogin.Username;
       }

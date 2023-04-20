@@ -24,7 +24,10 @@
     int blackInventoryX = 1700;
     int blackInventoryY = 400;
 
-    public event EventHandler RaiseTurnChangeEvent;
+    int numBlackPiecesTaken = 0;
+    int numWhitePiecesTaken = 0;
+
+    public event EventHandler<int> RaiseTurnChangeEvent;
 
     Tile[,] tileArray = new Tile[Constants.GridSize, Constants.GridSize];
     ColouredPiece?[,] piecesArray = new ColouredPiece?[Constants.GridSize, Constants.GridSize];
@@ -61,13 +64,33 @@
           selectedPiece = (8, 8);
           // Reset highlights
           ResetHighlightedPieces();
+
+          if (isWhitesTurn)
+          {
+            numBlackPiecesTaken++;
+          }
+          else
+          {
+            numWhitePiecesTaken++;
+          }
+
+          if (RaiseTurnChangeEvent != null)
+          {
+            if (numBlackPiecesTaken >= 16)
+            {
+              RaiseTurnChangeEvent(this, 1);
+            }
+            else if (numWhitePiecesTaken >= 16)
+            {
+              RaiseTurnChangeEvent(this, -1);
+            }
+            else {
+              RaiseTurnChangeEvent(this, 0);
+            }
+          }
+
           // Switch turn
           isWhitesTurn = !isWhitesTurn;
-          EventHandler raiseEvent = RaiseTurnChangeEvent;
-          if (raiseEvent != null)
-          {
-              raiseEvent(this, null);
-          }
         }
         else
         {
@@ -130,10 +153,9 @@
         ResetHighlightedPieces();
         // Switch turn
         isWhitesTurn = !isWhitesTurn;
-        EventHandler raiseEvent = RaiseTurnChangeEvent;
-        if (raiseEvent != null)
+        if (RaiseTurnChangeEvent != null)
         {
-            raiseEvent(this, null);
+            RaiseTurnChangeEvent(this, 0);
         }
       }
     }
@@ -345,6 +367,10 @@
 
     public void RedrawStartPositions()
     {
+
+      numBlackPiecesTaken = 0;
+      numWhitePiecesTaken = 0;
+
       // BLACK PIECES
       DrawPiece("B_King", 7, 7);
       DrawPiece("B_Queen", 6, 6);
