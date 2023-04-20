@@ -1,5 +1,6 @@
 ﻿
 using diamond_chess_server.Models;
+using System.Diagnostics;
 
 namespace DiamondChess
 {
@@ -7,13 +8,8 @@ namespace DiamondChess
 	{
 		int radius = 0;
 
-		//Tile[,] whiteInventoryTiles = new Tile[2, Constants.GridSize];
-		//Tile[,] blackInventoryTiles = new Tile[2, Constants.GridSize];
-
-		int whiteInventoryX = 100;
-		int whiteInventoryY = 400;
-		int blackInventoryX = 1700;
-		int blackInventoryY = 400;
+		Tile[,] whiteInventoryTiles = new Tile[Constants.InventoryWidth, Constants.InventoryHeight];
+		Tile[,] blackInventoryTiles = new Tile[Constants.InventoryWidth, Constants.InventoryHeight];
 
 		Tile[,] tileArray = new Tile[Constants.GridSize, Constants.GridSize];
 		Piece?[,] piecesArray = new Piece?[Constants.GridSize, Constants.GridSize];
@@ -22,11 +18,13 @@ namespace DiamondChess
 		int xCounter = 0;
 		int yCounter = 0;
 		int drawTileCounter = 0;
+		int whiteInventoryCounter = 0;
+		int blackInventoryCounter = 0;
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			int radius = Width / 16;
+			int radius = Width / 32;
 
 			Graphics graphics = e.Graphics;
 			int widthOffset = 0;
@@ -34,6 +32,8 @@ namespace DiamondChess
 			xCounter = 0;
 			yCounter = 0;
 			drawTileCounter = 0;
+			whiteInventoryCounter = 0;
+			blackInventoryCounter = 0;	
 			PositionDictionary = new Dictionary<int, (int, int)>();
 
 			for (int i = 1; i <= Constants.GridSize; i++)
@@ -81,14 +81,15 @@ namespace DiamondChess
 				}
 			}
 
-			//for(int i = 0; i < Constants.GridSize; i++)
-			//{
-			//	for(int j =  0; j < whiteInventoryTiles.Length; j++)
-			//	{
 
-
-			//	}
-			//}
+			for (int i = 0; i < Constants.InventoryWidth; i++)
+			{
+				for (int j = 0; j < Constants.InventoryHeight; j++)
+				{
+					DrawWhiteInventoryTile(graphics, i, j, radius);
+					DrawBlackInventoryTile(graphics, i, j, radius);
+				}
+			}
 		}
 
 		private void DrawTile(Graphics graphics, int xPos, int yPos, Color color, int radius)
@@ -100,14 +101,26 @@ namespace DiamondChess
 			IncrementCounters();
 		}
 
-		//private void DrawInventoryTile(Graphics graphics, int xCoord, int yCoord, Color color, int radius)
-		//{
-		//	Tile tempPicBox = new Tile(graphics, xCoord, yCoord, xCoord, yCoord, color, radius);
-		//	tileArray[xCoord, yCoord] = tempPicBox;
-		//	IncrementCounters();
-		//}
+		private void DrawWhiteInventoryTile(Graphics graphics, int xCoord, int yCoord, int radius)
+		{
+			int xPos = -1;
+			int yPos = -1;
+			(xPos, yPos) = Constants.InventoryDictionary[(xCoord, yCoord)];
+			Tile tempPicBox = new Tile(graphics, xPos, yPos, xCoord, yCoord, Color.Transparent, radius);
+			whiteInventoryTiles[xCoord, yCoord] = tempPicBox;
+			Controls.Add(whiteInventoryTiles[xCoord, yCoord]);
 
+		}
+		private void DrawBlackInventoryTile(Graphics graphics, int xCoord, int yCoord, int radius)
+		{
+			int xPos = -1;
+			int yPos = -1;
+			(xPos, yPos) = Constants.InventoryDictionary[(xCoord+3, yCoord)];
+			Tile tempPicBox = new Tile(graphics, xPos, yPos, xCoord, yCoord, Color.Transparent, radius);
+			blackInventoryTiles[xCoord, yCoord] = tempPicBox;
+			Controls.Add(blackInventoryTiles[xCoord, yCoord]);
 
+		}
 
 		void IncrementCounters()
 		{
@@ -124,60 +137,43 @@ namespace DiamondChess
 		{
 			tileArray[x, y].SetPiece(img);
 			Controls.Add(tileArray[x, y]);
-
-			string pieceType = Constants.PieceDictionary[img];
-			piecesArray[x, y] = new Bishop(x, y);
+			//string pieceType = Constants.PieceDictionary[img];
+			//piecesArray[x, y] = new Bishop(x, y);
 		}
 
-		public void TakePiece(Image img, int x, int y, bool isBlack)
+		public void TakePiece(Image img, int x, int y, bool isWhite)
 		{
-			if (tileArray[x, y].BackgroundImage != null) // JESSE - NOT WORKING
-			{
-				//if (isBlack)
-				//{
-				//	AddToWhiteInventory(tileArray[x, y].BackgroundImage);
-				//}
-				//else
-				//{
-				//	AddToBlackInventory(tileArray[x, y].BackgroundImage);
-				//}
-			}
+			//if (tileArray[x, y].BackgroundImage != null) // JESSE - NOT WORKING
+			//{
+				AddToInventory(tileArray[x, y].BackgroundImage, isWhite);
+
+			//}
 
 			tileArray[x, y].RemovePiece();
 			tileArray[x, y].SetPiece(img);
 		}
 
-		//public void AddToWhiteInventory(Image img) // JESSE - NOT WORKING
-		//{
-		//	whiteInventoryPieces.Add(new PictureBox());
-		//	whiteInventoryPieces[^1].Size = new Size(radius, radius);
-		//	whiteInventoryPieces[^1].BackgroundImageLayout = ImageLayout.Zoom;
-		//	whiteInventoryPieces[^1].BackColor = Color.Transparent;
-		//	whiteInventoryPieces[^1].Location = new Point(whiteInventoryX, whiteInventoryY);
-		//	Controls.Add(blackInventoryPieces[^1]);
-
-		//	whiteInventoryPieces[^1].BackgroundImage = img;
-		//	whiteInventoryPieces[^1].BringToFront();
-		//	whiteInventoryPieces[^1].Refresh();
-		//	whiteInventoryY += 100;
-		//}
-
-		//public void AddToBlackInventory(Image img) // JESSE - NOT WORKING
-		//{
-		//	blackInventoryPieces.Add(new PictureBox());
-		//	blackInventoryPieces[^1].Size = new Size(100, 100);
-		//	blackInventoryPieces[^1].BackgroundImageLayout = ImageLayout.Zoom;
-		//	blackInventoryPieces[^1].BackColor = Color.Transparent;
-		//	blackInventoryPieces[^1].Location = new Point(blackInventoryX, blackInventoryY);
-		//	Controls.Add(blackInventoryPieces[^1]);
-
-		//	blackInventoryPieces[^1].BackgroundImage = img;
-		//	blackInventoryPieces[^1].BringToFront();
-		//	blackInventoryPieces[^1].Refresh();
-		//	blackInventoryY += 100;
-		//}
-
-
+		public void AddToInventory(Image img, bool isWhite) // JESSE - NOT WORKING
+		{
+			if (isWhite)
+			{
+				whiteInventoryTiles[(int)whiteInventoryCounter / Constants.InventoryHeight, whiteInventoryCounter % Constants.InventoryHeight].SetPiece(img);
+				whiteInventoryCounter++;
+				if(whiteInventoryCounter >= 15)
+				{
+					whiteInventoryCounter = 0;
+				}
+			}
+			else
+			{
+				blackInventoryTiles[(int)blackInventoryCounter / Constants.InventoryHeight, blackInventoryCounter % Constants.InventoryHeight].SetPiece(img);
+				blackInventoryCounter++;
+				if (blackInventoryCounter >= 15)
+				{
+					blackInventoryCounter = 0;
+				}
+			}
+		}
 
 
 		public void OutlinePieces(List<int> xList, List<int> yList, List<Color> colorList)

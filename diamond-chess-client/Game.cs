@@ -24,8 +24,7 @@ namespace DiamondChess
 			int gridOffset = Height * 10 / 100;
 			int gridSize = Height - gridOffset;
 
-			grid.Size = new Size(gridSize, gridSize);
-			grid.Location = new Point(Width / 2 - gridSize / 2, gridOffset / 2);
+			grid.Size = new Size(Width, Height);
 			Controls.Add(grid);
 		}
 
@@ -38,11 +37,7 @@ namespace DiamondChess
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			List<int> xList = new List<int> { 1, 2, 3 };
-			List<int> yList = new List<int> { 1, 2, 4 };
-			List<Color> colorList = new List<Color> { Color.Red, Color.Green, Color.Blue };
-
-			grid.TakePiece(Properties.Resources.W_Queen, 1, 2, true);
+			grid.TakePiece(Properties.Resources.W_Queen, 0, 0, true);
 		}
 
 		private void button2_Click(object sender, EventArgs e)

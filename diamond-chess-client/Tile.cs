@@ -52,6 +52,7 @@ namespace DiamondChess
 
 		public void SetPiece(Image img)
 		{
+			Console.WriteLine("SET THE PIIIIECE");
 			this.BackgroundImage = img;
 			this.Invalidate();
 		}
