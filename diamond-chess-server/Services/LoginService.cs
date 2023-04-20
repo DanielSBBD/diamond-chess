@@ -6,7 +6,7 @@ namespace diamond_chess_server.Services
   public static class LoginService
   {
 
-    public static async Task<bool> isValidLogin(LoginDetails userLogin) {
+    public static async Task<Player> isValidLogin(LoginDetails userLogin) {
 
       DataAccess dbConnection = new DataAccess();
 

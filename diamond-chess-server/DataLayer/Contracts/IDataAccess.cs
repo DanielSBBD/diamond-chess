@@ -6,7 +6,7 @@
     {
         Task<string?> RegisterPlayer(Player playerInfo);
 
-        Task<Boolean> ValidateLogin(LoginDetails playerLogin);
+        Task<Player> ValidateLogin(LoginDetails playerLogin);
 
         Task<string?> InsertMatchHistory(MatchHistory match);
 

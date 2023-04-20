@@ -8,6 +8,7 @@ namespace DiamondChess
 	public partial class Login : Form
 	{
 		string username1, username2;
+		Player player1, player2;
 		bool user1LoggedIn, user2LoggedIn;
 		private Form registerDialogBox;
 		private TextBox registrationUsernameTextBox, registrationPasswordTextBox, registrationNameTextBox, registrationSurnameTextBox;
@@ -160,25 +161,32 @@ namespace DiamondChess
 				username1Textbox.Focus();
 				user1LoggedIn = false;
 			}
-			else if (await LoginService.isValidLogin(userDetails))
-			{
-				username1 = username1Textbox.Text;
-				user1LoggedIn = true;
-				user1LoginButton.Enabled = false;
-				user1RegisterButton.Enabled = false;
-				user1PlayAsGuestLabel.Visible = false;
-				user1LogoutLabel.Visible = true;
-
-				user1LoginButton.BackColor = Color.DarkGray;
-				user1LoginButton.ForeColor = Color.DimGray;
-				user1RegisterButton.BackColor = Color.DarkGray;
-				user1RegisterButton.ForeColor = Color.DimGray;
-			}
 			else
 			{
-				user1IncorrectLabel.Text = "Incorrect username or password, please try again.";
-				username1Textbox.Focus();
-				user1LoggedIn = false;
+				player1 = await LoginService.isValidLogin(userDetails);
+
+				if (player1.Id != 0)
+				{
+					username1 = username1Textbox.Text;
+					player1.playerLogin = userDetails;
+
+					user1LoggedIn = true;
+					user1LoginButton.Enabled = false;
+					user1RegisterButton.Enabled = false;
+					user1PlayAsGuestLabel.Visible = false;
+					user1LogoutLabel.Visible = true;
+
+					user1LoginButton.BackColor = Color.DarkGray;
+					user1LoginButton.ForeColor = Color.DimGray;
+					user1RegisterButton.BackColor = Color.DarkGray;
+					user1RegisterButton.ForeColor = Color.DimGray;
+				}
+				else
+				{
+					user1IncorrectLabel.Text = "Incorrect username or password, please try again.";
+					username1Textbox.Focus();
+					user1LoggedIn = false;
+				}
 			}
 			if (user1LoggedIn && user2LoggedIn)
 			{
@@ -204,27 +212,33 @@ namespace DiamondChess
 				username2Textbox.Focus();
 				user2LoggedIn = false;
 			}
-			else if (await LoginService.isValidLogin(userDetails))
-			{
-				username2 = username2Textbox.Text;
-				user2LoggedIn = true;
-				user2LoginButton.Enabled = false;
-				user2LogoutLabel.Visible = true;
-				user2RegisterButton.Enabled = false;
-				user2PlayAsGuestLabel.Visible = false;
-
-				user2LoginButton.BackColor = Color.DarkGray;
-				user2LoginButton.ForeColor = Color.DimGray;
-				user2RegisterButton.BackColor = Color.DarkGray;
-				user2RegisterButton.ForeColor = Color.DimGray;
-			}
 			else
 			{
-				user2IncorrectLabel.Text = "Incorrect username or password, please try again.";
-				username2Textbox.Focus();
-				user2LoggedIn = false;
-			}
+				player2 = await LoginService.isValidLogin(userDetails);
 
+				if (player2.Id != 0)
+				{
+					username2 = username2Textbox.Text;
+					player2.playerLogin = userDetails;
+
+					user2LoggedIn = true;
+					user2LoginButton.Enabled = false;
+					user2LogoutLabel.Visible = true;
+					user2RegisterButton.Enabled = false;
+					user2PlayAsGuestLabel.Visible = false;
+
+					user2LoginButton.BackColor = Color.DarkGray;
+					user2LoginButton.ForeColor = Color.DimGray;
+					user2RegisterButton.BackColor = Color.DarkGray;
+					user2RegisterButton.ForeColor = Color.DimGray;
+				}
+				else
+				{
+					user2IncorrectLabel.Text = "Incorrect username or password, please try again.";
+					username2Textbox.Focus();
+					user2LoggedIn = false;
+				}
+			}
 			if (user1LoggedIn && user2LoggedIn)
 			{
 				startGameButton.Enabled = true;
@@ -261,11 +275,14 @@ namespace DiamondChess
 			}
 		}
 
-		private void startGameButton_Click(object sender, EventArgs e)
+		private async void startGameButton_Click(object sender, EventArgs e)
 		{
 			if (user1LoggedIn && user2LoggedIn)
 			{
-				new Game(username1, username2).Show();
+				player1 = await MatchRecordService.updateRecords(player1);
+				player2 = await MatchRecordService.updateRecords(player2);
+
+				new Game(player1, player2).Show();
 				Hide();
 			}
 
@@ -322,6 +339,11 @@ namespace DiamondChess
 		private void user1PlayAsGuestLabel_Click(object sender, EventArgs e)
 		{
 				username1 = "Guest Player 1";
+				player1 = new Player();
+				LoginDetails guestLogin = new LoginDetails();
+				guestLogin.Username = username1;
+				player1.playerLogin = guestLogin;
+
 				user1LoggedIn = true;
 				user1LoginButton.Enabled = false;
 				user1RegisterButton.Enabled = false;
@@ -344,6 +366,11 @@ namespace DiamondChess
 		private void user2PlayAsGuestLabel_Click(object sender, EventArgs e)
 		{
 				username2 = "Guest Player 2";
+				player2 = new Player();
+				LoginDetails guestLogin = new LoginDetails();
+				guestLogin.Username = username2;
+				player2.playerLogin = guestLogin;
+
 				user2LoggedIn = true;
 				user2LoginButton.Enabled = false;
 				user2RegisterButton.Enabled = false;

@@ -2,12 +2,10 @@
 using diamond_chess_server.Models;
 using System.Data;
 using System.Data.SqlClient;
-using System.Numerics;
-using System.Text.RegularExpressions;
 
 namespace diamond_chess_server.DataLayer.DataAccess
 {
-    public class DataAccess : IDataAccess
+  public class DataAccess : IDataAccess
     {
         public string connection;
 
@@ -126,10 +124,9 @@ namespace diamond_chess_server.DataLayer.DataAccess
             }
         }
 
-        public async Task<bool> ValidateLogin(LoginDetails playerLogin)
+        public async Task<Player> ValidateLogin(LoginDetails playerLogin)
         {
-            // Player player = new Player();
-            bool validLoginDetails = false;
+            Player player = new Player();
 
             try
             {
@@ -148,10 +145,9 @@ namespace diamond_chess_server.DataLayer.DataAccess
                             {
                                 if (reader["player_id"] is not null)
                                 {
-                                    // player.Id = Convert.ToInt32(reader["player_id"]);
-                                    // player.Name = reader["player_name"] as string;
-                                    // player.Surname = reader["player_surname"] as string;
-                                    validLoginDetails = true;
+                                    player.Id = Convert.ToInt32(reader["player_id"]);
+                                    player.Name = reader["player_name"] as string;
+                                    player.Surname = reader["player_surname"] as string;
 
                                 }
                             }
@@ -164,7 +160,7 @@ namespace diamond_chess_server.DataLayer.DataAccess
                 string errorMessage = "Error: " + e.Message.ToString();
                 Console.WriteLine(errorMessage);
             }
-            return validLoginDetails;
+            return player;
 
         }
     }
