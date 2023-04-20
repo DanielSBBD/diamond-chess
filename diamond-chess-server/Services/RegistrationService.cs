@@ -6,7 +6,7 @@ namespace diamond_chess_server.Services
   public static class RegistrationService
   {
 
-    public static async Task<Boolean> RegisterUser(Player newUser) {
+    public static async Task<bool> RegisterUser(Player newUser) {
 
       DataAccess dbConnection = new DataAccess();
       string rowsAffected = await dbConnection.RegisterPlayer(newUser);
