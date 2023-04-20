@@ -43,10 +43,11 @@ namespace diamond_chess_server.DataLayer.DataAccess
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO: Handle expected exceptions.
-                throw;
+                string errorMessage = "Error: " + e.Message.ToString();
+                Console.WriteLine(errorMessage);
+                return errorMessage;
             }
         }
 
@@ -73,10 +74,11 @@ namespace diamond_chess_server.DataLayer.DataAccess
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO: Handle expected exceptions.
-                throw;
+                string errorMessage = "Error: " + e.Message.ToString();
+                Console.WriteLine(errorMessage);
+                return errorMessage;
             }
         }
 
@@ -113,10 +115,10 @@ namespace diamond_chess_server.DataLayer.DataAccess
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //TODO: Handle expected exceptions.
-                throw;
+                string errorMessage = "Error: " + e.Message.ToString();
+                Console.WriteLine(errorMessage);
             }
             return validLoginDetails;
 
