@@ -6,6 +6,7 @@ namespace DiamondChess
   {
     Player player1, player2;
     Grid grid = new Grid();
+    bool whiteToPlay = true;
 
     public Game(Player player1, Player player2)
     {
@@ -25,9 +26,24 @@ namespace DiamondChess
       int gridOffset = Height * 10 / 100;
       int gridSize = Height - gridOffset;
 
+      grid.RaiseTurnChangeEvent += HandleTurnChangeEvent;
+
       grid.Size = new Size(gridSize, gridSize);
       grid.Location = new Point(Width / 2 - gridSize / 2, gridOffset / 2);
       Controls.Add(grid);
+    }
+
+    void HandleTurnChangeEvent(object sender, EventArgs e)
+    {
+      if (whiteToPlay)
+      {
+        playerTurnText.Text = player1.playerLogin.Username;
+      }
+      else
+      {
+        playerTurnText.Text = player2.playerLogin.Username;
+      }
+      whiteToPlay = !whiteToPlay;
     }
 
     protected override void OnFormClosing(FormClosingEventArgs e)

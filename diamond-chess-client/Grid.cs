@@ -1,7 +1,4 @@
-﻿
-using diamond_chess_server.Models;
-
-namespace DiamondChess
+﻿namespace DiamondChess
 {
   public struct ColouredPiece
   {
@@ -26,6 +23,8 @@ namespace DiamondChess
     int whiteInventoryY = 400;
     int blackInventoryX = 1700;
     int blackInventoryY = 400;
+
+    public event EventHandler RaiseTurnChangeEvent;
 
     Tile[,] tileArray = new Tile[Constants.GridSize, Constants.GridSize];
     ColouredPiece?[,] piecesArray = new ColouredPiece?[Constants.GridSize, Constants.GridSize];
@@ -83,6 +82,12 @@ namespace DiamondChess
         selectedPiece = (8, 8);
         // Reset highlights
         ResetHighlightedPieces();
+
+        EventHandler raiseEvent = RaiseTurnChangeEvent;
+        if (raiseEvent != null)
+        {
+            raiseEvent(this, null);
+        }
       }
     }
 
