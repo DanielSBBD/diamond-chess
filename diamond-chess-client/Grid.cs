@@ -42,7 +42,7 @@ namespace DiamondChess
       // If you're clicking a piece
       if (piecesArray[x, y] is not null)
       {
-        // If you're clicking a highlighted piece
+        // If you're taking a piece
         if (tileArray[x, y].isHighlighted)
         {
           // Remember me
@@ -64,6 +64,8 @@ namespace DiamondChess
           selectedPiece = (8, 8);
           // Reset highlights
           ResetHighlightedPieces();
+          // Switch turn
+          isWhitesTurn = !isWhitesTurn;
         }
         else
         {
@@ -75,29 +77,33 @@ namespace DiamondChess
             Piece thisPiece = piecesArray[x, y].Value.piece;
             bool isThisPieceWhite = piecesArray[x, y].Value.isWhite;
 
-            for (int i = 0; i < 8; i++)
+            if ((isWhitesTurn && isThisPieceWhite) || (!isWhitesTurn && !isThisPieceWhite))
             {
-              for (int j = 0; j < 8; j++)
+              for (int i = 0; i < 8; i++)
               {
-                if (piecesArray[i, j] is not null)
+                for (int j = 0; j < 8; j++)
                 {
-                  if (isThisPieceWhite)
+                  if (piecesArray[i, j] is not null)
                   {
-                    b[i, j] = !piecesArray[i, j].Value.isWhite;
-                  }
-                  else
-                  {
-                    b[i, j] = piecesArray[i, j].Value.isWhite;
+                    if (isThisPieceWhite)
+                    {
+                      b[i, j] = !piecesArray[i, j].Value.isWhite;
+                    }
+                    else
+                    {
+                      b[i, j] = piecesArray[i, j].Value.isWhite;
+                    }
                   }
                 }
               }
+
+              HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
+                target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
+              )).ToList());
             }
 
-            HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
-              target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
-            )).ToList());
           }
-          else // If you are clicking an already selected piece
+          else // If you are unselecting a piece
           {
             selectedPiece = (8, 8);
             ResetHighlightedPieces();
@@ -120,6 +126,8 @@ namespace DiamondChess
         selectedPiece = (8, 8);
         // Reset highlights
         ResetHighlightedPieces();
+        // Switch turn
+        isWhitesTurn = !isWhitesTurn;
       }
     }
 
