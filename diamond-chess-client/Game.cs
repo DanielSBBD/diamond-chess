@@ -53,14 +53,7 @@ namespace DiamondChess
 
     private void button3_Click(object sender, EventArgs e)
     {
-
-      List<int> xList = new List<int> { 1, 2, 3 };
-      List<int> yList = new List<int> { 1, 2, 4 };
-      List<Color> colorList = new List<Color> { Color.Red, Color.Green, Color.Blue };
-      grid.HighlightPieces(xList, yList, colorList);
+      // :(
     }
-
-
-
   }
 }

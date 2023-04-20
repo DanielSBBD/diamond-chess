@@ -16,7 +16,7 @@ namespace DiamondChess
       board[4, 4] = false;
 
       // Test the piece
-      r.GetValidMoves(board).ForEach(validMove => Console.WriteLine($"({validMove.posX}, {validMove.posY}) {validMove.isOccupied}"));
+      r.GetValidMoves(board, true).ForEach(validMove => Console.WriteLine($"({validMove.posX}, {validMove.posY}) {validMove.isOccupied}"));
     }
   }
 }

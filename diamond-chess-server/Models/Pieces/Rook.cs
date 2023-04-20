@@ -49,7 +49,7 @@ public class Rook : Piece
     return validMoves;
   }
 
-  public override List<Target> GetValidMoves(bool?[,] obstacles)
+  public override List<Target> GetValidMoves(bool?[,] obstacles, bool isWhite)
   {
     List<Target> validMoves = new List<Target>();
 

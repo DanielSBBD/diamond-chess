@@ -34,7 +34,7 @@ public class King : Piece
     return null;
   }
 
-  public override List<Target> GetValidMoves(bool?[,] obstacles)
+  public override List<Target> GetValidMoves(bool?[,] obstacles, bool isWhite)
   {
     List<Target> validMoves = new List<Target>();
     Target? move;
