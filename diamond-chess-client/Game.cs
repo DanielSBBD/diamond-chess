@@ -62,9 +62,10 @@ namespace DiamondChess
       Hide();
     }
 
-    private void button2_Click(object sender, EventArgs e)
+    private void newGame_Click(object sender, EventArgs e)
     {
       grid.RedrawStartPositions();
+	  newGame.Enabled = false;
     }
   }
 }
