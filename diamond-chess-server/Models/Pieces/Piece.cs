@@ -35,5 +35,5 @@ public abstract class Piece
   }
 
   // True for enemies, false for allies, null for nothing
-  public abstract List<Target> GetValidMoves(bool?[,] obstacles);
+  public abstract List<Target> GetValidMoves(bool?[,] obstacles, bool isWhite);
 }
