@@ -7,11 +7,13 @@ public class Knight : Piece
     switch (offset)
     {
       case -1:
+        return pos > 0;
       case -3:
-        return pos >= 0;
+        return pos >= 3;
       case 1:
+        return pos < 7;
       case 3:
-        return pos <= 7;
+        return pos <= 4;
       default:
         return false;
     }
@@ -33,7 +35,7 @@ public class Knight : Piece
     return null;
   }
 
-  public override List<Target> GetValidMoves(bool?[,] obstacles)
+  public override List<Target> GetValidMoves(bool?[,] obstacles, bool isWhite)
   {
     List<Target> validMoves = new List<Target>();
     Target? move;

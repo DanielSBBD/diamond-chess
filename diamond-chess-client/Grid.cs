@@ -4,22 +4,85 @@ using System.Diagnostics;
 
 namespace DiamondChess
 {
-	internal class Grid : Panel
-	{
-		int radius = 0;
+  public struct ColouredPiece
+  {
+    public Piece piece;
+    public bool isWhite;
+
+    public ColouredPiece(Piece p, bool w)
+    {
+      piece = p;
+      isWhite = w;
+    }
+  }
+
+  internal class Grid : Panel
+  {
+    int radius = 0;
 
 		Tile[,] whiteInventoryTiles = new Tile[Constants.InventoryWidth, Constants.InventoryHeight];
 		Tile[,] blackInventoryTiles = new Tile[Constants.InventoryWidth, Constants.InventoryHeight];
 
-		Tile[,] tileArray = new Tile[Constants.GridSize, Constants.GridSize];
-		Piece?[,] piecesArray = new Piece?[Constants.GridSize, Constants.GridSize];
+    Tile[,] tileArray = new Tile[Constants.GridSize, Constants.GridSize];
+    ColouredPiece?[,] piecesArray = new ColouredPiece?[Constants.GridSize, Constants.GridSize];
 
-		public Dictionary<int, (int x, int y)> PositionDictionary = new Dictionary<int, (int, int)>();
-		int xCounter = 0;
-		int yCounter = 0;
-		int drawTileCounter = 0;
+    public Dictionary<int, (int x, int y)> PositionDictionary = new Dictionary<int, (int, int)>();
+    int xCounter = 0;
+    int yCounter = 0;
+    int drawTileCounter = 0;
 		int whiteInventoryCounter = 0;
 		int blackInventoryCounter = 0;
+
+    (int, int) selectedPiece = (8, 8);
+
+    public void HandleClick(int x, int y)
+    {
+      if (piecesArray[x, y] is not null)
+      {
+        selectedPiece = (x, y);
+        bool?[,] b = new bool?[8, 8];
+        Piece thisPiece = piecesArray[x, y].Value.piece;
+        bool isThisPieceWhite = piecesArray[x, y].Value.isWhite;
+
+        for (int i = 0; i < 8; i++)
+        {
+          for (int j = 0; j < 8; j++)
+          {
+            if (piecesArray[i, j] is not null)
+            {
+              if (isThisPieceWhite)
+              {
+                b[i, j] = !piecesArray[i, j].Value.isWhite;
+              }
+              else
+              {
+                b[i, j] = piecesArray[i, j].Value.isWhite;
+              }
+            }
+          }
+        }
+
+        HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
+          target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
+        )).ToList());
+      }
+      if (tileArray[x, y].isHighlighted)
+      {
+        // Remember me
+        Image tileImage = tileArray[selectedPiece.Item1, selectedPiece.Item2].BackgroundImage;
+        ColouredPiece colouredPiece = piecesArray[selectedPiece.Item1, selectedPiece.Item2].Value;
+        // Kill old
+        tileArray[selectedPiece.Item1, selectedPiece.Item2].RemovePiece();
+        piecesArray[selectedPiece.Item1, selectedPiece.Item2] = null;
+        // Add new
+        tileArray[x, y].SetPiece(tileImage);
+        colouredPiece.piece.Move(x, y);
+        piecesArray[x, y] = colouredPiece;
+        selectedPiece = (8, 8);
+        // Reset highlights
+        ResetHighlightedPieces();
+      }
+    }
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -36,50 +99,50 @@ namespace DiamondChess
 			blackInventoryCounter = 0;	
 			PositionDictionary = new Dictionary<int, (int, int)>();
 
-			for (int i = 1; i <= Constants.GridSize; i++)
-			{
-				widthOffset = Width / 2 - radius * (i-1);
-				heightOffset = radius * i;
+      for (int i = 1; i <= Constants.GridSize; i++)
+      {
+        widthOffset = Width / 2 - radius * (i - 1);
+        heightOffset = radius * i;
 
-				for (int j = 1; j <= i; j++)
-				{
-					Color tempColour = new Color();
-					if (i%2==0)
-					{
-						tempColour = Constants.DarkColour;
-					}
-					else
-					{
-						tempColour = Constants.LightColour;
-					}
+        for (int j = 1; j <= i; j++)
+        {
+          Color tempColour = new Color();
+          if (i % 2 == 0)
+          {
+            tempColour = Constants.DarkColour;
+          }
+          else
+          {
+            tempColour = Constants.LightColour;
+          }
 
-					DrawTile(graphics, widthOffset, heightOffset, tempColour, radius);
-					widthOffset += radius * 2;
-				}
-			}
+          DrawTile(graphics, widthOffset, heightOffset, tempColour, radius);
+          widthOffset += radius * 2;
+        }
+      }
 
-			for (int i = 7; i >= 1; i--)
-			{
-				widthOffset = Width / 2 - radius * (i-1);
-				heightOffset += radius;
+      for (int i = 7; i >= 1; i--)
+      {
+        widthOffset = Width / 2 - radius * (i - 1);
+        heightOffset += radius;
 
-				for (int j = 1; j <= i; j++)
-				{
-					Color tempColour = new Color();
-					if (i % 2 == 0)
-					{
-						tempColour = Constants.DarkColour;
-					}
-					else
-					{
-						tempColour = Constants.LightColour;
-					}
+        for (int j = 1; j <= i; j++)
+        {
+          Color tempColour = new Color();
+          if (i % 2 == 0)
+          {
+            tempColour = Constants.DarkColour;
+          }
+          else
+          {
+            tempColour = Constants.LightColour;
+          }
 
-					DrawTile(graphics, widthOffset, heightOffset, tempColour, radius);
-					PositionDictionary.Add(drawTileCounter, (widthOffset, heightOffset));
-					widthOffset += radius * 2;
-				}
-			}
+          DrawTile(graphics, widthOffset, heightOffset, tempColour, radius);
+          PositionDictionary.Add(drawTileCounter, (widthOffset, heightOffset));
+          widthOffset += radius * 2;
+        }
+      }
 
 
 			for (int i = 0; i < Constants.InventoryWidth; i++)
@@ -92,14 +155,17 @@ namespace DiamondChess
 			}
 		}
 
-		private void DrawTile(Graphics graphics, int xPos, int yPos, Color color, int radius)
-		{
-			int xCoord = Constants.CoordinateDictionary[drawTileCounter].x;
-			int yCoord = Constants.CoordinateDictionary[drawTileCounter].y;
-			Tile tempPicBox = new Tile(graphics, xPos, yPos, xCoord, yCoord, color, radius);
-			tileArray[xCoord, yCoord] = tempPicBox;
-			IncrementCounters();
-		}
+    private void DrawTile(Graphics graphics, int xPos, int yPos, Color color, int radius)
+    {
+      int xCoord = Constants.CoordinateDictionary[drawTileCounter].x;
+      int yCoord = Constants.CoordinateDictionary[drawTileCounter].y;
+      Tile tempPicBox = new Tile(graphics, xPos, yPos, xCoord, yCoord, color, radius);
+      tileArray[xCoord, yCoord] = tempPicBox;
+      tileArray[xCoord, yCoord].Callback += HandleClick;
+      tileArray[xCoord, yCoord].SetPiece(Properties.Resources.Blank);
+      Controls.Add(tileArray[xCoord, yCoord]);
+      IncrementCounters();
+    }
 
 		private void DrawWhiteInventoryTile(Graphics graphics, int xCoord, int yCoord, int radius)
 		{
@@ -122,24 +188,24 @@ namespace DiamondChess
 
 		}
 
-		void IncrementCounters()
-		{
-			xCounter++;
-			if(xCounter > 7)
-			{
-				xCounter = 0;
-				yCounter++;
-			}
-			drawTileCounter++;
-		}
+    void IncrementCounters()
+    {
+      xCounter++;
+      if (xCounter > 7)
+      {
+        xCounter = 0;
+        yCounter++;
+      }
+      drawTileCounter++;
+    }
 
-		public void DrawPiece(Image img, int x, int y)
-		{
-			tileArray[x, y].SetPiece(img);
-			Controls.Add(tileArray[x, y]);
-			//string pieceType = Constants.PieceDictionary[img];
-			//piecesArray[x, y] = new Bishop(x, y);
-		}
+    public void DrawPiece(String pieceName, int x, int y)
+    {
+      Image img = Constants.PieceDictionary[pieceName].Item1;
+      tileArray[x, y].SetPiece(img);
+      Controls.Add(tileArray[x, y]);
+      piecesArray[x, y] = new ColouredPiece(Constants.PieceDictionary[pieceName].Item2(x, y), pieceName.Substring(0, 1) == "W" ? true : false);
+    }
 
 		public void TakePiece(Image img, int x, int y, bool isWhite)
 		{
@@ -149,9 +215,9 @@ namespace DiamondChess
 
 			//}
 
-			tileArray[x, y].RemovePiece();
-			tileArray[x, y].SetPiece(img);
-		}
+      tileArray[x, y].RemovePiece();
+      tileArray[x, y].SetPiece(img);
+    }
 
 		public void AddToInventory(Image img, bool isWhite) // JESSE - NOT WORKING
 		{
@@ -176,95 +242,92 @@ namespace DiamondChess
 		}
 
 
-		public void OutlinePieces(List<int> xList, List<int> yList, List<Color> colorList)
-		{
-			Graphics graphics = this.CreateGraphics();
-			for (int i = 0; i < xList.Count; i++)
-			{
-				tileArray[xList[i], yList[i]].SetOutline(colorList[i], graphics);
-				Controls.Add(tileArray[xList[i], yList[i]]);
-			}
-			graphics.Dispose();
-		}
+    public void OutlinePieces(List<int> xList, List<int> yList, List<Color> colorList)
+    {
+      Graphics graphics = this.CreateGraphics();
+      for (int i = 0; i < xList.Count; i++)
+      {
+        tileArray[xList[i], yList[i]].SetOutline(colorList[i], graphics);
+        Controls.Add(tileArray[xList[i], yList[i]]);
+      }
+      graphics.Dispose();
+    }
 
 
 
-		List<int> lastHighlightedX = new List<int>();
-		List<int> lastHighlightedY = new List<int>();
-		public void HighlightPieces(List<int> xList, List<int> yList, List<Color> colorList)
-		{
-			Graphics graphics = this.CreateGraphics();
-			ResetHighlightedPieces();
-			lastHighlightedX = xList;
-			lastHighlightedY = yList;
+    List<(int, int, Color)> lastHighlighted = new List<(int, int, Color)>();
+    public void HighlightPieces(List<(int, int, Color)> highlightList)
+    {
+      Graphics graphics = this.CreateGraphics();
+      ResetHighlightedPieces();
+      lastHighlighted = highlightList;
 
-			for(int i = 0; i < xList.Count; i++)
-			{
-				tileArray[xList[i], yList[i]].FillTile(colorList[i], graphics);
-			}
-			graphics.Dispose();
-		}
+      for (int i = 0; i < highlightList.Count; i++)
+      {
+        tileArray[highlightList[i].Item1, highlightList[i].Item2].FillTile(highlightList[i].Item3, graphics);
+        tileArray[highlightList[i].Item1, highlightList[i].Item2].isHighlighted = true;
+      }
+      graphics.Dispose();
+    }
 
-		public void ResetHighlightedPieces()
-		{
-			RemoveHighlights(lastHighlightedX, lastHighlightedY);
-		}
+    public void ResetHighlightedPieces()
+    {
+      RemoveHighlights(lastHighlighted);
+    }
 
-		public void RemoveHighlights(List<int> xList, List<int> yList)
-		{
-			Graphics graphics = this.CreateGraphics();
-			lastHighlightedX = new List<int>();
-			lastHighlightedY = new List<int>();
+    public void RemoveHighlights(List<(int, int, Color)> lastList)
+    {
+      Graphics graphics = this.CreateGraphics();
+      lastHighlighted = new List<(int, int, Color)>();
 
-			for (int i = 0; i < xList.Count; i++)
-			{
-				tileArray[xList[i], yList[i]].ResetTile(graphics);
-			}
-			graphics.Dispose();
-		}
+      for (int i = 0; i < lastList.Count; i++)
+      {
+        tileArray[lastList[i].Item1, lastList[i].Item2].ResetTile(graphics);
+        tileArray[lastList[i].Item1, lastList[i].Item2].isHighlighted = false;
+      }
+      graphics.Dispose();
+    }
 
-		public void RedrawStartPositions()
-		{
-			// BLACK PIECES
-			DrawPiece(Properties.Resources.B_King, 7, 7);
+    public void RedrawStartPositions()
+    {
+      // BLACK PIECES
+      DrawPiece("B_King", 7, 7);
+      DrawPiece("B_Queen", 6, 6);
+      DrawPiece("B_Rook", 7, 6);
+      DrawPiece("B_Rook", 6, 7);
+      DrawPiece("B_Bishop", 5, 7);
+      DrawPiece("B_Bishop", 6, 5);
+      DrawPiece("B_Knight", 7, 5);
+      DrawPiece("B_Knight", 5, 6);
+
+      DrawPiece("B_Pawn", 7, 4);
+      DrawPiece("B_Pawn", 6, 4);
+      DrawPiece("B_Pawn", 5, 4);
+      DrawPiece("B_Pawn", 4, 4);
+      DrawPiece("B_Pawn", 5, 5);
+      DrawPiece("B_Pawn", 4, 5);
+      DrawPiece("B_Pawn", 4, 6);
+      DrawPiece("B_Pawn", 4, 7);
 
 
-			DrawPiece(Properties.Resources.B_Queen, 6, 6);
-			DrawPiece(Properties.Resources.B_Rook, 7, 6);
-			DrawPiece(Properties.Resources.B_Rook, 6, 7);
-			DrawPiece(Properties.Resources.B_Bishop, 5, 7);
-			DrawPiece(Properties.Resources.B_Bishop, 6, 5);
-			DrawPiece(Properties.Resources.B_Knight, 7, 5);
-			DrawPiece(Properties.Resources.B_Knight, 5, 6);
+      // WHITE PIECES
+      DrawPiece("W_King", 0, 0);
+      DrawPiece("W_Queen", 1, 1);
+      DrawPiece("W_Rook", 1, 0);
+      DrawPiece("W_Rook", 0, 1);
+      DrawPiece("W_Bishop", 2, 0);
+      DrawPiece("W_Bishop", 1, 2);
+      DrawPiece("W_Knight", 2, 1);
+      DrawPiece("W_Knight", 0, 2);
 
-			DrawPiece(Properties.Resources.B_Pawn, 7, 4);
-			DrawPiece(Properties.Resources.B_Pawn, 6, 4);
-			DrawPiece(Properties.Resources.B_Pawn, 5, 4);
-			DrawPiece(Properties.Resources.B_Pawn, 4, 4);
-			DrawPiece(Properties.Resources.B_Pawn, 5, 5);
-			DrawPiece(Properties.Resources.B_Pawn, 4, 5);
-			DrawPiece(Properties.Resources.B_Pawn, 4, 6);
-			DrawPiece(Properties.Resources.B_Pawn, 4, 7);
-		
-
-			// WHITE PIECES
-			DrawPiece(Properties.Resources.W_King, 0, 0);
-			DrawPiece(Properties.Resources.W_Queen, 1, 1);
-			DrawPiece(Properties.Resources.W_Rook, 1, 0);
-			DrawPiece(Properties.Resources.W_Rook, 0, 1);
-			DrawPiece(Properties.Resources.W_Bishop, 2, 0);
-			DrawPiece(Properties.Resources.W_Bishop, 1, 2);
-			DrawPiece(Properties.Resources.W_Knight, 2, 1);
-			DrawPiece(Properties.Resources.W_Knight, 0, 2);
-
-			DrawPiece(Properties.Resources.W_Pawn, 3, 0);
-			DrawPiece(Properties.Resources.W_Pawn, 3, 1);
-			DrawPiece(Properties.Resources.W_Pawn, 3, 2);
-			DrawPiece(Properties.Resources.W_Pawn, 3, 3);
-			DrawPiece(Properties.Resources.W_Pawn, 2, 2);
-			DrawPiece(Properties.Resources.W_Pawn, 2, 3);
-			DrawPiece(Properties.Resources.W_Pawn, 1, 3);
-			DrawPiece(Properties.Resources.W_Pawn, 0, 3);
-		}
-	}
+      DrawPiece("W_Pawn", 3, 0);
+      DrawPiece("W_Pawn", 3, 1);
+      DrawPiece("W_Pawn", 3, 2);
+      DrawPiece("W_Pawn", 3, 3);
+      DrawPiece("W_Pawn", 2, 2);
+      DrawPiece("W_Pawn", 2, 3);
+      DrawPiece("W_Pawn", 1, 3);
+      DrawPiece("W_Pawn", 0, 3);
+    }
+  }
 }
