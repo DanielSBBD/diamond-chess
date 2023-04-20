@@ -35,9 +35,7 @@
       playerTurnText = new Label();
       playerTurnPictureBox = new PictureBox();
       playerTurnLabel = new Label();
-      button1 = new Button();
       button2 = new Button();
-      button3 = new Button();
       label1 = new Label();
       winLossRecordLabel = new Label();
       ((System.ComponentModel.ISupportInitialize)logoImage).BeginInit();
@@ -139,17 +137,6 @@
       playerTurnLabel.Text = "TO PLAY:";
       playerTurnLabel.TextAlign = ContentAlignment.MiddleRight;
       //
-      // button1
-      //
-      button1.Location = new Point(57, 161);
-      button1.Margin = new Padding(3, 2, 3, 2);
-      button1.Name = "button1";
-      button1.Size = new Size(82, 22);
-      button1.TabIndex = 8;
-      button1.Text = "HIGHLIGHT";
-      button1.UseVisualStyleBackColor = true;
-      button1.Click += button1_Click;
-      //
       // button2
       //
       button2.Location = new Point(57, 197);
@@ -157,20 +144,9 @@
       button2.Name = "button2";
       button2.Size = new Size(82, 22);
       button2.TabIndex = 9;
-      button2.Text = "ADD ALL";
+      button2.Text = "New Game";
       button2.UseVisualStyleBackColor = true;
       button2.Click += button2_Click;
-      //
-      // button3
-      //
-      button3.Location = new Point(57, 236);
-      button3.Margin = new Padding(3, 2, 3, 2);
-      button3.Name = "button3";
-      button3.Size = new Size(82, 22);
-      button3.TabIndex = 10;
-      button3.Text = "REMOVE";
-      button3.UseVisualStyleBackColor = true;
-      button3.Click += button3_Click;
       //
       // label1
       //
@@ -197,9 +173,7 @@
       ClientSize = new Size(1663, 796);
       Controls.Add(winLossRecordLabel);
       Controls.Add(label1);
-      Controls.Add(button3);
       Controls.Add(button2);
-      Controls.Add(button1);
       Controls.Add(playerTurnText);
       Controls.Add(playerTurnLabel);
       Controls.Add(playerTurnPictureBox);
@@ -229,9 +203,7 @@
     private System.Windows.Forms.Label playerTurnText;
     private System.Windows.Forms.PictureBox playerTurnPictureBox;
     private System.Windows.Forms.Label playerTurnLabel;
-    private Button button1;
     private Button button2;
-    private Button button3;
     private Label label1;
     private Label winLossRecordLabel;
   }
