@@ -1,18 +1,18 @@
-class Queen : Piece
+public class Queen : Piece
 {
   public Queen(int startX, int startY) : base(startX, startY) { }
 
-  private static bool topCheck(int val)
+  private static bool TopCheck(int val)
   {
     return val > 7;
   }
 
-  private static bool bottomCheck(int val)
+  private static bool BottomCheck(int val)
   {
     return val < 0;
   }
 
-  public static List<Target> getValidStraightMoves(int posX, int posY, int xDirection, int yDirection, bool?[,] obstacles)
+  public static List<Target> GetValidStraightMoves(int posX, int posY, int xDirection, int yDirection, bool?[,] obstacles)
   {
     List<Target> validMoves = new List<Target>();
 
@@ -21,11 +21,11 @@ class Queen : Piece
       int xOff = i * xDirection;
       int yOff = i * yDirection;
       bool xCheck;
-      if (xDirection == 1) { xCheck = topCheck(posX + xOff); }
-      else { xCheck = bottomCheck(posX + xOff); }
+      if (xDirection == 1) { xCheck = TopCheck(posX + xOff); }
+      else { xCheck = BottomCheck(posX + xOff); }
       bool yCheck;
-      if (yDirection == 1) { yCheck = topCheck(posY + yOff); }
-      else { yCheck = bottomCheck(posY + yOff); }
+      if (yDirection == 1) { yCheck = TopCheck(posY + yOff); }
+      else { yCheck = BottomCheck(posY + yOff); }
 
 
       if (xCheck || yCheck)
@@ -49,7 +49,7 @@ class Queen : Piece
     return validMoves;
   }
 
-  private static List<Target> getValidDiagonalMoves(int posX, int posY, int xDirection, int yDirection, int boundary, bool?[,] obstacles)
+  private static List<Target> GetValidDiagonalMoves(int posX, int posY, int xDirection, int yDirection, int boundary, bool?[,] obstacles)
   {
     List<Target> validMoves = new List<Target>();
 
@@ -74,33 +74,33 @@ class Queen : Piece
     return validMoves;
   }
 
-  public override List<Target> getValidMoves(bool?[,] obstacles)
+  public override List<Target> GetValidMoves(bool?[,] obstacles)
   {
     List<Target> validMoves = new List<Target>();
 
     // Can move up
-    validMoves.AddRange(getValidStraightMoves(posX, posY, 1, 1, obstacles));
+    validMoves.AddRange(GetValidStraightMoves(posX, posY, 1, 1, obstacles));
 
     // Can move diagonally up-right
-    validMoves.AddRange(getValidDiagonalMoves(posX, posY, 0, 1, 7 - posY, obstacles));
+    validMoves.AddRange(GetValidDiagonalMoves(posX, posY, 0, 1, 7 - posY, obstacles));
 
     // Can move right
-    validMoves.AddRange(getValidStraightMoves(posX, posY, -1, 1, obstacles));
+    validMoves.AddRange(GetValidStraightMoves(posX, posY, -1, 1, obstacles));
 
     // Can move diagonally down-right
-    validMoves.AddRange(getValidDiagonalMoves(posX, posY, -1, 0, posX, obstacles));
+    validMoves.AddRange(GetValidDiagonalMoves(posX, posY, -1, 0, posX, obstacles));
 
     // Can move down
-    validMoves.AddRange(getValidStraightMoves(posX, posY, -1, -1, obstacles));
+    validMoves.AddRange(GetValidStraightMoves(posX, posY, -1, -1, obstacles));
 
     // Can move diagonally down-left
-    validMoves.AddRange(getValidDiagonalMoves(posX, posY, 0, -1, posY, obstacles));
+    validMoves.AddRange(GetValidDiagonalMoves(posX, posY, 0, -1, posY, obstacles));
 
     // Can move left
-    validMoves.AddRange(getValidStraightMoves(posX, posY, 1, -1, obstacles));
+    validMoves.AddRange(GetValidStraightMoves(posX, posY, 1, -1, obstacles));
 
     // Can move diagonally up-left
-    validMoves.AddRange(getValidDiagonalMoves(posX, posY, 1, 0, 7 - posX, obstacles));
+    validMoves.AddRange(GetValidDiagonalMoves(posX, posY, 1, 0, 7 - posX, obstacles));
 
     return validMoves;
   }

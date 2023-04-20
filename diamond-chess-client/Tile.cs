@@ -1,26 +1,37 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace DiamondChess
 {
 	internal class Tile : PictureBox
 	{
-		int xPos, yPos, tileRadius;
+		int xPos, yPos, tileRadius, xCoord, yCoord;
 		Color originalTileColor;
 		Point[] diamondPoints = new Point[4];
 
-		public Tile(Graphics graphics, int x, int y, Color color, int radius)
+		public Tile(Graphics graphics, int x, int y, int xCoord, int yCoord, Color color, int radius)
 		{
 			this.xPos = x;
 			this.yPos = y;
+			this.xCoord = xCoord;
+			this.yCoord = yCoord;
 			this.originalTileColor = color;
 			this.tileRadius = radius;
 			this.Size = new Size(radius, radius);
 			this.BackgroundImageLayout = ImageLayout.Zoom;
 			this.BackColor = Color.Transparent;
 			this.Location = new Point(x - radius / 2, y - radius / 2);
+			this.Click += piece_Click;
+
 			SetDiamondPoints();
 			FillTile(color, graphics);
+		}
+
+		void piece_Click(object sender, EventArgs e)
+		{
+			// DANIEL LOOK HERE :)
+			Console.WriteLine($"X: {xCoord} + Y: {yCoord}");
 		}
 
 		void SetDiamondPoints()

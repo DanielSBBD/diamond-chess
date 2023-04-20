@@ -40,7 +40,7 @@ namespace DiamondChess
 		{
 			List<int> xList = new List<int> { 1, 2, 3 };
 			List<int> yList = new List<int> { 1, 2, 4 };
-			List<Color> colorList = new List<Color> { Color.Red,  Color.Green, Color.Blue };
+			List<Color> colorList = new List<Color> { Color.Red, Color.Green, Color.Blue };
 
 			grid.TakePiece(Properties.Resources.W_Queen, 1, 2, true);
 		}
@@ -58,5 +58,8 @@ namespace DiamondChess
 			List<Color> colorList = new List<Color> { Color.Red, Color.Green, Color.Blue };
 			grid.HighlightPieces(xList, yList, colorList);
 		}
+
+
+
 	}
 }

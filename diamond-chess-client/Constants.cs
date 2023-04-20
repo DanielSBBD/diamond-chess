@@ -74,5 +74,21 @@
 			{1 , (7, 6)},
 			{0 , (7, 7)},
 		};
+
+		public static Dictionary<Image, string> PieceDictionary = new Dictionary<Image, string>()
+		{
+			{Properties.Resources.W_Bishop, "W_Bishop" },
+			{Properties.Resources.W_King, "W_King" },
+			{Properties.Resources.W_Knight, "W_Knight" },
+			{Properties.Resources.W_Pawn, "W_Pawn" },
+			{Properties.Resources.W_Queen, "W_Queen" },
+			{Properties.Resources.W_Rook, "W_Rook" },
+			{Properties.Resources.B_Bishop, "B_Bishop" },
+			{Properties.Resources.B_King, "B_King" },
+			{Properties.Resources.B_Knight, "B_Knight" },
+			{Properties.Resources.B_Pawn, "B_Pawn" },
+			{Properties.Resources.B_Queen, "B_Queen" },
+			{Properties.Resources.B_Rook, "B_Rook" },
+		};
 	}
 }

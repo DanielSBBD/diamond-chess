@@ -1,4 +1,4 @@
-struct Target
+public struct Target
 {
   public int posX;
   public int posY;
@@ -12,7 +12,7 @@ struct Target
   }
 }
 
-abstract class Piece
+public abstract class Piece
 {
   protected int posX = 0;
   protected int posY = 0;
@@ -23,17 +23,17 @@ abstract class Piece
     posY = startY;
   }
 
-  public Tuple<int, int> getPos()
+  public Tuple<int, int> GetPos()
   {
     return Tuple.Create(posX, posY);
   }
 
-  public void move(int newX, int newY)
+  public void Move(int newX, int newY)
   {
     posX = newX;
     posY = newY;
   }
 
   // True for enemies, false for allies, null for nothing
-  public abstract List<Target> getValidMoves(bool?[,] obstacles);
+  public abstract List<Target> GetValidMoves(bool?[,] obstacles);
 }

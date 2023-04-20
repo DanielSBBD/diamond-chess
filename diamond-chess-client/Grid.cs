@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.Drawing;
+﻿
+using diamond_chess_server.Models;
 
 namespace DiamondChess
 {
@@ -7,16 +7,18 @@ namespace DiamondChess
 	{
 		int radius = 0;
 
-		List<PictureBox> whiteInventoryPieces = new List<PictureBox>();
-		List<PictureBox> blackInventoryPieces = new List<PictureBox>();
+		//Tile[,] whiteInventoryTiles = new Tile[2, Constants.GridSize];
+		//Tile[,] blackInventoryTiles = new Tile[2, Constants.GridSize];
+
 		int whiteInventoryX = 100;
 		int whiteInventoryY = 400;
 		int blackInventoryX = 1700;
 		int blackInventoryY = 400;
 
-		Tile[,] piecesArray = new Tile[Constants.GridSize, Constants.GridSize];
-		public Dictionary<int, (int x, int y)> PositionDictionary = new Dictionary<int, (int, int)>();
+		Tile[,] tileArray = new Tile[Constants.GridSize, Constants.GridSize];
+		Piece?[,] piecesArray = new Piece?[Constants.GridSize, Constants.GridSize];
 
+		public Dictionary<int, (int x, int y)> PositionDictionary = new Dictionary<int, (int, int)>();
 		int xCounter = 0;
 		int yCounter = 0;
 		int drawTileCounter = 0;
@@ -78,14 +80,34 @@ namespace DiamondChess
 					widthOffset += radius * 2;
 				}
 			}
+
+			//for(int i = 0; i < Constants.GridSize; i++)
+			//{
+			//	for(int j =  0; j < whiteInventoryTiles.Length; j++)
+			//	{
+
+
+			//	}
+			//}
 		}
 
-		private void DrawTile(Graphics graphics, int x, int y, Color color, int radius)
+		private void DrawTile(Graphics graphics, int xPos, int yPos, Color color, int radius)
 		{
-			Tile tempPicBox = new Tile(graphics, x, y, color, radius);
-			piecesArray[Constants.CoordinateDictionary[drawTileCounter].x, Constants.CoordinateDictionary[drawTileCounter].y] = tempPicBox;
+			int xCoord = Constants.CoordinateDictionary[drawTileCounter].x;
+			int yCoord = Constants.CoordinateDictionary[drawTileCounter].y;
+			Tile tempPicBox = new Tile(graphics, xPos, yPos, xCoord, yCoord, color, radius);
+			tileArray[xCoord, yCoord] = tempPicBox;
 			IncrementCounters();
 		}
+
+		//private void DrawInventoryTile(Graphics graphics, int xCoord, int yCoord, Color color, int radius)
+		//{
+		//	Tile tempPicBox = new Tile(graphics, xCoord, yCoord, xCoord, yCoord, color, radius);
+		//	tileArray[xCoord, yCoord] = tempPicBox;
+		//	IncrementCounters();
+		//}
+
+
 
 		void IncrementCounters()
 		{
@@ -100,57 +122,60 @@ namespace DiamondChess
 
 		public void DrawPiece(Image img, int x, int y)
 		{
-			piecesArray[x, y].SetPiece(img);
-			Controls.Add(piecesArray[x, y]);
+			tileArray[x, y].SetPiece(img);
+			Controls.Add(tileArray[x, y]);
+
+			string pieceType = Constants.PieceDictionary[img];
+			piecesArray[x, y] = new Bishop(x, y);
 		}
 
 		public void TakePiece(Image img, int x, int y, bool isBlack)
 		{
-			if (piecesArray[x, y].BackgroundImage != null) // JESSE - NOT WORKING
+			if (tileArray[x, y].BackgroundImage != null) // JESSE - NOT WORKING
 			{
 				//if (isBlack)
 				//{
-				//	AddToWhiteInventory(piecesArray[x, y].BackgroundImage);
+				//	AddToWhiteInventory(tileArray[x, y].BackgroundImage);
 				//}
 				//else
 				//{
-				//	AddToBlackInventory(piecesArray[x, y].BackgroundImage);
+				//	AddToBlackInventory(tileArray[x, y].BackgroundImage);
 				//}
-			}			
+			}
 
-			piecesArray[x, y].RemovePiece();
-			piecesArray[x, y].SetPiece(img);
+			tileArray[x, y].RemovePiece();
+			tileArray[x, y].SetPiece(img);
 		}
 
-		public void AddToWhiteInventory(Image img) // JESSE - NOT WORKING
-		{
-			whiteInventoryPieces.Add(new PictureBox());
-			whiteInventoryPieces[^1].Size = new Size(radius, radius);
-			whiteInventoryPieces[^1].BackgroundImageLayout = ImageLayout.Zoom;
-			whiteInventoryPieces[^1].BackColor = Color.Transparent;
-			whiteInventoryPieces[^1].Location = new Point(whiteInventoryX, whiteInventoryY);
-			Controls.Add(blackInventoryPieces[^1]);
+		//public void AddToWhiteInventory(Image img) // JESSE - NOT WORKING
+		//{
+		//	whiteInventoryPieces.Add(new PictureBox());
+		//	whiteInventoryPieces[^1].Size = new Size(radius, radius);
+		//	whiteInventoryPieces[^1].BackgroundImageLayout = ImageLayout.Zoom;
+		//	whiteInventoryPieces[^1].BackColor = Color.Transparent;
+		//	whiteInventoryPieces[^1].Location = new Point(whiteInventoryX, whiteInventoryY);
+		//	Controls.Add(blackInventoryPieces[^1]);
 
-			whiteInventoryPieces[^1].BackgroundImage = img;
-			whiteInventoryPieces[^1].BringToFront();
-			whiteInventoryPieces[^1].Refresh();
-			whiteInventoryY += 100;
-		}
+		//	whiteInventoryPieces[^1].BackgroundImage = img;
+		//	whiteInventoryPieces[^1].BringToFront();
+		//	whiteInventoryPieces[^1].Refresh();
+		//	whiteInventoryY += 100;
+		//}
 
-		public void AddToBlackInventory(Image img) // JESSE - NOT WORKING
-		{
-			blackInventoryPieces.Add(new PictureBox());
-			blackInventoryPieces[^1].Size = new Size(100, 100);
-			blackInventoryPieces[^1].BackgroundImageLayout = ImageLayout.Zoom;
-			blackInventoryPieces[^1].BackColor = Color.Transparent;
-			blackInventoryPieces[^1].Location = new Point(blackInventoryX, blackInventoryY);
-			Controls.Add(blackInventoryPieces[^1]);
+		//public void AddToBlackInventory(Image img) // JESSE - NOT WORKING
+		//{
+		//	blackInventoryPieces.Add(new PictureBox());
+		//	blackInventoryPieces[^1].Size = new Size(100, 100);
+		//	blackInventoryPieces[^1].BackgroundImageLayout = ImageLayout.Zoom;
+		//	blackInventoryPieces[^1].BackColor = Color.Transparent;
+		//	blackInventoryPieces[^1].Location = new Point(blackInventoryX, blackInventoryY);
+		//	Controls.Add(blackInventoryPieces[^1]);
 
-			blackInventoryPieces[^1].BackgroundImage = img;
-			blackInventoryPieces[^1].BringToFront();
-			blackInventoryPieces[^1].Refresh();
-			blackInventoryY += 100;
-		}
+		//	blackInventoryPieces[^1].BackgroundImage = img;
+		//	blackInventoryPieces[^1].BringToFront();
+		//	blackInventoryPieces[^1].Refresh();
+		//	blackInventoryY += 100;
+		//}
 
 
 
@@ -160,8 +185,8 @@ namespace DiamondChess
 			Graphics graphics = this.CreateGraphics();
 			for (int i = 0; i < xList.Count; i++)
 			{
-				piecesArray[xList[i], yList[i]].SetOutline(colorList[i], graphics);
-				Controls.Add(piecesArray[xList[i], yList[i]]);
+				tileArray[xList[i], yList[i]].SetOutline(colorList[i], graphics);
+				Controls.Add(tileArray[xList[i], yList[i]]);
 			}
 			graphics.Dispose();
 		}
@@ -179,7 +204,7 @@ namespace DiamondChess
 
 			for(int i = 0; i < xList.Count; i++)
 			{
-				piecesArray[xList[i], yList[i]].FillTile(colorList[i], graphics);
+				tileArray[xList[i], yList[i]].FillTile(colorList[i], graphics);
 			}
 			graphics.Dispose();
 		}
@@ -197,7 +222,7 @@ namespace DiamondChess
 
 			for (int i = 0; i < xList.Count; i++)
 			{
-				piecesArray[xList[i], yList[i]].ResetTile(graphics);
+				tileArray[xList[i], yList[i]].ResetTile(graphics);
 			}
 			graphics.Dispose();
 		}
@@ -206,6 +231,8 @@ namespace DiamondChess
 		{
 			// BLACK PIECES
 			DrawPiece(Properties.Resources.B_King, 7, 7);
+
+
 			DrawPiece(Properties.Resources.B_Queen, 6, 6);
 			DrawPiece(Properties.Resources.B_Rook, 7, 6);
 			DrawPiece(Properties.Resources.B_Rook, 6, 7);

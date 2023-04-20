@@ -1,8 +1,8 @@
-class Pawn : Piece
+public class Pawn : Piece
 {
   public Pawn(int startX, int startY) : base(startX, startY) { }
 
-  public override List<Target> getValidMoves(bool?[,] obstacles)
+  public override List<Target> GetValidMoves(bool?[,] obstacles)
   {
     List<Target> validMoves = new List<Target>();
 
