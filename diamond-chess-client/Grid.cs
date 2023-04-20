@@ -34,39 +34,85 @@
     int yCounter = 0;
     int drawTileCounter = 0;
 
+    bool isWhitesTurn = true;
     (int, int) selectedPiece = (8, 8);
 
     public void HandleClick(int x, int y)
     {
+      // If you're clicking a piece
       if (piecesArray[x, y] is not null)
       {
-        selectedPiece = (x, y);
-        bool?[,] b = new bool?[8, 8];
-        Piece thisPiece = piecesArray[x, y].Value.piece;
-        bool isThisPieceWhite = piecesArray[x, y].Value.isWhite;
-
-        for (int i = 0; i < 8; i++)
+        // If you're taking a piece
+        if (tileArray[x, y].isHighlighted)
         {
-          for (int j = 0; j < 8; j++)
+          // Remember me
+          Image tileImage = tileArray[selectedPiece.Item1, selectedPiece.Item2].BackgroundImage;
+          ColouredPiece colouredPiece = piecesArray[selectedPiece.Item1, selectedPiece.Item2].Value;
+          // Kill old
+          tileArray[selectedPiece.Item1, selectedPiece.Item2].RemovePiece();
+          piecesArray[selectedPiece.Item1, selectedPiece.Item2] = null;
+          // Kill target
+          tileArray[x, y].RemovePiece();
+          piecesArray[x, y] = null;
+          // Add new
+          tileArray[x, y].SetPiece(tileImage);
+          colouredPiece.piece.Move(x, y);
+          piecesArray[x, y] = colouredPiece;
+          selectedPiece = (8, 8);
+          // Reset highlights
+          ResetHighlightedPieces();
+          // Switch turn
+          isWhitesTurn = !isWhitesTurn;
+          EventHandler raiseEvent = RaiseTurnChangeEvent;
+          if (raiseEvent != null)
           {
-            if (piecesArray[i, j] is not null)
-            {
-              if (isThisPieceWhite)
-              {
-                b[i, j] = !piecesArray[i, j].Value.isWhite;
-              }
-              else
-              {
-                b[i, j] = piecesArray[i, j].Value.isWhite;
-              }
-            }
+              raiseEvent(this, null);
           }
         }
+        else
+        {
+          // If you're selecting a piece
+          if (x != selectedPiece.Item1 || y != selectedPiece.Item2)
+          {
+            selectedPiece = (x, y);
+            bool?[,] b = new bool?[8, 8];
+            Piece thisPiece = piecesArray[x, y].Value.piece;
+            bool isThisPieceWhite = piecesArray[x, y].Value.isWhite;
 
-        HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
-          target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
-        )).ToList());
+            if ((isWhitesTurn && isThisPieceWhite) || (!isWhitesTurn && !isThisPieceWhite))
+            {
+              for (int i = 0; i < 8; i++)
+              {
+                for (int j = 0; j < 8; j++)
+                {
+                  if (piecesArray[i, j] is not null)
+                  {
+                    if (isThisPieceWhite)
+                    {
+                      b[i, j] = !piecesArray[i, j].Value.isWhite;
+                    }
+                    else
+                    {
+                      b[i, j] = piecesArray[i, j].Value.isWhite;
+                    }
+                  }
+                }
+              }
+
+              HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
+                target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
+              )).ToList());
+            }
+
+          }
+          else // If you are unselecting a piece
+          {
+            selectedPiece = (8, 8);
+            ResetHighlightedPieces();
+          }
+        }
       }
+      // If you're moving a piece
       if (tileArray[x, y].isHighlighted)
       {
         // Remember me
@@ -82,7 +128,8 @@
         selectedPiece = (8, 8);
         // Reset highlights
         ResetHighlightedPieces();
-
+        // Switch turn
+        isWhitesTurn = !isWhitesTurn;
         EventHandler raiseEvent = RaiseTurnChangeEvent;
         if (raiseEvent != null)
         {
