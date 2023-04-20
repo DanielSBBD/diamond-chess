@@ -51,10 +51,14 @@ namespace DiamondChess
 				username1 = username1Textbox.Text;
 				user1LoggedIn = true;
 				user1LoginButton.Enabled = false;
+				user1RegisterButton.Enabled = false;
+				user1PlayAsGuestLabel.Visible = false;
 				user1LogoutLabel.Visible = true;
 
 				user1LoginButton.BackColor = Color.DarkGray;
 				user1LoginButton.ForeColor = Color.DimGray;
+				user1RegisterButton.BackColor = Color.DarkGray;
+				user1RegisterButton.ForeColor = Color.DimGray;
 			}
 			else
 			{
@@ -92,9 +96,13 @@ namespace DiamondChess
 				user2LoggedIn = true;
 				user2LoginButton.Enabled = false;
 				user2LogoutLabel.Visible = true;
+				user2RegisterButton.Enabled = false;
+				user2PlayAsGuestLabel.Visible = false;
 
 				user2LoginButton.BackColor = Color.DarkGray;
 				user2LoginButton.ForeColor = Color.DimGray;
+				user2RegisterButton.BackColor = Color.DarkGray;
+				user2RegisterButton.ForeColor = Color.DimGray;
 			}
 			else
 			{
@@ -153,6 +161,8 @@ namespace DiamondChess
 		{
 			user1LoggedIn = false;
 			user1LoginButton.Enabled = true;
+			user1RegisterButton.Enabled = true;
+			user1PlayAsGuestLabel.Visible = true;
 			user1LogoutLabel.Visible = false;
 			username1Textbox.Clear();
 			password1Textbox.Clear();
@@ -162,12 +172,16 @@ namespace DiamondChess
 			startGameButton.ForeColor = Color.DimGray;
 			user1LoginButton.BackColor = Constants.DarkColour;
 			user1LoginButton.ForeColor = Constants.LightColour;
+			user1RegisterButton.BackColor = Constants.DarkColour;
+			user1RegisterButton.ForeColor = Constants.LightColour;
 		}
 
 		private void user2LogoutLabel_Click(object sender, EventArgs e)
 		{
 			user2LoggedIn = false;
 			user2LoginButton.Enabled = true;
+			user2RegisterButton.Enabled = true;
+			user2PlayAsGuestLabel.Visible = true;
 			user2LogoutLabel.Visible = false;
 			username2Textbox.Clear();
 			password2Textbox.Clear();
@@ -177,26 +191,61 @@ namespace DiamondChess
 			startGameButton.ForeColor = Color.DimGray;
 			user2LoginButton.BackColor = Constants.DarkColour;
 			user2LoginButton.ForeColor = Constants.LightColour;
+			user2RegisterButton.BackColor = Constants.DarkColour;
+			user2RegisterButton.ForeColor = Constants.LightColour;
 		}
 
-		private void user1RegisterButton_Click(object sender, EventArgs e)
+		private async void user1RegisterButton_Click(object sender, EventArgs e)
 		{
-			// Register user 1
 		}
 
 		private void user2RegisterButton_Click(object sender, EventArgs e)
 		{
-			// Register user 2
+			user2IncorrectLabel.Text = "Register user 2";
 		}
 
 		private void user1PlayAsGuestLabel_Click(object sender, EventArgs e)
 		{
-			// Play as guest user 1
+				username1 = "Guest Player 1";
+				user1LoggedIn = true;
+				user1LoginButton.Enabled = false;
+				user1RegisterButton.Enabled = false;
+				user1PlayAsGuestLabel.Visible = false;
+				user1LogoutLabel.Visible = true;
+
+				user1LoginButton.BackColor = Color.DarkGray;
+				user1LoginButton.ForeColor = Color.DimGray;
+				user1RegisterButton.BackColor = Color.DarkGray;
+				user1RegisterButton.ForeColor = Color.DimGray;
+
+				if (user1LoggedIn && user2LoggedIn)
+				{
+					startGameButton.Enabled = true;
+					startGameButton.BackColor = Constants.DarkColour;
+					startGameButton.ForeColor = Constants.LightColour;
+				}
 		}
 
 		private void user2PlayAsGuestLabel_Click(object sender, EventArgs e)
 		{
-			// PLay as guest user 2
+				username2 = "Guest Player 2";
+				user2LoggedIn = true;
+				user2LoginButton.Enabled = false;
+				user2RegisterButton.Enabled = false;
+				user2PlayAsGuestLabel.Visible = false;
+				user2LogoutLabel.Visible = true;
+
+				user2LoginButton.BackColor = Color.DarkGray;
+				user2LoginButton.ForeColor = Color.DimGray;
+				user2RegisterButton.BackColor = Color.DarkGray;
+				user2RegisterButton.ForeColor = Color.DimGray;
+
+				if (user1LoggedIn && user2LoggedIn)
+				{
+					startGameButton.Enabled = true;
+					startGameButton.BackColor = Constants.DarkColour;
+					startGameButton.ForeColor = Constants.LightColour;
+				}
 		}
 	}
 }
