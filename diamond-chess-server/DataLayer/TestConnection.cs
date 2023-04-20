@@ -8,18 +8,11 @@ namespace diamond_chess_server.DataLayer
         {
             using (conn)
             {
-                try
-                {
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT 1", conn);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SELECT 1", conn);
 
-                    cmd.ExecuteScalar();
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                cmd.ExecuteScalar();
+                return true;
 
             }
         }
