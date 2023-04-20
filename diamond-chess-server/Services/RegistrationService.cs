@@ -11,7 +11,7 @@ namespace diamond_chess_server.Services
       DataAccess dbConnection = new DataAccess();
       string rowsAffected = await dbConnection.RegisterPlayer(newUser);
 
-      return Int16.Parse(rowsAffected) == 1;//handle cases when >1 or <1 rows affected here?
+      return rowsAffected == "Successfully registed player.";
 
     }
 

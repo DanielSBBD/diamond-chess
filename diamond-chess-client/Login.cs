@@ -9,6 +9,9 @@ namespace DiamondChess
 	{
 		string username1, username2;
 		bool user1LoggedIn, user2LoggedIn;
+		private Form registerDialogBox;
+		private TextBox registrationUsernameTextBox, registrationPasswordTextBox, registrationNameTextBox, registrationSurnameTextBox;
+		private Label modalErrorLabel;
 		public Login()
 		{
 			InitializeComponent();
@@ -16,6 +19,117 @@ namespace DiamondChess
 			username2 = string.Empty;
 			user1LoggedIn = false;
 			user2LoggedIn = false;
+
+			registerDialogBox = new Form();
+			registrationUsernameTextBox = new TextBox();
+			Label registrationUsernameLabel = new Label();
+			registrationPasswordTextBox = new TextBox();
+			registrationPasswordTextBox.PasswordChar = '*';
+			Label registrationPasswordLabel = new Label();
+			registrationNameTextBox = new TextBox();
+			Label registrationNameLabel = new Label();
+			registrationSurnameTextBox = new TextBox();
+			Label registrationSurnameLabel = new Label();
+			modalErrorLabel = new Label();
+			modalErrorLabel.ForeColor = Color.Red;
+			Button registerButton = new Button();
+			Button cancelButton = new Button();
+
+			registerDialogBox.Text = "Create a new user profile";
+			registrationNameLabel.Text = "Name:";
+			registrationNameLabel.AutoSize = true;
+			registrationSurnameLabel.Text = "Surname:";
+			registrationSurnameLabel.AutoSize = true;
+			registrationUsernameLabel.Text = "Username:";
+			registrationUsernameLabel.AutoSize = true;
+			registrationPasswordLabel.Text = "Password:";
+			registrationPasswordLabel.AutoSize = true;
+
+			registrationNameLabel.SetBounds(36, 36, 372, 13);
+			registrationNameTextBox.SetBounds(36, 56, 700, 20);
+			registrationSurnameLabel.SetBounds(36, 86, 372, 13);
+			registrationSurnameTextBox.SetBounds(36, 106, 700, 20);
+			registrationUsernameLabel.SetBounds(36, 136, 372, 13);
+			registrationUsernameTextBox.SetBounds(36, 156, 700, 20);
+			registrationPasswordLabel.SetBounds(36, 186, 372, 13);
+			registrationPasswordTextBox.SetBounds(36, 206, 700, 20);
+			modalErrorLabel.SetBounds(36, 16, 700, 20);
+
+			registerButton.Text = "Register";
+			cancelButton.Text = "Cancel";
+			registerButton.DialogResult = DialogResult.OK;
+			cancelButton.DialogResult = DialogResult.Cancel;
+			registerButton.SetBounds(228, 260, 160, 60);
+			cancelButton.SetBounds(400, 260, 160, 60);
+
+			registerDialogBox.ClientSize = new Size(796, 357);
+			registerDialogBox.FormBorderStyle = FormBorderStyle.FixedDialog;
+			registerDialogBox.StartPosition = FormStartPosition.CenterScreen;
+			registerDialogBox.MinimizeBox = false;
+			registerDialogBox.MaximizeBox = false;
+
+			registerDialogBox.Controls.AddRange(new Control[] {
+				registrationNameLabel, registrationSurnameLabel, registrationUsernameLabel, registrationPasswordLabel,
+				registrationNameTextBox, registrationSurnameTextBox, registrationUsernameTextBox, registrationPasswordTextBox,
+				registerButton, cancelButton, modalErrorLabel
+				});
+			registerDialogBox.AcceptButton = registerButton;
+			registerDialogBox.CancelButton = cancelButton;
+		}
+
+		private async Task<string> registerUser(Boolean reset)
+		{
+			if (reset)
+			{
+				modalErrorLabel.Text = "";
+				registrationNameTextBox.Clear();
+				registrationSurnameTextBox.Clear();
+				registrationUsernameTextBox.Clear();
+				registrationPasswordTextBox.Clear();
+			}
+
+			DialogResult dialogResult = registerDialogBox.ShowDialog();
+
+			if (dialogResult == DialogResult.OK)
+			{
+				if (registrationNameTextBox.Text.Length < 2) {
+					modalErrorLabel.Text = "Name must be at least 2 characters long.";
+					return await registerUser(false);
+				}
+
+				if (registrationSurnameTextBox.Text.Length < 2) {
+					modalErrorLabel.Text = "Surname must be at least 2 characters long.";
+					return await registerUser(false);
+				}
+
+				if (registrationUsernameTextBox.Text.Length < 5) {
+					modalErrorLabel.Text = "Username must be at least 5 characters long.";
+					return await registerUser(false);
+				}
+
+				if (registrationPasswordTextBox.Text.Length < 10) {
+					modalErrorLabel.Text = "Password must be at least 10 characters long.";
+					return await registerUser(false);
+				}
+
+				Player newPlayer = new Player();
+				newPlayer.Name = registrationNameTextBox.Text;
+				newPlayer.Surname = registrationSurnameTextBox.Text;
+				LoginDetails userDetails = new LoginDetails();
+				userDetails.Username = registrationUsernameTextBox.Text;
+				userDetails.PasswordHash = hashPassword(registrationPasswordTextBox.Text);
+				newPlayer.playerLogin = userDetails;
+
+				if (await RegistrationService.RegisterUser(newPlayer))
+				{
+					return "";
+				} else
+				{
+					modalErrorLabel.Text = "Username is already taken.";
+					return await registerUser(false);
+				}
+			}
+			return "";
 		}
 
 		private void Login_Load(object sender, EventArgs e)
@@ -197,11 +311,12 @@ namespace DiamondChess
 
 		private async void user1RegisterButton_Click(object sender, EventArgs e)
 		{
+			user1IncorrectLabel.Text = await registerUser(true);
 		}
 
-		private void user2RegisterButton_Click(object sender, EventArgs e)
+		private async void user2RegisterButton_Click(object sender, EventArgs e)
 		{
-			user2IncorrectLabel.Text = "Register user 2";
+			user2IncorrectLabel.Text = await registerUser(true);
 		}
 
 		private void user1PlayAsGuestLabel_Click(object sender, EventArgs e)
