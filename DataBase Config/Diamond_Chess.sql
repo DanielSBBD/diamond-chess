@@ -42,6 +42,7 @@ GO
 
 CREATE TABLE [DBO].[Piece_Type] (
 		[id] [INT] IDENTITY(1,1) PRIMARY KEY,
+		[colour] varchar(5),
 		[type] VARCHAR(8)
 	);
 GO
@@ -54,6 +55,7 @@ GO
 
 CREATE TABLE [DBO].[Piece] (
 		[id] [INT] IDENTITY(1,1) PRIMARY KEY,
+		[match_id] [INT] FOREIGN KEY REFERENCES Match_Histories(match_id),
 		[type] [INT] FOREIGN KEY REFERENCES Piece_Type(id),
 		[coordinate_x] [INT],
 		[coordinate_y] [INT],
@@ -75,8 +77,30 @@ GO
 
 INSERT INTO Match_Outcomes (outcome_name) VALUES ('White Victory'),
 												 ('Black Victory'),
-												 ('Draw')
+												 ('Draw'),
+												 ('In Progress')
 GO
+
+INSERT INTO [DBO].[Piece_Type] (colour, type)
+	VALUES
+	('BLACK', 'Pawn'),
+	('BLACK', 'Rook'),
+	('BLACK', 'Bishop'),
+	('BLACK', 'Knight'),
+	('BLACK', 'Queen'),
+	('BLACK', 'King'),
+	('WHITE', 'Pawn'),
+	('WHITE', 'Rook'),
+	('WHITE', 'Bishop'),
+	('WHITE', 'Knight'),
+	('WHITE', 'Queen'),
+	('WHITE', 'King')
+
+INSERT [DBO].[Piece_Status] (status)
+	VALUES
+	('ALIVE'),
+	('DEAD')
+
 INSERT INTO Login_Details (login_username, login_password_hash) VALUES ('cbarrack0', '59-00-47-00-4C-00-37-00-35-00-32-00-6F-00-75-00-4D-00-35-00-57-00-4C-00'),
 																	   ('btrevillion1', '64-3B-60-05-F8-6E-81-85-55-0D-70-C6-23-53-51-CB-CB-CA-1C-9A-65-EC-00-4B-CA-F2-0C-48-4F-A9-A5-1D-17-04-A6-CD-A3-B4-80-68-9B-9A-B2-0C-1F-CD-C5-9E-88-8B-5C-BA-CA-37-99-EB-C4-1C-E5-C4-F0-1D-6E-10'),
 																	   --hzdzzgn
@@ -253,6 +277,26 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE dbo.uspInsertGameState
+	@match_id int,
+	@type int,
+	@coordinate_x int,
+	@coordinate_y int,
+	@status int
+AS
+BEGIN
+	INSERT INTO [DBO].[Piece] (match_id, type, coordinate_x, coordinate_y, status)
+	VALUES (@match_id, @type, @coordinate_x, @coordinate_y, @status)
+END
+GO
+
+--CREATE PROCEDURE dbo.uspInsertPiece
+--	@
+--AS
+--BEGIN
+--END
+--GO
+
 CREATE FUNCTION udfgetPlayerWins(
 	@pId int
 )
@@ -291,3 +335,7 @@ CREATE VIEW vPlayerScores
 AS
 SELECT p.player_id, p.player_name, p.player_surname, dbo.udfgetPlayerWins(p.player_id) as [Wins], dbo.udfgetPlayerDraws(p.player_id) as [Draws], dbo.udfgetPlayerLoses(p.player_id) as [Losses]
 FROM Players p
+
+--CREATE VIEW vGameState
+--AS
+--SELECT 

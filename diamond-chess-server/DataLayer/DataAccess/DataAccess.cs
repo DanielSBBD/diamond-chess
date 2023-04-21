@@ -164,5 +164,56 @@ namespace diamond_chess_server.DataLayer.DataAccess
             return validLoginDetails;
 
         }
+
+    internal bool SaveGame(GameState game)
+    {
+      try
+      {
+
+        using (SqlConnection con = new SqlConnection(connection))
+        {
+          using (SqlCommand cmd = new SqlCommand("vGameState", con))
+          {
+            //To an insert to DB
+            return true;
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine("Something went wrong, deal with it");
+        Console.WriteLine(e.Message);
+      }
+      return false;
     }
+
+    internal GameState GetGame(int matchId)
+    {
+      GameState game = new GameState();
+      try
+      {
+        using (SqlConnection con = new SqlConnection(connection))
+        {
+          SqlCommand cmd = new SqlCommand($"SELECT * FROM Match_Histories WHERE match_id = '{matchId}'", con);
+          con.Open();
+          using (SqlDataReader reader = cmd.ExecuteReader())
+          {
+            for(int index = 0; reader.Read() ; index++)
+            {
+              //populate game with the game fetched from db
+              game.Match.Id = (int)reader[index++];
+              Console.WriteLine($"{}, {reader[index++]}, {reader[index++]}, {reader[index++]}, {reader[index++]}");
+            }
+            return game;
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine("Something went wrong, deal with it");
+        Console.WriteLine(e.Message);
+      }
+      return game;
+    }
+  }
 }
