@@ -14,5 +14,14 @@ namespace diamond_chess_server.Services
 
     }
 
-  }
+    public static async void InsertHistory(MatchHistory match)
+    {
+
+        DataAccess dbConnection = new DataAccess();
+
+       await dbConnection.InsertMatchHistory(match);
+
+    }
+
+    }
 }
