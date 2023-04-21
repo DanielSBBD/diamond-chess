@@ -22,7 +22,7 @@ namespace DiamondChess
 
     private void Game_Load(object sender, EventArgs e)
     {
-      playerTurnText.Text = player1.playerLogin.Username;
+      playerTurnText.Text = player1.playerLogin.Username + "          ";
 
       winLossRecordLabel.Text = player1.playerLogin.Username + " W/L/D: " + player1.numWins + "/" + player1.numLosses + "/" + player1.numDraws + "\n" +
         player2.playerLogin.Username + " W/L/D: " + player2.numWins + "/" + player2.numLosses + "/" + player2.numDraws;
@@ -41,37 +41,39 @@ namespace DiamondChess
     {
       if (score == -1)
       {
-        playerTurnText.Text = player2.playerLogin.Username + " wins!";
+        playerTurnText.Text = player2.playerLogin.Username + " wins!" + "          ";
         stopwatch.Stop();
         MatchRecordService.InsertHistory(new MatchHistory()
         {
-            White = player1,
-            Black = player2,
-            Outcome = 1,
-            Duration = stopwatch.Elapsed * 60
+          White = player1,
+          Black = player2,
+          Outcome = 1,
+          Duration = stopwatch.Elapsed * 60
         });
       }
       else if (score == 1)
       {
-        playerTurnText.Text = player1.playerLogin.Username + " wins!";
+        playerTurnText.Text = player1.playerLogin.Username + " wins!" + "          ";
         stopwatch.Stop();
         MatchRecordService.InsertHistory(new MatchHistory()
         {
-            White = player1,
-            Black = player2,
-            Outcome = 0,
-            Duration = stopwatch.Elapsed * 60
+          White = player1,
+          Black = player2,
+          Outcome = 0,
+          Duration = stopwatch.Elapsed * 60
         });
       }
       else if (whiteToPlay)
       {
-        playerTurnText.Text = player1.playerLogin.Username;
+        playerTurnText.Text = player1.playerLogin.Username + "          ";
       }
       else
       {
-        playerTurnText.Text = player2.playerLogin.Username;
+        playerTurnText.Text = player2.playerLogin.Username + "          ";
       }
       whiteToPlay = !whiteToPlay;
+
+      ToggleTurnColour(whiteToPlay);
     }
 
     protected override void OnFormClosing(FormClosingEventArgs e)
@@ -84,11 +86,9 @@ namespace DiamondChess
     private void newGame_Click(object sender, EventArgs e)
     {
       grid.RedrawStartPositions();
-	    newGame.Enabled = false;
+      newGame.Enabled = false;
       stopwatch.Reset();
       stopwatch.Start();
-
-
     }
   }
 }

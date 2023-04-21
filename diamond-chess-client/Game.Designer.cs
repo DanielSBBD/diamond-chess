@@ -134,7 +134,7 @@
       playerTurnLabel.RightToLeft = RightToLeft.No;
       playerTurnLabel.Size = new Size(121, 47);
       playerTurnLabel.TabIndex = 7;
-      playerTurnLabel.Text = "TO PLAY:";
+      playerTurnLabel.Text = "TO PLAY:      ";
       playerTurnLabel.TextAlign = ContentAlignment.MiddleRight;
       // 
       // newGame
@@ -197,6 +197,24 @@
       ((System.ComponentModel.ISupportInitialize)playerTurnPictureBox).EndInit();
       ResumeLayout(false);
       PerformLayout();
+    }
+
+    public void ToggleTurnColour(bool toWhite)
+    {
+      if (toWhite)
+      {
+        playerTurnLabel.BackColor = Color.Black;
+        playerTurnLabel.ForeColor = Color.White;
+        playerTurnText.BackColor = Color.Black;
+        playerTurnText.ForeColor = Color.White;
+      }
+      else
+      {
+        playerTurnLabel.BackColor = Color.Transparent;
+        playerTurnLabel.ForeColor = SystemColors.ControlText;
+        playerTurnText.BackColor = Color.Transparent;
+        playerTurnText.ForeColor = SystemColors.ControlText;
+      }
     }
 
     #endregion
