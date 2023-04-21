@@ -41,7 +41,7 @@ namespace DiamondChess
     {
       if (score == -1)
       {
-        playerTurnText.Text = player2.playerLogin.Username + " wins!" + "          ";
+        playerTurnText.Text = player2.playerLogin.Username + " wins!" + "  ";
         stopwatch.Stop();
         MatchRecordService.InsertHistory(new MatchHistory()
         {
@@ -53,7 +53,7 @@ namespace DiamondChess
       }
       else if (score == 1)
       {
-        playerTurnText.Text = player1.playerLogin.Username + " wins!" + "          ";
+        playerTurnText.Text = player1.playerLogin.Username + " wins!" + "  ";
         stopwatch.Stop();
         MatchRecordService.InsertHistory(new MatchHistory()
         {
