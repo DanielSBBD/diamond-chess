@@ -124,7 +124,7 @@ namespace DiamondChess
               }
 
               HighlightPieces(thisPiece.GetValidMoves(b, isThisPieceWhite).Select((target, index) => (
-                target.posX, target.posY, target.isOccupied ? Color.Red : Color.Green
+                target.posX, target.posY, target.isOccupied ? Color.DarkRed : Color.SteelBlue
               )).ToList());
             }
 
