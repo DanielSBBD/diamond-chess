@@ -77,7 +77,11 @@ INSERT INTO Match_Outcomes (outcome_name) VALUES ('White Victory'),
 												 ('Black Victory'),
 												 ('Draw')
 GO
-INSERT INTO Login_Details (login_username, login_password_hash) VALUES ('cbarrack0', '59-00-47-00-4C-00-37-00-35-00-32-00-6F-00-75-00-4D-00-35-00-57-00-4C-00'),
+INSERT INTO Login_Details (login_username, login_password_hash) VALUES ('Guest Player 1', '35-0B-70-4F-13-0F-8D-27-A7-5C-E9-B7-5B-66-A0-D5-B5-CD-F8-B5-5C-77-AD-41-42-4F-1F-75-A9-B0-C1-87-7B-44-55-C3-4D-16-4C-77-3B-7C-AF-A5-AC-3D-99-DA-79-E0-82-9A-E8-B8-E1-43-6B-A3-FA-78-CA-1D-44-36'),
+																	   --guest
+																	   ('Guest Player 2', '35-0B-70-4F-13-0F-8D-27-A7-5C-E9-B7-5B-66-A0-D5-B5-CD-F8-B5-5C-77-AD-41-42-4F-1F-75-A9-B0-C1-87-7B-44-55-C3-4D-16-4C-77-3B-7C-AF-A5-AC-3D-99-DA-79-E0-82-9A-E8-B8-E1-43-6B-A3-FA-78-CA-1D-44-36'),
+																	   --guest
+																	   ('cbarrack0', '59-00-47-00-4C-00-37-00-35-00-32-00-6F-00-75-00-4D-00-35-00-57-00-4C-00'),
 																	   ('btrevillion1', '64-3B-60-05-F8-6E-81-85-55-0D-70-C6-23-53-51-CB-CB-CA-1C-9A-65-EC-00-4B-CA-F2-0C-48-4F-A9-A5-1D-17-04-A6-CD-A3-B4-80-68-9B-9A-B2-0C-1F-CD-C5-9E-88-8B-5C-BA-CA-37-99-EB-C4-1C-E5-C4-F0-1D-6E-10'),
 																	   --hzdzzgn
 																	   ('etofanelli2', '0A-BD-E6-57-B0-83-FE-1F-E7-B5-8A-7B-AA-E8-0B-8D-48-2E-41-75-0E-6F-9C-AE-BC-92-3D-D0-1C-75-42-66-15-9B-E1-0D-D5-3F-AE-FF-E1-46-EE-81-9F-0C-D7-D3-45-4A-2E-3D-D3-7D-CF-61-88-6E-94-DC-58-3B-EF-3B'),
@@ -117,26 +121,28 @@ INSERT INTO Login_Details (login_username, login_password_hash) VALUES ('cbarrac
 																	   ('tbyartj', 'CB-8A-50-B0-C9-59-BE-33-05-FE-B3-FA-2B-2A-82-AD-39-75-E4-76-45-68-85-10-2E-C1-77-D5-8D-03-BC-BA-27-D7-41-78-7E-5C-37-DA-AF-A6-71-CB-BF-C6-E8-76-78-3C-5F-CD-90-E7-3A-5E-15-90-A8-08-AD-3A-ED-88')
 																	   --d7sYbE4
 GO
-INSERT INTO Players (player_name, player_surname, login_id) VALUES ('Damiano', 'Dutson', 50001),
-																   ('Reider', 'Sobey', 50002),
-																   ('Pavia', 'Girod', 50003),
-																   ('Vanya', 'Maudson', 50004),
-																   ('Kerrin', 'Sheddan', 50005),
-																   ('Jonis', 'Bartalin', 50006),
-																   ('Consuelo', 'Treverton', 50007),
-																   ('Ralina', 'Verlinde', 50008),
-																   ('Janelle', 'Paler', 50009),
-																   ('Codi', 'Loudian', 50010),
-																   ('Marguerite', 'Pryor', 50011),
-																   ('Zebulon', 'Welton', 50012),
-																   ('Suzette', 'Pellitt', 50013),
-																   ('Sterling', 'Norrington', 50014),
-																   ('Aretha', 'Porkiss', 50015),
-																   ('Huey', 'Barendtsen', 50016),
-																   ('Kale', 'Nano', 50017),
-																   ('Drona', 'Izod', 50018),
-																   ('Cathlene', 'Vida', 50019),
-																   ('Geralda', 'Manhood', 50020)
+INSERT INTO Players (player_name, player_surname, login_id) VALUES ('Guest', 'Player 1',50001),
+																   ('Guest', 'Player 2',50002),
+																   ('Damiano', 'Dutson', 50003),
+																   ('Reider', 'Sobey', 50004),
+																   ('Pavia', 'Girod', 50005),
+																   ('Vanya', 'Maudson', 50006),
+																   ('Kerrin', 'Sheddan', 50007),
+																   ('Jonis', 'Bartalin', 50008),
+																   ('Consuelo', 'Treverton', 50009),
+																   ('Ralina', 'Verlinde', 50010),
+																   ('Janelle', 'Paler', 50011),
+																   ('Codi', 'Loudian', 50012),
+																   ('Marguerite', 'Pryor', 50013),
+																   ('Zebulon', 'Welton', 50014),
+																   ('Suzette', 'Pellitt', 50015),
+																   ('Sterling', 'Norrington', 50016),
+																   ('Aretha', 'Porkiss', 50017),
+																   ('Huey', 'Barendtsen', 50018),
+																   ('Kale', 'Nano', 50019),
+																   ('Drona', 'Izod', 50020),
+																   ('Cathlene', 'Vida', 50021),
+																   ('Geralda', 'Manhood', 50022)
 GO
 INSERT INTO Match_Histories (white, black, match_outcome, match_duration) VALUES (20, 19, 1, '22:41:26'),
 																				 (18, 20, 1, '02:12:23'),

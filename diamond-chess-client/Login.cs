@@ -341,13 +341,13 @@ namespace DiamondChess
       user2IncorrectLabel.Text = await registerUser(true);
     }
 
-    private void user1PlayAsGuestLabel_Click(object sender, EventArgs e)
-    {
-      username1 = "Guest Player 1";
-      player1 = new Player();
-      LoginDetails guestLogin = new LoginDetails();
-      guestLogin.Username = username1;
-      player1.playerLogin = guestLogin;
+		private async void user1PlayAsGuestLabel_Click(object sender, EventArgs e)
+		{
+				LoginDetails guestDetails = new LoginDetails();
+				guestDetails.Username = "Guest Player 1";
+				guestDetails.PasswordHash = hashPassword("guest");
+				player1 = await LoginService.isValidLogin(guestDetails);
+				player1.playerLogin = guestDetails;
 
       user1LoggedIn = true;
       user1LoginButton.Enabled = false;
@@ -368,13 +368,13 @@ namespace DiamondChess
       }
     }
 
-    private void user2PlayAsGuestLabel_Click(object sender, EventArgs e)
-    {
-      username2 = "Guest Player 2";
-      player2 = new Player();
-      LoginDetails guestLogin = new LoginDetails();
-      guestLogin.Username = username2;
-      player2.playerLogin = guestLogin;
+		private async void user2PlayAsGuestLabel_Click(object sender, EventArgs e)
+		{
+				LoginDetails guestDetails = new LoginDetails();
+				guestDetails.Username = "Guest Player 2";
+				guestDetails.PasswordHash = hashPassword("guest");
+				player2 = await LoginService.isValidLogin(guestDetails);
+				player2.playerLogin = guestDetails;
 
       user2LoggedIn = true;
       user2LoginButton.Enabled = false;
